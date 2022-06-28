@@ -8,6 +8,7 @@ class Suggestion extends Model {
     declare status: string;
     declare url: string;
     declare guildId: string;
+    declare channelId: string;
 }
 
 Suggestion.init({

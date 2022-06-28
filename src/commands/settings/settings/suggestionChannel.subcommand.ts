@@ -4,6 +4,7 @@ import { ApplicationCommandOptionType } from "discord-api-types";
 import { nanoid } from "nanoid";
 import Bot from "../../../managers/Bot";
 import Database from "../../../database/Database";
+import Suggestion from "../../../database/models/suggestion.model";
 
 export default class extends Subcommand {
     public name = "suggestionchannel";
@@ -39,6 +40,10 @@ export default class extends Subcommand {
 
         // Set the new authorization key
         const guildData = await Database.getGuildData(interaction.guildId);
+        if (guildData.suggestionChannel) {
+            await Suggestion.destroy({ where: { channelId: guildData.suggestionChannel } });
+        }
+        
         guildData.set("suggestionChannel", channel.id);
         await guildData.save()
 
