@@ -2,7 +2,7 @@ import Bot from "./Bot";
 import fetch from "node-fetch";
 import Database from "../database/Database";
 import Guild from "../database/models/guild.model";
-import { ApiCommentsResponse, ApiSuggestion } from "../types";
+import { ApiCommentsResponse, ApiListSuggestion, ApiSuggestion } from "../types";
 
 export default class {
 
@@ -78,7 +78,7 @@ export default class {
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json());
+        }).then((res) => res.json()) as ApiListSuggestion;
 
         return suggestions;
     }
@@ -89,7 +89,7 @@ export default class {
             return;
         }
 
-        const comments = await fetch(apiCredentials.apiurl + "suggestion/" + suggestionId + "/comments", {
+        const comments = await fetch(apiCredentials.apiurl + "suggestions/" + suggestionId + "/comments", {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,

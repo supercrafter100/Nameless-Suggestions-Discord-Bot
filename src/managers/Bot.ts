@@ -50,9 +50,29 @@ export default class Bot extends Discord.Client<true> {
 
     private async start() {
         await this.events.start();
+        this.startStdinListener();
         this.webserver.start();
         this.events.load(join(__dirname, "../events"));
         this.commands.loadFromDirectory(join(__dirname, "../commands"));
         db.sync();
+    }
+
+    private async startStdinListener() {
+        process.stdin.on("data", (data) => {
+            const input = data.toString().trim();
+            const args = input.split(/ +/g);
+            const command = args.shift();
+
+            if (command == "migrate") {
+                const guild = args[0];
+                if (!guild) {
+                    this.logger.error("No guild specified");
+                    return;
+                }
+
+                this.logger.info(`Migrating suggestions for guild ${guild}`);
+                this.suggestions.sendAllSuggestions(guild);
+            }
+        })
     }
 }

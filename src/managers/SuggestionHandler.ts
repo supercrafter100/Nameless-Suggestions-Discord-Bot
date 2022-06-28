@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { ButtonInteraction, Collection, ContextMenuInteraction, Message, MessageActionRow, MessageButton, TextChannel, ThreadChannel } from "discord.js";
 import Database from "../database/Database";
 import Guild from "../database/models/guild.model";
@@ -44,9 +45,9 @@ export default class {
     }
 
     public async createComment(suggestion: ApiSuggestion, guildInfo: Guild, commentInfo: { author: string, description: string, avatar: string }) {  
-        if (this.lastSentThreadMessage.has(suggestion.id)) {
-            const content = this.lastSentThreadMessage.get(suggestion.id)!;
-            this.lastSentThreadMessage.delete(suggestion.id);
+        if (this.lastSentThreadMessage.has(suggestion.id.toString())) {
+            const content = this.lastSentThreadMessage.get(suggestion.id.toString())!;
+            this.lastSentThreadMessage.delete(suggestion.id.toString());
             if (commentInfo.description.startsWith(content)) {
                 return;
             }
@@ -100,7 +101,6 @@ export default class {
         
         const content = msg.content;
         const authorId = msg.author.id;
-        
         this.lastSentThreadMessage.set(suggestionInfo.suggestionId.toString(), content); // Save before sending to the site
         
         const response = await this.bot.suggestionsApi.sendComment(suggestionInfo.suggestionId, msg.guildId!, content, authorId);
@@ -184,13 +184,20 @@ export default class {
     public async sendAllSuggestions(guildId: string) {
         const guildData = await Database.getGuildData(guildId);
         const apiSuggestions = await this.bot.suggestionsApi.getSuggestions(guildId);
-        if (!apiSuggestions || apiSuggestions.error) {
+        if (!apiSuggestions) {
             this.bot.logger.error(`Error getting suggestions from API: ${JSON.stringify(apiSuggestions)}`);
+            return;
         }
 
         // Loop through all suggestions and send them in their respective channel
-        for (const suggestion of apiSuggestions as ApiSuggestion[]) {
-            this.createSuggestion(suggestion, guildData, `https://avatars.dicebear.com/api/initials/${suggestion.author.username}.png?size=128`);
+        for (const shortSuggestion of apiSuggestions.suggestions) {
+            const suggestion = await this.bot.suggestionsApi.getSuggestion(parseInt(shortSuggestion.id), guildId);
+            if (!suggestion) {
+                continue;
+            }
+            this.bot.logger.debug("Creating new suggestion from API. Suggestion ID: " + chalk.yellow(suggestion.id));
+
+            await this.createSuggestion(suggestion, guildData, `https://avatars.dicebear.com/api/initials/${suggestion.author.username}.png?size=128`);
             const comments = await this.bot.suggestionsApi.getSuggestionComments(suggestion.id, guildId);
             if (!comments) {
                 this.bot.logger.error(`Error getting comments for suggestion ${suggestion.id} from API: ${JSON.stringify(comments)}`);
@@ -199,12 +206,14 @@ export default class {
 
             // Load all comments into the suggestion
             for (const comment of comments?.comments) {
-                this.createComment(suggestion, guildData, {
+                this.bot.logger.debug("Creating new comment from API. Comment ID: " + chalk.yellow(comment.id));
+                await this.createComment(suggestion, guildData, {
                     avatar: `https://avatars.dicebear.com/api/initials/${suggestion.author.username}.png?size=128`,
                     description: comment.content,
                     author: comment.user.username
                 });
             }
         }
+        this.bot.logger.debug("Finished sending all suggestions from API.");
     }
 }

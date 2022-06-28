@@ -58,13 +58,15 @@ export default class {
 
         if (isNewComment) {
             const author = req.body.embeds[0].footer.text.split(" ")[3];
-            const commentId = req.body.embeds[0].url.split("#")[1];
+            const idTag = req.body.embeds[0].url.split("#")[1];
+            const commentId = idTag.split("-")[1];
+
             const commentInfo = await this.client.suggestionsApi.getCommentInfo(suggestionId, commentId, guildData.id);
             if (!commentInfo) {
                 this.logger.error(`No comment info found for comment ${commentId}`);
                 return;
             }
-            
+
             this.client.suggestions.createComment(suggestionData, guildData, {
                 description: commentInfo?.content,
                 author,

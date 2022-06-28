@@ -29,6 +29,18 @@ export interface ApiSuggestion {
     dislikes: number[];
 }
 
+export interface ApiListSuggestion {
+    suggestions: {
+        id: string;
+        title: string;
+        status: {
+            id: string;
+            name: string;
+            open: boolean;
+        }
+    }[];
+}
+
 export interface ApiComment {
     id: string;
     user: {
