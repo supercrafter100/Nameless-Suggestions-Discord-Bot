@@ -79,7 +79,7 @@ export default class {
         }
  
         const embed = this.bot.embeds.baseNoFooter();
-        embed.setDescription(commentInfo.description);
+        embed.setDescription(this.stripLength(this.fixContent(commentInfo.description), 2048));
         embed.setAuthor({ name: commentInfo.author, iconURL: this.parseAvatarUrl(commentInfo.avatar) });
         await message.thread.send({ embeds: [ embed ]});
 
@@ -144,7 +144,7 @@ export default class {
     private createEmbed(suggestion: ApiSuggestion, url: string, avatar: string) {
         const embed = this.bot.embeds.base();
         embed.setTitle(`#${suggestion.id} - ${this.stripLength(suggestion.title, 100)}`);
-        embed.setDescription(this.stripLength(suggestion.content, 4092));
+        embed.setDescription(this.stripLength(this.fixContent(suggestion.content), 4092));
         embed.setFooter({ text: `Suggested by ${suggestion.author.username}`, iconURL: this.parseAvatarUrl(avatar) });	
         embed.setURL(url);
         return embed;
@@ -177,6 +177,11 @@ export default class {
         return url;
     }
 
+    private fixContent(content: string) {
+        content = content.replace(/<br \/>/g, "\n");
+        return content;
+    } 
+
     //
     // UTILITY: Make all suggestions from the api get sent into the suggestion channel. 
     //
@@ -189,8 +194,10 @@ export default class {
             return;
         }
 
+        const filteredSuggestions = apiSuggestions?.suggestions.sort((a, b)=> parseInt(a.id) - parseInt(b.id))
+
         // Loop through all suggestions and send them in their respective channel
-        for (const shortSuggestion of apiSuggestions.suggestions) {
+        for (const shortSuggestion of filteredSuggestions) {
             const suggestion = await this.bot.suggestionsApi.getSuggestion(parseInt(shortSuggestion.id), guildId);
             if (!suggestion) {
                 continue;
@@ -208,7 +215,7 @@ export default class {
             for (const comment of comments?.comments) {
                 this.bot.logger.debug("Creating new comment from API. Comment ID: " + chalk.yellow(comment.id));
                 await this.createComment(suggestion, guildData, {
-                    avatar: `https://avatars.dicebear.com/api/initials/${suggestion.author.username}.png?size=128`,
+                    avatar: `https://avatars.dicebear.com/api/initials/${comment.user.username}.png?size=128`,
                     description: comment.content,
                     author: comment.user.username
                 });
