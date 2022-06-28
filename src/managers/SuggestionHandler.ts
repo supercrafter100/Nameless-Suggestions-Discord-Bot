@@ -1,4 +1,5 @@
 import { ButtonInteraction, Collection, ContextMenuInteraction, Message, MessageActionRow, MessageButton, TextChannel, ThreadChannel } from "discord.js";
+import Database from "../database/Database";
 import Guild from "../database/models/guild.model";
 import Suggestion from "../database/models/suggestion.model";
 import { ApiSuggestion } from "../types";
@@ -10,7 +11,7 @@ export default class {
 
     constructor(private readonly bot: Bot) {}
 
-    public async createSuggestion(suggestion: ApiSuggestion, guildInfo: Guild, url: string, avatar: string) {
+    public async createSuggestion(suggestion: ApiSuggestion, guildInfo: Guild, avatar: string) {
         const guild = await this.bot.guilds.fetch(guildInfo.id);
         if (!guild) {
             return null;
@@ -22,7 +23,7 @@ export default class {
         }
 
         // Send message in the channel
-        const embed = this.createEmbed(suggestion, url, avatar);
+        const embed = this.createEmbed(suggestion, suggestion.link, avatar);
         const components = this.getEmbedComponents();
         const message = await channel.send({ embeds: [ embed ], components: [ components ]});
 
@@ -36,7 +37,7 @@ export default class {
             suggestionId: parseInt(suggestion.id),
             messageId: message.id,
             status: parseInt(suggestion.status.id),
-            url: url,
+            url: suggestion.link,
             guildId: guildInfo.id,
             channelId: guildInfo.suggestionChannel,
         });
@@ -174,5 +175,36 @@ export default class {
     private parseAvatarUrl(url: string) {
         url = url.replace(".svg", ".png");
         return url;
+    }
+
+    //
+    // UTILITY: Make all suggestions from the api get sent into the suggestion channel. 
+    //
+
+    public async sendAllSuggestions(guildId: string) {
+        const guildData = await Database.getGuildData(guildId);
+        const apiSuggestions = await this.bot.suggestionsApi.getSuggestions(guildId);
+        if (!apiSuggestions || apiSuggestions.error) {
+            this.bot.logger.error(`Error getting suggestions from API: ${JSON.stringify(apiSuggestions)}`);
+        }
+
+        // Loop through all suggestions and send them in their respective channel
+        for (const suggestion of apiSuggestions as ApiSuggestion[]) {
+            this.createSuggestion(suggestion, guildData, `https://avatars.dicebear.com/api/initials/${suggestion.author.username}.png?size=128`);
+            const comments = await this.bot.suggestionsApi.getSuggestionComments(suggestion.id, guildId);
+            if (!comments) {
+                this.bot.logger.error(`Error getting comments for suggestion ${suggestion.id} from API: ${JSON.stringify(comments)}`);
+                continue;
+            }
+
+            // Load all comments into the suggestion
+            for (const comment of comments?.comments) {
+                this.createComment(suggestion, guildData, {
+                    avatar: `https://avatars.dicebear.com/api/initials/${suggestion.author.username}.png?size=128`,
+                    description: comment.content,
+                    author: comment.user.username
+                });
+            }
+        }
     }
 }

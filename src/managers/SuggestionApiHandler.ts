@@ -2,7 +2,7 @@ import Bot from "./Bot";
 import fetch from "node-fetch";
 import Database from "../database/Database";
 import Guild from "../database/models/guild.model";
-import { ApiSuggestion } from "../types";
+import { ApiCommentsResponse, ApiSuggestion } from "../types";
 
 export default class {
 
@@ -61,5 +61,57 @@ export default class {
         }).then((res) => res.json());
 
         return response;
+    }
+
+    //
+    // UTILITY METHODS (used for things idk)
+    //
+
+    public async getSuggestions(guildId: string) {
+        const apiCredentials = await Database.getApiCredentials(guildId);
+        if (!apiCredentials.apikey || !apiCredentials.apiurl) {
+            return;
+        }
+
+        const suggestions = await fetch(apiCredentials.apiurl + "suggestions", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${apiCredentials.apikey}`,
+            },
+        }).then((res) => res.json());
+
+        return suggestions;
+    }
+
+    public async getSuggestionComments(suggestionId: string, guildId: string) {
+        const apiCredentials = await Database.getApiCredentials(guildId);
+        if (!apiCredentials.apikey || !apiCredentials.apiurl) {
+            return;
+        }
+
+        const comments = await fetch(apiCredentials.apiurl + "suggestion/" + suggestionId + "/comments", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${apiCredentials.apikey}`,
+            },
+        }).then((res) => res.json()) as ApiCommentsResponse;
+
+        return comments;
+    }
+
+    public async getCommentInfo(suggestionId: string, commentId: string, guildId: string) {
+        const apiCredentials = await Database.getApiCredentials(guildId);
+        if (!apiCredentials.apikey || !apiCredentials.apiurl) {
+            return;
+        }
+
+        const comment = await fetch(apiCredentials.apiurl + "suggestions/" + suggestionId + "/comments/&comment=" + commentId, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${apiCredentials.apikey}`,
+            },
+        }).then((res) => res.json() as Promise<ApiCommentsResponse>).then((json) => json.comments[0]);
+
+        return comment;
     }
 }

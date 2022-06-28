@@ -1,5 +1,6 @@
 export interface ApiSuggestion {
     id: string;
+    link: string;
     author: {
         id: string;
         username: string;
@@ -26,4 +27,22 @@ export interface ApiSuggestion {
     dislikes_count: string;
     likes: number[];
     dislikes: number[];
+}
+
+export interface ApiComment {
+    id: string;
+    user: {
+        id: string;
+        username: string;
+        nickname: string;
+    };
+    creatd: string;
+    content: string;
+}
+
+export interface ApiCommentsResponse {
+    suggestion: {
+        id: string;
+    };
+    comments: ApiComment[];
 }

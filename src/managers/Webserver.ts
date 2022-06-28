@@ -53,14 +53,20 @@ export default class {
         }
         
         if (isNewSuggestion) {
-            const url = req.body.embeds[0].url;
-            this.client.suggestions.createSuggestion(suggestionData, guildData, url, req.body.avatar_url);
+            this.client.suggestions.createSuggestion(suggestionData, guildData, req.body.avatar_url);
         }
 
         if (isNewComment) {
             const author = req.body.embeds[0].footer.text.split(" ")[3];
+            const commentId = req.body.embeds[0].url.split("#")[1];
+            const commentInfo = await this.client.suggestionsApi.getCommentInfo(suggestionId, commentId, guildData.id);
+            if (!commentInfo) {
+                this.logger.error(`No comment info found for comment ${commentId}`);
+                return;
+            }
+            
             this.client.suggestions.createComment(suggestionData, guildData, {
-                description: req.body.embeds[0].description,
+                description: commentInfo?.content,
                 author,
                 avatar: req.body.avatar_url,
             });
