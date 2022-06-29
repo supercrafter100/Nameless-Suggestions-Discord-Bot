@@ -3,8 +3,8 @@
         "settings": {
             "set": {
                 "apikey": {
-                    "invalid_key": "De API adres of API sleutel is ongeldig",
-                    "success": "De API sleutel is ingesteld"
+                    "invalid_key": "De API adres of API sleutel is ongeldig.",
+                    "success": "De API sleutel is ingesteld."
                 },
                 "suggestionChannel": {
                     "no_textchannel": "Het kanaal moet een tekst kanaal zijn (en geen nieuws kanaal)",
@@ -23,6 +23,12 @@
         "webhookurl": {
             "generate_key_first": "Je moet eerst een autorisatie sleutel genereren door `/settings set authkey` te gebruiken.",
             "success": "De url is: `{url}`.\nGebruik deze url alstublieft als de Discord webhook url voor de suggestie module."
+        },
+        "suggest": {
+            "modal-title": "Stel iets voor!",
+            "modal-question-1": "Suggestie titel",
+            "modal-question-2": "Suggestie inhoud",
+            "success": "Uw suggestie is geregistreerd! Bekijk hem hier: {link}"
         }
     },
     "permission_required": "Je hebt niet de vereiste \"{permission}\" permissie",
