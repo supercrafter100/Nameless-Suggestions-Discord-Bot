@@ -1,1 +1,37 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "apikey": {
+                    "invalid_key": "De API adres of API sleutel is ongeldig",
+                    "success": "De API sleutel is ingesteld"
+                },
+                "suggestionChannel": {
+                    "no_textchannel": "Het kanaal moet een tekst kanaal zijn (en geen nieuws kanaal)",
+                    "success": "Het suggestie kanaal is verandert naar {channel}."
+                },
+                "language": {
+                    "select_language": "Selecteer de taal die je wilt gebruiken voor de Discord bot.",
+                    "select_language_option": "Selecteer {language} als de taal",
+                    "success": "Successvol de taal gewijzigd naar `{language}`."
+                },
+                "authkey": {
+                    "success": "De autorisatiesleutel is verandert naar `{token}`. Je kan een nieuwe webhook adres vinden door het `/webhookurl` commando te gebruiken."
+                }
+            }
+        },
+        "webhookurl": {
+            "generate_key_first": "Je moet eerst een autorisatie sleutel genereren door `/settings set authkey` te gebruiken.",
+            "success": "De url is: `{url}`.\nGebruik deze url alstublieft als de Discord webhook url voor de suggestie module."
+        }
+    },
+    "permission_required": "Je hebt niet de vereiste \"{permission}\" permissie",
+    "suggestionHandler": {
+        "suggestion": "Suggestie",
+        "suggestion_closed_website": "Suggestie gesloten op de website",
+        "suggestion_opened_website": "Suggestie geopend op de website",
+        "cannot_find_user": "Je moet je website account gelinkt hebben om te kunnen reageren via discord!",
+        "reaction_registered": "Uw `{reaction}` reactie is toegevoegd op de website.",
+        "suggested_by": "gesuggereerd door {user}"
+    }
+}
