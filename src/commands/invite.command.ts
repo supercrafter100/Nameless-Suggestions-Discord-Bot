@@ -2,10 +2,12 @@ import { Command } from "@crystaldevelopment/command-handler/dist";
 import { ApplicationCommandOptionType } from "discord-api-types";
 import { ApplicationCommandOptionData, CommandInteraction } from "discord.js";
 import fetch from "node-fetch";
+import Bot from "../managers/Bot";
+import Embeds from "../util/Embeds";
 
 export default class extends Command {
-    public name = "suggest";
-    public description = "Suggest something!";
+    public name = "invite";
+    public description = "Invite the discord bot";
     public options: ApplicationCommandOptionData[] = [];
 
     public onStart(): void {
@@ -17,7 +19,16 @@ export default class extends Command {
     }
 
     public async run(interaction: CommandInteraction): Promise<any> {
-        // TODO: open modal and do stuff
-        interaction.reply({ ephemeral: true, content: "This command has not been implemented yet... Sorry!"});
+        const client = interaction.client as Bot;
+
+        // Step 1, introduction & requesting api key
+        const embed = client.embeds
+            .base()
+            .setDescription(
+                "To invite the bot. Click [here]() to invite the bot."
+            );
+        interaction.reply({
+            embeds: [embed],
+        });
     }
 }

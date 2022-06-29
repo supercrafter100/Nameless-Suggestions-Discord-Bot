@@ -7,6 +7,7 @@ import {
 import Database from "../database/Database";
 import Guild from "../database/models/guild.model";
 import Bot from "../managers/Bot";
+import LanguageManager from "../managers/LanguageManager";
 
 export default class extends Command {
     public name = "webhookurl";
@@ -32,8 +33,9 @@ export default class extends Command {
         }
 
         if (!interaction.member.permissions.has("MANAGE_GUILD")) {
+            const str = await LanguageManager.getString(interaction.guildId, "permission_required", "permission", "MANAGE_GUILD");
             await interaction.reply(
-                'You do not have the required "Manage Guild" permission'
+                str!
             );
             return;
         }
@@ -43,9 +45,8 @@ export default class extends Command {
         const token = guildData?.authorizationKey;
 
         if (!token) {
-            await interaction.reply(
-                "You need to generate an authorization token first using `/settings authkey`"
-            );
+            const str = await LanguageManager.getString(interaction.guildId, "commands.webhookurl.generate_key_first");
+            await interaction.reply({ content: str, ephemeral: true });
             return;
         }
 
@@ -55,10 +56,9 @@ export default class extends Command {
             "webhook/" +
             token;
 
+        const str = await LanguageManager.getString(interaction.guildId, "commands.webhookurl.success", "url", url);
         const embed = client.embeds.base();
-        embed.setDescription(
-            `The url is: \`${url}\`.\nPlease use this url as the discord webhook url for the suggestions module.`
-        );
+        embed.setDescription(str!);
         await interaction.reply({
             embeds: [embed],
             ephemeral: true,

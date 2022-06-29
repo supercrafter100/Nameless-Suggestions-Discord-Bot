@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import Bot from "../../../managers/Bot";
 import Database from "../../../database/Database";
 import Suggestion from "../../../database/models/suggestion.model";
+import LanguageManager from "../../../managers/LanguageManager";
 
 export default class extends Subcommand {
     public name = "suggestionchannel";
@@ -34,7 +35,8 @@ export default class extends Subcommand {
 
         const channel = interaction.options.getChannel("channel")!;
         if (!(channel instanceof TextChannel)) {
-            interaction.reply("The channel must be a text channel (and not a news channel)");
+            const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.suggestionChannel.no_textchannel");
+            interaction.reply({ content: str, ephemeral: true });
             return;
         }
 
@@ -43,12 +45,11 @@ export default class extends Subcommand {
         if (guildData.suggestionChannel) {
             await Suggestion.destroy({ where: { channelId: guildData.suggestionChannel } });
         }
-        
+
         guildData.set("suggestionChannel", channel.id);
         await guildData.save()
 
-        interaction.reply(
-            `the suggestion channel has been changed to ${channel.toString()}.`
-        );
+        const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.suggestionChannel.success", "channel", channel.toString());
+        interaction.reply({ content: str, ephemeral: true });
     }
 }

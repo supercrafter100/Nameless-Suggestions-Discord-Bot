@@ -5,6 +5,7 @@ import {
     GuildMember,
 } from "discord.js";
 import { join } from "path";
+import LanguageManager from "../managers/LanguageManager";
 
 export default class extends Command {
     public readonly name = "settings";
@@ -19,7 +20,7 @@ export default class extends Command {
     }
 
     public async run(interaction: CommandInteraction) {
-        if (!interaction.guild) {
+        if (!interaction.guild || !interaction.guildId) {
             interaction.reply("This command can only be used in a server");
             return;
         }
@@ -29,9 +30,8 @@ export default class extends Command {
         }
 
         if (!interaction.member.permissions.has("MANAGE_GUILD")) {
-            await interaction.reply(
-                'You do not have the required "Manage Guild" permission'
-            );
+            const str = await LanguageManager.getString(interaction.guildId, "permission_required", "permission", "MANAGE_GUILD");
+            await interaction.reply({ content: str });
             return;
         }
         await this.runSubcommand(interaction);

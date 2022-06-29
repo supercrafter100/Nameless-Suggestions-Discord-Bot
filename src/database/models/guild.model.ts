@@ -7,6 +7,7 @@ class Guild extends Model {
     declare apikey: string;
     declare authorizationKey: string;
     declare suggestionChannel: string;
+    declare language: string;
 }
 
 Guild.init({
@@ -34,7 +35,14 @@ Guild.init({
     suggestionChannel: {
         type: DataTypes.STRING,
         allowNull: true
-    }
+    },
+
+    language: {
+        type: DataTypes.STRING,
+        defaultValue: "en_UK",
+        allowNull: false
+    },
+
 }, { sequelize: db });
 
 

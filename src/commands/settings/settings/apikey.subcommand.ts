@@ -5,6 +5,7 @@ import Bot from "../../../managers/Bot";
 import fetch from "node-fetch";
 import Guild from "../../../database/models/guild.model";
 import Database from "../../../database/Database";
+import LanguageManager from "../../../managers/LanguageManager";
 
 export default class extends Subcommand {
     public name = "apikey";
@@ -53,7 +54,8 @@ export default class extends Subcommand {
         ).catch(() => undefined);
 
         if (!res || !res.ok) {
-            interaction.reply("The api url or api key is invalid");
+            const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.apikey.invalid_key");
+            interaction.reply({ content: str, ephemeral: true });
             return;
         }
 
@@ -63,6 +65,7 @@ export default class extends Subcommand {
         guildData.set("apikey", apikey);
         await guildData.save();
 
-        interaction.reply("The api key has been set");
+        const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.apikey.success");
+        interaction.reply({ ephemeral: true, content: str });
     }
 }

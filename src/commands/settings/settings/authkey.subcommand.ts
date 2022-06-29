@@ -3,6 +3,7 @@ import { CommandInteraction } from "discord.js";
 import Bot from "../../../managers/Bot";
 import { nanoid } from "nanoid";
 import Database from "../../../database/Database";
+import LanguageManager from "../../../managers/LanguageManager";
 
 export default class extends Subcommand {
     public name = "authkey";
@@ -30,8 +31,10 @@ export default class extends Subcommand {
         guildData.set("authorizationKey", token)
         await guildData.save()
 
-        interaction.reply(
-            `the authorization token has been changed to \`${token}\`. You can find a new webhook url by using the \`/webhookurl\` command.`
-        );
+        const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.authkey.success", "token", token);
+        interaction.reply({ 
+            content: str,
+            ephemeral: true
+        });
     }
 }

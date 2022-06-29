@@ -9,6 +9,7 @@ import { join } from "path";
 import SuggestionHandler from "./SuggestionHandler";
 import SuggestionApiHandler from "./SuggestionApiHandler";
 import { db } from "..";
+import LanguageManager from "./LanguageManager";
 
 export default class Bot extends Discord.Client<true> {
     //      Handlers
@@ -55,6 +56,7 @@ export default class Bot extends Discord.Client<true> {
         this.events.load(join(__dirname, "../events"));
         this.commands.loadFromDirectory(join(__dirname, "../commands"));
         db.sync();
+        LanguageManager.loadLanguages(join(__dirname, "../../language"));
     }
 
     private async startStdinListener() {

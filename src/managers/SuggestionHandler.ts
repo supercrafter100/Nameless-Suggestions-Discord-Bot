@@ -5,6 +5,7 @@ import Guild from "../database/models/guild.model";
 import Suggestion from "../database/models/suggestion.model";
 import { ApiSuggestion } from "../types";
 import Bot from "./Bot";
+import LanguageManager from "./LanguageManager";
 
 export default class {
 
@@ -24,13 +25,17 @@ export default class {
         }
 
         // Send message in the channel
-        const embed = this.createEmbed(suggestion, suggestion.link, avatar);
+        const embed = await this.createEmbed(guildInfo.id, suggestion, suggestion.link, avatar);
         const components = this.getEmbedComponents();
-        const message = await channel.send({ embeds: [ embed ], components: [ components ]});
+        const message = await channel.send({ embeds: [ embed ], components: [ components ]}).catch(() => undefined);
+        if (!message) {
+            return null;
+        }
 
         // Start a thread for the suggestion
+        const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.sugggestion");
         await message.startThread({
-            name: `Suggestion #${suggestion.id}`,
+            name: `${str} #${suggestion.id}`,
         });
 
         // Create suggestion in database
@@ -81,12 +86,14 @@ export default class {
         const embed = this.bot.embeds.baseNoFooter();
         embed.setDescription(this.stripLength(this.fixContent(commentInfo.description), 2048));
         embed.setAuthor({ name: commentInfo.author, iconURL: this.parseAvatarUrl(commentInfo.avatar) });
-        await message.thread.send({ embeds: [ embed ]});
+        await message.thread.send({ embeds: [ embed ]}).catch(() => undefined);
 
         if (!suggestion.status.open && !message.thread.locked) {
-            await message.thread.setLocked(true, "Suggestion closed on website");
+            const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion_closed_website");
+            await message.thread.setLocked(true, str);
         } else if (suggestion.status.open && message.thread.locked) {
-            await message.thread.setLocked(false, "Suggestion opened on website");
+            const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion_opened_website");
+            await message.thread.setLocked(false, str);
         }
     }
 
@@ -107,8 +114,10 @@ export default class {
         if (response.error == "nameless:cannot_find_user") {
             this.lastSentThreadMessage.delete(suggestionInfo.suggestionId.toString());
             await msg.delete();
+            
+            const str = await LanguageManager.getString(msg.guildId!, "suggestionHandler.cannot_find_user");
             const embed = this.bot.embeds.base();
-            embed.setDescription("`❌` You must have your website account linked to be able to reply via discord!");
+            embed.setDescription("`❌` " + str);
 
             try {
                 msg.author.send({ embeds: [ embed ]});
@@ -130,22 +139,25 @@ export default class {
         // Attempt to send a like or dislike to the API
         const response = await this.bot.suggestionsApi.sendReaction(suggestionInfo.suggestionId, interaction.guildId!, interactionType, interaction.user.id);
         if (response.error == "nameless:cannot_find_user") {
+            const str = await LanguageManager.getString(interaction.guildId!, "suggestionHandler.cannot_find_user");
             const embed = this.bot.embeds.base();
-            embed.setDescription("`❌` You must have your website account linked to be able to like or dislike suggestions via discord.");
+            embed.setDescription("`❌` " + str);
             interaction.reply({ embeds: [ embed ], ephemeral: true });
             return;
         }
 
+        const str = await LanguageManager.getString(interaction.guildId!, "suggestionHandler.reaction_registered", "reaction", interactionType == "like" ? "👍" : "👎");
         const embed = this.bot.embeds.base();
-        embed.setDescription("`✅` Your reaction has been registered.");
+        embed.setDescription(str!);
         interaction.reply({ embeds: [ embed ], ephemeral: true });
     }
 
-    private createEmbed(suggestion: ApiSuggestion, url: string, avatar: string) {
+    private async createEmbed(guildId: string, suggestion: ApiSuggestion, url: string, avatar: string) {
+        const str = await LanguageManager.getString(guildId, "suggestionHandler.suggested_by", "user", suggestion.author.username);
         const embed = this.bot.embeds.base();
         embed.setTitle(`#${suggestion.id} - ${this.stripLength(suggestion.title, 100)}`);
         embed.setDescription(this.stripLength(this.fixContent(suggestion.content), 4092));
-        embed.setFooter({ text: `Suggested by ${suggestion.author.username}`, iconURL: this.parseAvatarUrl(avatar) });	
+        embed.setFooter({ text: str!, iconURL: this.parseAvatarUrl(avatar) });	
         embed.setURL(url);
         return embed;
     }
