@@ -33,7 +33,7 @@ export default class {
         }
 
         // Start a thread for the suggestion
-        const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.sugggestion");
+        const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion");
         await message.startThread({
             name: `${str} #${suggestion.id}`,
         });

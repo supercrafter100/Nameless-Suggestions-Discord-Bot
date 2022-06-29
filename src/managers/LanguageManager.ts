@@ -83,7 +83,7 @@ export default class LanguageManager {
 		for (const k of keys) {
 			result = result[k];
 			if (!result) {
-				LanguageManager.logger.error(`No language key found for: ${key}`);
+				LanguageManager.logger.warn(`No language key found for: ${key}`);
 				return undefined;
 			}
 		}
