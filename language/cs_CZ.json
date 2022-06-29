@@ -1,1 +1,43 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "authkey": {
+                    "success": "Autorizační token byl změněn na `{token}`. Novou URL webhooku lze najít pomocí příkazu `/webhookurl`."
+                },
+                "suggestionChannel": {
+                    "no_textchannel": "Kanál musí být textový kanál (a ne kanál oznámení)",
+                    "success": "Kanál návrhů byl změněn na {channel}."
+                },
+                "language": {
+                    "select_language_option": "Vybrat {language} jako jazyk",
+                    "success": "Jazyk byl úspěšně změněn na `{language}`.",
+                    "select_language": "Vyberte jazyk Discord bota."
+                },
+                "apikey": {
+                    "success": "Klíč API byl nastaven.",
+                    "invalid_key": "URL API nebo klíč API je neplatný."
+                }
+            }
+        },
+        "suggest": {
+            "modal-title": "Něco navrhněte!",
+            "modal-question-1": "Nadpis nápadu",
+            "modal-question-2": "Obsah nápadu",
+            "success": "Váš nápad byl zaregistrován! Můžete si jej prohlédnout zde: {link}"
+        },
+        "webhookurl": {
+            "success": "URL je: `{url}`.\nPoužijte toto jako URL Discord webhooku pro doplněk nápadů.",
+            "generate_key_first": "Nejprve musíte vygenerovat autorizační token pomocí `/settings set authkey`."
+        }
+    },
+    "permission_required": "Nemáte požadované oprávnění \"{permission}\"",
+    "suggestionHandler": {
+        "suggestion": "Nápad",
+        "suggestion_closed_website": "Nápad uzavřen na webu",
+        "suggested_by": "Navrhnuto uživatelem {user}",
+        "suggestion_opened_website": "Nápad otevřen na webu",
+        "cannot_find_user": "Abyste mohli odpovědět pomocí Discordu, musíte mít připojený váš webový účet!",
+        "reaction_registered": "Vaše reakce `{reaction}` byla přidána na web."
+    }
+}
