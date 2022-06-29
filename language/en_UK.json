@@ -3,8 +3,8 @@
         "settings": {
             "set": {
                 "apikey": {
-                    "invalid_key": "The api url or api key is invalid",
-                    "success": "The api key has been set"
+                    "invalid_key": "The api url or api key is invalid.",
+                    "success": "The api key has been set."
                 },
                 "authkey": {
                     "success": "The authorization token has been changed to `{token}`. You can find a new webhook url by using the `/webhookurl` command."
