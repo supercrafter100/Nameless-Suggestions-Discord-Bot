@@ -1,1 +1,43 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "suggestionChannel": {
+                    "no_textchannel": "Der Kanal muss ein Textkanal sein (und kein Nachrichtenkanal)",
+                    "success": "Der Vorschlagskanal wurde in {channel} geändert."
+                },
+                "language": {
+                    "select_language_option": "Wähle {language} als Sprache",
+                    "select_language": "Wähle die Sprache, die du für den Discord-Bot verwenden möchtest.",
+                    "success": "Die Sprache wurde erfolgreich auf `{language}` geändert."
+                },
+                "apikey": {
+                    "invalid_key": "Die Api-URL oder der Api-Schlüssel ist ungültig.",
+                    "success": "Der Api-Schlüssel wurde festgelegt."
+                },
+                "authkey": {
+                    "success": "Der Autorisierungs-Token wurde in `{token}` geändert. Du kannst eine neue Webhook-Url mit dem Befehl `/webhookurl` finden."
+                }
+            }
+        },
+        "suggest": {
+            "modal-question-2": "Inhalt des Vorschlags",
+            "success": "Dein Vorschlag wurde registriert! Sieh ihn dir hier an: {Link}",
+            "modal-title": "Mach einen Vorschlag!",
+            "modal-question-1": "Titel des Vorschlags"
+        },
+        "webhookurl": {
+            "success": "Die Url lautet: `{url}`.\nBitte verwende diese URL als Discord-Webhook-Url für das Modul \"Vorschläge\".",
+            "generate_key_first": "Du musst zuerst ein Autorisierungs-Token mit `/settings set authkey` erzeugen."
+        }
+    },
+    "suggestionHandler": {
+        "suggestion": "Vorschlag",
+        "suggestion_closed_website": "Vorschlag auf der Website geschlossen",
+        "cannot_find_user": "Du musst dein Foren-Account verknüpft haben, um über Discord antworten zu können!",
+        "reaction_registered": "Deine `{reaction}` wurde der Website hinzugefügt.",
+        "suggested_by": "Vorgeschlagen von {user}",
+        "suggestion_opened_website": "Vorschlag auf der Website eröffnet"
+    },
+    "permission_required": "Du hast nicht das erforderliche \"{permission}\"- Recht"
+}
