@@ -21,7 +21,7 @@
             }
         },
         "webhookurl": {
-            "generate_key_first": "You need to generate an authorization token first using `/settings set authkey`",
+            "generate_key_first": "You need to generate an authorization token first using `/settings set authkey`.",
             "success": "The url is: `{url}`.\nPlease use this url as the discord webhook url for the suggestions module."
         }
     },
