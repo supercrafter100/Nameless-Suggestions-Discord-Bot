@@ -1,1 +1,43 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "suggestionChannel": {
+                    "no_textchannel": "Kanál musí byť textový kanál (nie kanál noviniek)",
+                    "success": "Kanál návrhov bol zmenený na {channel}."
+                },
+                "language": {
+                    "select_language_option": "Vybrať {language} ako jazyk",
+                    "success": "Jazyk bol úspešne zmenený na `{language}`.",
+                    "select_language": "Vyberte jazyk, ktorý chcete použiť pre discord bota."
+                },
+                "authkey": {
+                    "success": "Autorizačný token bol zmenený na `{token}`. Novú webovú adresu webhooku môžete nájsť pomocou príkazu `/webhookurl`."
+                },
+                "apikey": {
+                    "invalid_key": "API URL alebo API KEY je neplatný.",
+                    "success": "API key bol nastavený."
+                }
+            }
+        },
+        "suggest": {
+            "modal-title": "Navrhnite niečo!",
+            "modal-question-1": "Názov návrhu",
+            "modal-question-2": "Obsah návrhu",
+            "success": "Váš návrh bol zaregistrovaný! Pozrite si to tu: {link}"
+        },
+        "webhookurl": {
+            "generate_key_first": "Najprv musíte vygenerovať autorizačný token pomocou `/settings set authkey`.",
+            "success": "Adresa URL je: `{url}`.\nPoužite túto webovú adresu ako webovú adresu discord webhooku pre modul návrhov."
+        }
+    },
+    "permission_required": "Nemáte požadované povolenie \"{permission}\"",
+    "suggestionHandler": {
+        "suggestion": "Návrh",
+        "suggestion_closed_website": "Návrh uzavretý na webovej stránke",
+        "suggestion_opened_website": "Návrh bol otvorený na webovej stránke",
+        "cannot_find_user": "Aby ste mohli odpovedať cez discord, musíte mať prepojený svoj účet s webstránkou!",
+        "suggested_by": "Navrhol {user}",
+        "reaction_registered": "Vaša reakcia `{reaction}` bola pridaná na webstránku."
+    }
+}
