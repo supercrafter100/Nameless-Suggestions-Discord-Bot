@@ -1,1 +1,43 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "suggestionChannel": {
+                    "no_textchannel": "Канал должен быть текстовым каналом (и не новостным каналом)",
+                    "success": "Канал предложений был изменён на {channel}."
+                },
+                "language": {
+                    "select_language_option": "Выбрать {language} как язык",
+                    "select_language": "Выберите язык на котором вы хотите для бота.",
+                    "success": "Язык был успешно изменён на `{language}`."
+                },
+                "apikey": {
+                    "invalid_key": "Api ссылка или api ключ не действительный.",
+                    "success": "Api ключ был поставлен."
+                },
+                "authkey": {
+                    "success": "Токен авторизации был изменён на `{token}`. Вы можете найти новую вебхук ссылку через `/webhookurl` команду."
+                }
+            }
+        },
+        "suggest": {
+            "modal-title": "Посоветуйте что-нибудь!",
+            "modal-question-1": "Название предложения",
+            "modal-question-2": "Текст предложения",
+            "success": "Ваше предложение было зарегистрировано! Посмотрите его здесь: {link}"
+        },
+        "webhookurl": {
+            "generate_key_first": "Вы должны сгенерировать токен авторизации через `/settings set authkey`.",
+            "success": "Ссылка: `{url}`.\nИспользуйте эту ссылку как discord вебхук ссылку для модуля предложений."
+        }
+    },
+    "permission_required": "У вас нету требовательных \"{permission}\" прав",
+    "suggestionHandler": {
+        "suggestion": "Предложение",
+        "suggestion_closed_website": "Предложение закрыто на сайте",
+        "suggestion_opened_website": "Предложение открыто на сайте",
+        "reaction_registered": "Ваша `{reaction}` была добавлена на сайт.",
+        "suggested_by": "Предложено {user}",
+        "cannot_find_user": "Вы должны привязать свой аккаунт на сайте что бы отвечать через дискорд!"
+    }
+}
