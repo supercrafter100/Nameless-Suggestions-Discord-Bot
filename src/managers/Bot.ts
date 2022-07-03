@@ -73,7 +73,11 @@ export default class Bot extends Discord.Client<true> {
                 }
 
                 this.logger.info(`Migrating suggestions for guild ${guild}`);
-                this.suggestions.sendAllSuggestions(guild);
+                if (args[1]) {
+                    this.suggestions.sendAllSuggestions(guild, parseInt(args[1]));
+                } else {
+                    this.suggestions.sendAllSuggestions(guild);
+                }
             }
         })
     }

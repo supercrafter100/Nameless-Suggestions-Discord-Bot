@@ -12,7 +12,11 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
 
             let res = await this.client.suggestionsApi.sendSuggestion(interaction.guildId!, title, description, interaction.user.id);
             if (res.error === "nameless:cannot_find_user") {
-                res = await this.client.suggestionsApi.sendSuggestion(interaction.guildId!, title, description); // Fall back to guest
+                const str = await LanguageManager.getString(interaction.guildId!, "commands.suggest.cannot_find_user");
+                const embed = this.client.embeds.base();
+                embed.setDescription(str!);
+                await interaction.reply({ embeds: [ embed ]});
+                return;
             }
 
             if (res.error) {

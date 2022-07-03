@@ -34,9 +34,10 @@ export default class {
 
         // Start a thread for the suggestion
         const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion");
-        await message.startThread({
+        const thread = await message.startThread({
             name: `${str} #${suggestion.id}`,
         });
+        await thread.setRateLimitPerUser(30);
 
         // Create suggestion in database
         Suggestion.create({ 
@@ -198,7 +199,7 @@ export default class {
     // UTILITY: Make all suggestions from the api get sent into the suggestion channel. 
     //
 
-    public async sendAllSuggestions(guildId: string) {
+    public async sendAllSuggestions(guildId: string, startFrom = 0) {
         const guildData = await Database.getGuildData(guildId);
         const apiSuggestions = await this.bot.suggestionsApi.getSuggestions(guildId);
         if (!apiSuggestions) {
@@ -206,12 +207,16 @@ export default class {
             return;
         }
 
-        const filteredSuggestions = apiSuggestions?.suggestions.sort((a, b)=> parseInt(a.id) - parseInt(b.id))
+        const filteredSuggestions = apiSuggestions?.suggestions.sort((a, b)=> parseInt(a.id) - parseInt(b.id)).filter(s => parseInt(s.id) > startFrom);
 
         // Loop through all suggestions and send them in their respective channel
         for (const shortSuggestion of filteredSuggestions) {
             const suggestion = await this.bot.suggestionsApi.getSuggestion(parseInt(shortSuggestion.id), guildId);
             if (!suggestion) {
+                continue;
+            }
+            if (suggestion.status.open == false) {
+                this.bot.logger.debug("Suggestion is closed, skipping");
                 continue;
             }
             this.bot.logger.debug("Creating new suggestion from API. Suggestion ID: " + chalk.yellow(suggestion.id));
