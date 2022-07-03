@@ -12,11 +12,11 @@
                     "success": "Die Sprache wurde erfolgreich auf `{language}` geändert."
                 },
                 "apikey": {
-                    "invalid_key": "Die Api-URL oder der Api-Schlüssel ist ungültig.",
-                    "success": "Der Api-Schlüssel wurde festgelegt."
+                    "invalid_key": "Die API-URL oder der API-Schlüssel ist ungültig.",
+                    "success": "Der API-Schlüssel wurde festgelegt."
                 },
                 "authkey": {
-                    "success": "Der Autorisierungs-Token wurde in `{token}` geändert. Du kannst eine neue Webhook-Url mit dem Befehl `/webhookurl` finden."
+                    "success": "Der Autorisierungs-Token wurde in `{token}` geändert. Du kannst eine neue Webhook URL mit dem Befehl `/webhookurl` finden."
                 }
             }
         },
@@ -27,7 +27,7 @@
             "modal-question-1": "Titel des Vorschlags"
         },
         "webhookurl": {
-            "success": "Die Url lautet: `{url}`.\nBitte verwende diese URL als Discord-Webhook-Url für das Modul \"Vorschläge\".",
+            "success": "Die URL lautet: `{url}`.\nBitte verwende diese URL als Discord-Webhook-URL für das Modul \"Vorschläge\".",
             "generate_key_first": "Du musst zuerst ein Autorisierungs-Token mit `/settings set authkey` erzeugen."
         }
     },
