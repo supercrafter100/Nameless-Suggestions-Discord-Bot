@@ -24,7 +24,8 @@
             "modal-question-2": "Inhalt des Vorschlags",
             "success": "Dein Vorschlag wurde registriert! Sieh ihn dir hier an: {Link}",
             "modal-title": "Mach einen Vorschlag!",
-            "modal-question-1": "Titel des Vorschlags"
+            "modal-question-1": "Titel des Vorschlags",
+            "cannot_find_user": "Du musst dein Discord Account mit der Website verknüpft haben, um Vorschläge über Discord zu posten."
         },
         "webhookurl": {
             "success": "Die URL lautet: `{url}`.\nBitte verwende diese URL als Discord-Webhook-URL für das Modul \"Vorschläge\".",
