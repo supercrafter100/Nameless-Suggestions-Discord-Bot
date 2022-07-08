@@ -22,13 +22,14 @@
         },
         "webhookurl": {
             "generate_key_first": "Je moet eerst een autorisatie sleutel genereren door `/settings set authkey` te gebruiken.",
-            "success": "De url is: `{url}`.\nGebruik deze url alstublieft als de Discord webhook url voor de suggestie module."
+            "success": "De URL is: `{url}`.\nGebruik deze URL alstublieft als de Discord webhook URL voor de Suggestie module."
         },
         "suggest": {
             "modal-title": "Stel iets voor!",
             "modal-question-1": "Suggestie titel",
             "modal-question-2": "Suggestie inhoud",
-            "success": "Uw suggestie is geregistreerd! Bekijk hem hier: {link}"
+            "success": "Uw suggestie is geregistreerd! Bekijk hem hier: {link}",
+            "cannot_find_user": "Je moet je Discord account gelinkt hebben aan de website om suggesties te kunnen plaatsen via discord."
         }
     },
     "permission_required": "Je hebt niet de vereiste \"{permission}\" permissie",
@@ -36,7 +37,7 @@
         "suggestion": "Suggestie",
         "suggestion_closed_website": "Suggestie gesloten op de website",
         "suggestion_opened_website": "Suggestie geopend op de website",
-        "cannot_find_user": "Je moet je website account gelinkt hebben om te kunnen reageren via discord!",
+        "cannot_find_user": "Je moet je website account gelinkt hebben om te kunnen reageren via Discord!",
         "reaction_registered": "Uw `{reaction}` reactie is toegevoegd op de website.",
         "suggested_by": "gesuggereerd door {user}"
     }
