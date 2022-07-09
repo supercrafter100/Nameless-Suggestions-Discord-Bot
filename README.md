@@ -19,7 +19,8 @@ There are two options you can use to self host this bot
 
 1. Download the latest .exe file from the releases tab
 2. Create a `.env` file in the same directory as the executable and put in the contents of the `.example.env` file from the repository. Then fill in the values.
-3. Run the executable
+3. Create a folder named `language` and put the language files from the repository in there. 
+4. Run the executable
 
 <hr>
 
