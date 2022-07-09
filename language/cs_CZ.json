@@ -24,7 +24,8 @@
             "modal-title": "Něco navrhněte!",
             "modal-question-1": "Nadpis nápadu",
             "modal-question-2": "Obsah nápadu",
-            "success": "Váš nápad byl zaregistrován! Můžete si jej prohlédnout zde: {link}"
+            "success": "Váš nápad byl zaregistrován! Můžete si jej prohlédnout zde: {link}",
+            "cannot_find_user": "Pro přidávání příspěvků přes Discord musíte mít propojený svůj Discord účet s účtem na webu."
         },
         "webhookurl": {
             "success": "URL je: `{url}`.\nPoužijte toto jako URL Discord webhooku pro doplněk nápadů.",
