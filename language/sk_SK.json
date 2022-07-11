@@ -15,8 +15,8 @@
                     "success": "Autorizačný token bol zmenený na `{token}`. Novú webovú adresu webhooku môžete nájsť pomocou príkazu `/webhookurl`."
                 },
                 "apikey": {
-                    "invalid_key": "API URL alebo API KEY je neplatný.",
-                    "success": "API key bol nastavený."
+                    "invalid_key": "API URL alebo API kľúč je neplatný.",
+                    "success": "API kľúč bol nastavený."
                 }
             }
         },
@@ -24,7 +24,8 @@
             "modal-title": "Navrhnite niečo!",
             "modal-question-1": "Názov návrhu",
             "modal-question-2": "Obsah návrhu",
-            "success": "Váš návrh bol zaregistrovaný! Pozrite si to tu: {link}"
+            "success": "Váš návrh bol zaregistrovaný! Pozrite si to tu: {link}",
+            "cannot_find_user": "Ak chcete posielať návrhy cez discord, musíte mať svoj discord účet prepojený s webstránkou."
         },
         "webhookurl": {
             "generate_key_first": "Najprv musíte vygenerovať autorizačný token pomocou `/settings set authkey`.",
