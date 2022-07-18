@@ -1,0 +1,35 @@
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "suggestionChannel": {
+                    "no_textchannel": "建議用頻道僅限文字頻道（並且不能為公告用頻道）",
+                    "success": "成功設定 {channel} 為建議用頻道。"
+                },
+                "language": {
+                    "select_language": "請選擇機器人所使用的語言。",
+                    "select_language_option": "設定 {language} 為機器人所使用的語言",
+                    "success": "成功設定 `{language}` 為機器人所使用的語言。"
+                },
+                "apikey": {
+                    "invalid_key": "無效的API網址或金鑰。",
+                    "success": "成功設定API金鑰。"
+                },
+                "authkey": {
+                    "success": "成功設定授權代碼為 `{token}`，使用指令 `/webhookurl` 來獲取新的Webhook網址。"
+                }
+            }
+        },
+        "suggest": {
+            "modal-title": "提出建議！",
+            "modal-question-1": "建議標題",
+            "modal-question-2": "建議內容",
+            "success": "我們已收到您的建議，造訪 {link} 來檢視它。"
+        },
+        "webhookurl": {
+            "generate_key_first": "您必須先使用指令 `/settings set authkey` 來生成授權代碼。",
+            "success": "Webhook網址是 `{url}`，\n請使用它來當作建議模組的Discord Webhook網址。"
+        }
+    },
+    "permission_required": "抱歉！您沒有 {permission} 權限。"
+}

@@ -1,1 +1,35 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "suggestionChannel": {
+                    "no_textchannel": "建议用频道仅限文字频道（并且不能为公告用频道）",
+                    "success": "成功设定 {channel} 为建议用频道。"
+                },
+                "language": {
+                    "select_language": "请选择机器人所使用的语言。",
+                    "select_language_option": "设定 {language} 为机器人所使用的语言",
+                    "success": "成功设定 `{language}` 为机器人所使用的语言。"
+                },
+                "apikey": {
+                    "invalid_key": "无效的API网址或金钥。",
+                    "success": "成功设定API金钥。"
+                },
+                "authkey": {
+                    "success": "成功设定授权代码为 `{token}`，使用指令 `/webhookurl` 来获取新的Webhook网址。"
+                }
+            }
+        },
+        "suggest": {
+            "modal-title": "提出建议！",
+            "modal-question-1": "建议标题",
+            "modal-question-2": "建议内容",
+            "success": "我们已收到您的建议，造访 {link} 来检视它。"
+        },
+        "webhookurl": {
+            "generate_key_first": "您必须先使用指令 `/settings set authkey` 来生成授权代码。",
+            "success": "Webhook网址是 `{url}`，\n请使用它来当作建议模组的Discord Webhook网址。"
+        }
+    },
+    "permission_required": "抱歉！您没有 {permission} 权限。"
+}

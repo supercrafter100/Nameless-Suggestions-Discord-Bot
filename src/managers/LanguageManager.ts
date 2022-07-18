@@ -29,6 +29,7 @@ export default class LanguageManager {
 		"Russian": "ru_RU",
 		"Slovak": "sk_SK",
 		"Turkish": "tr_TR",
+		"Chinese(Traditional)": "zh_TW",
 		"Chinese(Simplified)": "zh_CN",
 		"Portuguese": "pt_BR"
 	}
