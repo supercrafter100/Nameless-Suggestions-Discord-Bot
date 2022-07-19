@@ -1,1 +1,44 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "authkey": {
+                    "success": "אסימון ההרשאה שונה ל-`{token}`. אתה יכול למצוא כתובת אתר חדשה ל-webhook באמצעות הפקודה `webhookurl/`."
+                },
+                "suggestionChannel": {
+                    "no_textchannel": "הערוץ חייב להיות ערוץ טקסט (ולא ערוץ חדשות)",
+                    "success": "ערוץ ההצעות שונה ל-{channel}."
+                },
+                "language": {
+                    "select_language_option": "בחר {language} כשפה",
+                    "success": "שינה בהצלחה את השפה ל-`{language}`.",
+                    "select_language": "בחר את השפה שבה תרצה להשתמש עבור הבוט של Discord."
+                },
+                "apikey": {
+                    "invalid_key": "כתובת ה-API או מפתח ה-API אינם חוקיים.",
+                    "success": "מפתח ה-API הוגדר."
+                }
+            }
+        },
+        "suggest": {
+            "modal-title": "תציע משהו!",
+            "modal-question-1": "כותרת ההצעה",
+            "modal-question-2": "תוכן ההצעות",
+            "success": "ההצעה שלך נרשמה! הצג אותו כאן: {link}",
+            "cannot_find_user": "עליך לקשר את חשבון הדיסקורד שלך לאתר כדי לפרסם הצעות באמצעות דיסקורד."
+        },
+        "webhookurl": {
+            "generate_key_first": "תחילה עליך ליצור אסימון הרשאה באמצעות `settings set authkey/`.",
+            "success": "כתובת האתר היא: `{url}`.\nאנא השתמש בכתובת האתר הזו ככתובת האתר של Discord webhook עבור מודול ההצעות."
+        }
+    },
+    "permission_required": "אין לך הרשאת \"{permission}\" הנדרשת",
+    "suggestionHandler": {
+        "suggestion": "הצעה",
+        "suggestion_closed_website": "ההצעה נסגרה באתר",
+        "cannot_find_user": "עליך לקשר את חשבון האתר שלך כדי שתוכל להשיב באמצעות Discord!",
+        "reaction_registered": "תגובת `{reaction}` שלך נוספה לאתר.",
+        "suggested_by": "הוצע על ידי {משתמש}",
+        "suggestion_opened_website": "ההצעה נפתחה באתר"
+    }
+}
