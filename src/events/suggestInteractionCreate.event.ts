@@ -22,6 +22,7 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
             if (res.error) {
                 this.client.logger.error("Error sending suggestion: ", res);
                 interaction.reply("Something broke! " + res.error);
+                return;
             }
 
             const str = await LanguageManager.getString(interaction.guildId!, "commands.suggest.success", "link", res.link);

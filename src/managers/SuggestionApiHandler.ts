@@ -1,7 +1,6 @@
 import Bot from "./Bot";
 import fetch from "node-fetch";
 import Database from "../database/Database";
-import Guild from "../database/models/guild.model";
 import { ApiCommentsResponse, ApiListSuggestion, ApiSuggestion } from "../types";
 
 export default class {
@@ -19,7 +18,7 @@ export default class {
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()) as ApiSuggestion;
+        }).then((res) => res.json()).catch(() => undefined) as ApiSuggestion;
 
         return suggestion;
     }
@@ -38,7 +37,7 @@ export default class {
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json());
+        }).then((res) => res.json()).catch(() => undefined);
 
         return response;
     }
@@ -58,7 +57,7 @@ export default class {
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json());
+        }).then((res) => res.json()).catch(() => undefined);;
 
         return response;
     }
@@ -87,7 +86,7 @@ export default class {
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json());
+        }).then((res) => res.json()).catch(() => undefined);;
 
         return response;
     }
@@ -107,7 +106,7 @@ export default class {
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()) as ApiListSuggestion;
+        }).then((res) => res.json()).catch(() => undefined) as ApiListSuggestion;
 
         return suggestions;
     }
@@ -123,7 +122,7 @@ export default class {
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()) as ApiCommentsResponse;
+        }).then((res) => res.json()).catch(() => undefined) as ApiCommentsResponse;
 
         return comments;
     }
@@ -139,7 +138,7 @@ export default class {
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json() as Promise<ApiCommentsResponse>).then((json) => json.comments[0]);
+        }).then((res) => res.json() as Promise<ApiCommentsResponse>).then((json) => json.comments[0]).catch(() => undefined);
 
         return comment;
     }

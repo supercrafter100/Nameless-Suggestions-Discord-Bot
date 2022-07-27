@@ -51,7 +51,7 @@ export default class extends Subcommand {
                     Authorization: `Bearer ${apikey}`,
                 },
             }
-        ).catch(() => undefined);
+        ).catch(() => undefined)
 
         if (!res || !res.ok) {
             const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.apikey.invalid_key");
