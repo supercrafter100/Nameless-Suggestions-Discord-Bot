@@ -13,7 +13,8 @@
                 },
                 "apikey": {
                     "invalid_key": "Die API-URL oder der API-Schlüssel ist ungültig.",
-                    "success": "Der API-Schlüssel wurde festgelegt."
+                    "success": "Der API-Schlüssel wurde festgelegt.",
+                    "wrong_locale": "Die Sprache auf deiner Website ist nicht auf \"en_UK\" eingestellt. Aufgrund der derzeitigen Einschränkungen von NamelessMC-Webhooks ist die Verwendung von en_UK erforderlich"
                 },
                 "authkey": {
                     "success": "Der Autorisierungs-Token wurde in `{token}` geändert. Du kannst eine neue Webhook URL mit dem Befehl `/webhookurl` finden."
@@ -25,7 +26,8 @@
             "success": "Dein Vorschlag wurde registriert! Sieh ihn dir hier an: {Link}",
             "modal-title": "Mach einen Vorschlag!",
             "modal-question-1": "Titel des Vorschlags",
-            "cannot_find_user": "Du musst dein Discord Account mit der Website verknüpft haben, um Vorschläge über Discord zu posten."
+            "cannot_find_user": "Du musst dein Discord Account mit der Website verknüpft haben, um Vorschläge über Discord zu posten.",
+            "validation-error": "Bei der Validierung deines Vorschlags ist ein Fehler aufgetreten. Die Website gab folgendes zurück: {error}"
         },
         "webhookurl": {
             "success": "Die URL lautet: `{url}`.\nBitte verwende diese URL als Discord-Webhook-URL für das Modul \"Vorschläge\".",
