@@ -4,7 +4,8 @@
             "set": {
                 "apikey": {
                     "invalid_key": "The API URL or API key is invalid.",
-                    "success": "The API key has been set."
+                    "success": "The API key has been set.",
+                    "wrong_locale": "The language for your website is not set to `en_UK`. Because of the current limitations of NamelessMC webhooks, it is required to use en_UK"
                 },
                 "authkey": {
                     "success": "The authorization token has been changed to `{token}`. You can find a new webhook URL by using the `/webhookurl` command."

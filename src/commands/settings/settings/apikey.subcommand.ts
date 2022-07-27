@@ -42,6 +42,8 @@ export default class extends Subcommand {
         const apiurl = interaction.options.getString("apiurl")!;
         const apikey = interaction.options.getString("apikey")!;
 
+        await interaction.deferReply({ ephemeral: true });
+
         // Check if the api url + key is valid
         const res = await fetch(
             `${apiurl}${apiurl.endsWith("/") ? "" : "/"}info`,
@@ -55,7 +57,14 @@ export default class extends Subcommand {
 
         if (!res || !res.ok) {
             const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.apikey.invalid_key");
-            interaction.reply({ content: str, ephemeral: true });
+            interaction.editReply({ content: str });
+            return;
+        }
+
+        const json = await res.json();
+        if (json.locale !== "en_UK") {
+            const str = await LanguageManager.getString(interaction.guildId!, "commands.settings.set.apikey.wrong_locale");
+            interaction.editReply({ content: str });
             return;
         }
 
@@ -66,6 +75,6 @@ export default class extends Subcommand {
         await guildData.save();
 
         const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.apikey.success");
-        interaction.reply({ ephemeral: true, content: str });
+        interaction.editReply({ content: str });
     }
 }
