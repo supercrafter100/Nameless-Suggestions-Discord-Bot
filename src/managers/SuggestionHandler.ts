@@ -21,13 +21,18 @@ export default class {
 
         const channel = await guild.channels.fetch(guildInfo.suggestionChannel);
         if (!channel || !(channel instanceof TextChannel)) {
+            this.bot.logger.warn("Channel", chalk.yellow(guildInfo.suggestionChannel), "is not a text channel");
             return null;
         }
 
         // Send message in the channel
         const embed = await this.createEmbed(guildInfo.id, suggestion, suggestion.link, avatar);
         const components = this.getEmbedComponents();
-        const message = await channel.send({ embeds: [ embed ], components: [ components ]}).catch(() => undefined);
+        const message = await channel.send({ embeds: [ embed ], components: [ components ]}).catch((err) => {
+            this.bot.logger.warn("Failed to send message to suggestion channel", chalk.yellow(err));
+            return undefined;
+        });
+
         if (!message) {
             return null;
         }
@@ -132,6 +137,8 @@ export default class {
     }
 
     public async handleButtonInteraction(interaction: ButtonInteraction, interactionType: "like" | "dislike") {
+        await interaction.deferReply({ ephemeral: true });
+
         const suggestionInfo = await Suggestion.findOne({ where: { messageId: interaction.message.id, guildId: interaction.guildId }});
         if (!suggestionInfo) {
             return;
@@ -143,14 +150,14 @@ export default class {
             const str = await LanguageManager.getString(interaction.guildId!, "suggestionHandler.cannot_find_user");
             const embed = this.bot.embeds.base();
             embed.setDescription("`❌` " + str);
-            interaction.reply({ embeds: [ embed ], ephemeral: true });
+            interaction.editReply({ embeds: [ embed ] });
             return;
         }
 
         const str = await LanguageManager.getString(interaction.guildId!, "suggestionHandler.reaction_registered", "reaction", interactionType == "like" ? "👍" : "👎");
         const embed = this.bot.embeds.base();
         embed.setDescription(str!);
-        interaction.reply({ embeds: [ embed ], ephemeral: true });
+        interaction.editReply({ embeds: [ embed ] });
     }
 
     private async createEmbed(guildId: string, suggestion: ApiSuggestion, url: string, avatar: string) {

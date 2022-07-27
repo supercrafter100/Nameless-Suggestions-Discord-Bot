@@ -33,6 +33,7 @@ export default class {
     private async handleWebhook(req: express.Request, res: express.Response) {
         res.sendStatus(200);
 
+        
         // Get suggestion ID & check if its a comment or a new suggestion
         const suggestionId = req.body.embeds[0].title.split(" ")[0].slice(1);
         const isNewSuggestion = req.body.embeds[0].footer.text.includes("New suggestion");
@@ -45,12 +46,15 @@ export default class {
             return;
         }
 
+        
         // Get suggestion data from the api
         const suggestionData = await this.client.suggestionsApi.getSuggestion(suggestionId, guildData.id);
         if (!suggestionData) {
             this.logger.error(`No suggestion data found for suggestion ${suggestionId}`);
             return;
         }
+
+        this.logger.debug("Received network request for suggestion with title " + chalk.yellow(suggestionData.title) + " for guild " + chalk.yellow(guildData.id) + " which should be sent to channel with id " + chalk.yellow(guildData.suggestionChannel));
         
         if (isNewSuggestion) {
             this.client.suggestions.createSuggestion(suggestionData, guildData, req.body.avatar_url);
@@ -72,6 +76,12 @@ export default class {
                 author,
                 avatar: req.body.avatar_url,
             });
+        }
+
+        if (!isNewSuggestion && !isNewComment) {
+            this.logger.error(`Unknown webhook type. Received the following json body for the footer`);
+            console.log(req.body.embeds[0].footer);
+            return;
         }
     }
 }

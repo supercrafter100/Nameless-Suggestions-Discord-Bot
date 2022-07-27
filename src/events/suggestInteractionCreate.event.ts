@@ -9,6 +9,7 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
         if (interaction.isModalSubmit() && interaction.customId === "suggest-modal") {
             const title = interaction.fields.getTextInputValue("suggest-title");
             const description = interaction.fields.getTextInputValue("suggest-description");
+            interaction.deferReply({ ephemeral: true });
 
             let res = await this.client.suggestionsApi.sendSuggestion(interaction.guildId!, title, description, interaction.user.id);
             if (res.error === "nameless:cannot_find_user") {
@@ -19,9 +20,17 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
                 return;
             }
 
+            if (res.error === "suggestions:validation_errors") {
+                const str = await LanguageManager.getString(interaction.guildId!, "commands.suggest.validation-error", "error", res.meta.join(', '));
+                const embed = this.client.embeds.base();
+                embed.setDescription(str!);
+                await interaction.reply({ embeds: [ embed ]});
+                return;
+            }
+
             if (res.error) {
                 this.client.logger.error("Error sending suggestion: ", res);
-                interaction.reply("Something broke! " + res.error);
+                interaction.editReply("Something broke! " + res.error);
                 return;
             }
 
@@ -29,7 +38,7 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
             const embed = this.client.embeds.base();
             embed.setDescription(str!);
 
-            interaction.reply({ ephemeral: true, embeds: [ embed ] });
+            interaction.editReply({ embeds: [ embed ] });
         }
     }
 }

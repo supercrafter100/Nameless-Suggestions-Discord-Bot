@@ -25,7 +25,8 @@
             "modal-question-1": "Suggestion title",
             "modal-question-2": "Suggestion content",
             "success": "Your suggestion has been registered! View it here: {link}",
-            "cannot_find_user": "You need to have your discord account linked to the website to post suggestions via discord."
+            "cannot_find_user": "You need to have your discord account linked to the website to post suggestions via discord.",
+            "validation-error": "Something went wrong during the validation of your suggestion. The website returned the following: {error}"
         },
         "webhookurl": {
             "generate_key_first": "You need to generate an authorization token first using `/settings set authkey`.",
