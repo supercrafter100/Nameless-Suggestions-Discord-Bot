@@ -24,12 +24,21 @@
             "modal-title": "提出建议！",
             "modal-question-1": "建议标题",
             "modal-question-2": "建议内容",
-            "success": "我们已收到您的建议，造访 {link} 来检视它。"
+            "success": "我们已收到您的建议！访问 {link} 来看吧",
+            "cannot_find_user": "您需要将您的Discord帐户链接到该网站才能通过Discord发布建议。"
         },
         "webhookurl": {
             "generate_key_first": "您必须先使用指令 `/settings set authkey` 来生成授权代码。",
             "success": "Webhook网址是 `{url}`，\n请使用它来当作建议模组的Discord Webhook网址。"
         }
     },
-    "permission_required": "抱歉！您没有 {permission} 权限。"
+    "permission_required": "抱歉！您没有 {permission} 权限",
+    "suggestionHandler": {
+        "suggestion": "建议",
+        "suggestion_closed_website": "建议在网站上关闭",
+        "suggestion_opened_website": "建议在网站上开启",
+        "suggested_by": "{user}推荐",
+        "cannot_find_user": "您必须链接您的网站帐户才能通过 Discord 回复！",
+        "reaction_registered": "您的“{reaction}”反应已添加到网站上。"
+    }
 }
