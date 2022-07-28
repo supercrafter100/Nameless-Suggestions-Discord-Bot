@@ -16,7 +16,8 @@
                 },
                 "apikey": {
                     "success": "Klíč API byl nastaven.",
-                    "invalid_key": "URL API nebo klíč API je neplatný."
+                    "invalid_key": "URL API nebo klíč API je neplatný.",
+                    "wrong_locale": "Jazyk vašeho webu není nastaven na `en_UK`. Kvůli současným omezením webhooků NamelessMC je vyžadováno použití en_UK"
                 }
             }
         },
@@ -25,7 +26,8 @@
             "modal-question-1": "Nadpis nápadu",
             "modal-question-2": "Obsah nápadu",
             "success": "Váš nápad byl zaregistrován! Můžete si jej prohlédnout zde: {link}",
-            "cannot_find_user": "Pro přidávání příspěvků přes Discord musíte mít propojený svůj Discord účet s účtem na webu."
+            "cannot_find_user": "Pro přidávání příspěvků přes Discord musíte mít propojený svůj Discord účet s účtem na webu.",
+            "validation-error": "Při ověřování vašeho nápadu se něco pokazilo. Web vrátil následující chybu: {error}"
         },
         "webhookurl": {
             "success": "URL je: `{url}`.\nPoužijte toto jako URL Discord webhooku pro doplněk nápadů.",
