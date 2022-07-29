@@ -16,7 +16,8 @@
                 },
                 "apikey": {
                     "invalid_key": "API URL alebo API kľúč je neplatný.",
-                    "success": "API kľúč bol nastavený."
+                    "success": "API kľúč bol nastavený.",
+                    "wrong_locale": "Jazyk vášho webu není nastavený na `en_UK`. Kvôli súčasným obmedzeniam webhookov NamelessMC je vyžadované použitie en_UK"
                 }
             }
         },
@@ -25,7 +26,8 @@
             "modal-question-1": "Názov návrhu",
             "modal-question-2": "Obsah návrhu",
             "success": "Váš návrh bol zaregistrovaný! Pozrite si to tu: {link}",
-            "cannot_find_user": "Ak chcete posielať návrhy cez discord, musíte mať svoj discord účet prepojený s webstránkou."
+            "cannot_find_user": "Ak chcete posielať návrhy cez discord, musíte mať svoj discord účet prepojený s webstránkou.",
+            "validation-error": "Počas overovania vášho návrhu sa niečo pokazilo. Webstránka vrátila nasledovné: {error}"
         },
         "webhookurl": {
             "generate_key_first": "Najprv musíte vygenerovať autorizačný token pomocou `/settings set authkey`.",
