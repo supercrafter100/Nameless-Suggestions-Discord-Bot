@@ -4,7 +4,8 @@
             "set": {
                 "apikey": {
                     "success": "Se ha establecido la clave de la API.",
-                    "invalid_key": "La URL o la clave de la API no son válidas."
+                    "invalid_key": "La URL o la clave de la API no son válidas.",
+                    "wrong_locale": "El idioma de su sitio web no está configurado como `en_UK`. Debido a las limitaciones actuales de los webhooks de NamelessMC, es necesario utilizar en_UK"
                 },
                 "authkey": {
                     "success": "El token de autorización ha sido cambiado a `{token}`. Puedes encontrar una nueva URL de webhook usando el comando `/webhookurl`."
@@ -25,7 +26,8 @@
             "modal-question-2": "Contenido de la sugerencia",
             "success": "Su sugerencia ha sido registrada. Véala aquí: {link}",
             "modal-question-1": "Título de la sugerencia",
-            "cannot_find_user": "Necesitas tener tu cuenta de discord vinculada al sitio web para publicar sugerencias a través de discord."
+            "cannot_find_user": "Necesitas tener tu cuenta de discord vinculada al sitio web para publicar sugerencias a través de discord.",
+            "validation-error": "Algo ha ido mal durante la validación de su sugerencia. El sitio web devolvió lo siguiente: {error}"
         },
         "webhookurl": {
             "generate_key_first": "Es necesario generar primero un token de autorización utilizando `/settings set authkey`.",
