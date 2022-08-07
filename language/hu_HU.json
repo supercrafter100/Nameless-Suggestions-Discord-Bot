@@ -1,1 +1,13 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "apikey": {
+                    "invalid_key": "Az API URL vagy az API-kulcs érvénytelen.",
+                    "success": "Az API-kulcs beállítása megtörtént.",
+                    "wrong_locale": "A weboldalának nyelve nincs beállítva az \"en_UK\" nyelvre. A NamelessMC webhooks jelenlegi korlátai miatt szükséges az en_UK nyelv használata"
+                }
+            }
+        }
+    }
+}
