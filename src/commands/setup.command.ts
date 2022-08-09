@@ -33,7 +33,7 @@ export default class extends Command {
                     "`3.` Execute `/settings set apikey <your api url> <your api key>` in this discord.",
                     "`4.` Generate an authorization key by using `/settings set authkey`.",
                     "`5.` Go to your website. Then `Configuration > Webhooks` and create a new webhook.",
-                    "`6.` Execute `/webhookurl` in this discord and copy the webhook url. Put that into the webhook url field on the site.",
+                    "`6.` Execute `/webhookurl` in this discord and copy the webhook url. Put that into the webhook url field on the site and set the webhook type to `Normal`.",
                     "`7.` Enable the \"New suggestion\" and \"New suggestion comment\" events for this webhook",
                     "`8.` Click save",
                     "`9.` Set up your suggestion channel by using `/settings set suggestionchannel <#channel>`",
