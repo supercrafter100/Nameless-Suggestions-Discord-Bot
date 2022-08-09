@@ -1,1 +1,46 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "suggestionChannel": {
+                    "success": "Kênh đề xuất đã được đổi thành {channel}.",
+                    "no_textchannel": "Kênh phải là kênh văn bản (chứ không phải kênh tin tức)"
+                },
+                "language": {
+                    "success": "Đã thay đổi thành công ngôn ngữ thành `{language}`.",
+                    "select_language": "Chọn ngôn ngữ bạn muốn sử dụng cho bot Discord.",
+                    "select_language_option": "Chọn {language} làm ngôn ngữ"
+                },
+                "apikey": {
+                    "invalid_key": "API URL hoặc khóa API không hợp lệ.",
+                    "success": "Khóa API đã được đặt.",
+                    "wrong_locale": "Ngôn ngữ cho trang web của bạn không được đặt thành `en_UK`. Do những hạn chế hiện tại của webhook NamelessMC, bắt buộc phải sử dụng en_UK"
+                },
+                "authkey": {
+                    "success": "Mã thông báo ủy quyền đã được thay đổi thành `{token}`. Bạn có thể tìm một URL webhook mới bằng cách sử dụng lệnh `/webhookurl`."
+                }
+            }
+        },
+        "suggest": {
+            "modal-title": "Đề nghị một cái gì đó!",
+            "modal-question-1": "Tiêu đề cần đề xuất",
+            "cannot_find_user": "Bạn cần có tài khoản Discord của mình được liên kết với trang web để đăng các đề xuất thông qua discord.",
+            "validation-error": "Đã xảy ra lỗi trong quá trình xác thực đề xuất của bạn. Trang web trả về như sau: {error}",
+            "modal-question-2": "Nội dung đề xuất",
+            "success": "Đề xuất của bạn đã được đăng ký! Xem nó ở đây: {link}"
+        },
+        "webhookurl": {
+            "success": "URL là: `{url}`.\nVui lòng sử dụng URL này làm URL webhook Discord cho Suggestions module.",
+            "generate_key_first": "Trước tiên, bạn cần tạo mã thông báo ủy quyền bằng cách sử dụng `/settings set authkey`."
+        }
+    },
+    "suggestionHandler": {
+        "reaction_registered": "Phản ứng `{reaction}` của bạn đã được thêm trên trang web.",
+        "suggested_by": "Được đề xuất bởi {user}",
+        "suggestion_closed_website": "Đề xuất đã đóng trên trang web",
+        "suggestion_opened_website": "Đề xuất đã mở trên trang web",
+        "suggestion": "Đề xuất",
+        "cannot_find_user": "Bạn phải liên kết tài khoản trang web của mình để có thể trả lời qua Discord!"
+    },
+    "permission_required": "Bạn không có quyền này \"{permission}\""
+}
