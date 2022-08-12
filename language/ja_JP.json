@@ -1,1 +1,28 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "suggestionChannel": {
+                    "no_textchannel": "チャンネルはテキストチャンネル（ニュースチャンネルではないこと）である必要があります",
+                    "success": "提案チャンネルが{channel}に変更されました。"
+                },
+                "apikey": {
+                    "invalid_key": "API URLまたはAPIキーが無効です。",
+                    "success": "APIキーが設定されました。"
+                },
+                "language": {
+                    "select_language": "Discordボットに使用する言語を選択します。",
+                    "select_language_option": "言語として{language}を選択",
+                    "success": "言語を`{language}`に変更することに成功しました。"
+                }
+            }
+        },
+        "suggest": {
+            "modal-title": "何かを提案！",
+            "cannot_find_user": "discordで提案を投稿するには、discordアカウントをウェブサイトでリンクさせる必要があります。",
+            "modal-question-1": "提案タイトル",
+            "modal-question-2": "提案内容",
+            "success": "あなたの提案が登録されました！こちらからご覧ください: {link}"
+        }
+    }
+}
