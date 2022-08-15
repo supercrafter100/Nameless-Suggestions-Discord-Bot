@@ -35,8 +35,8 @@ export default class {
 
         // Get suggestion ID & check if its a comment or a new suggestion
         const suggestionId = req.body.suggestion_id;
-        const isNewSuggestion = req.body.event.includes("newSuggestion");
-        const isNewComment = req.body.event.includes("newSuggestionComment");
+        const isNewSuggestion = req.body.event === "newSuggestion";
+        const isNewComment = req.body.event === "newSuggestionComment";
         
         // Get guild data from database
         const guildData = await Database.getGuildDataByAuthorizationKey(req.params.id as string);
