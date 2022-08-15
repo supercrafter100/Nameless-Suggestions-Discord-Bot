@@ -4,8 +4,7 @@
             "set": {
                 "apikey": {
                     "invalid_key": "I dati inseriti non sono validi.",
-                    "success": "Chiave API inserita correttamente.",
-                    "wrong_locale": "La lingua del forum non risulta essere `en_UK`. Per le limitazioni attuali dei webhooks di NamelessMC, è necessario usare en_UK"
+                    "success": "Chiave API inserita correttamente."
                 },
                 "authkey": {
                     "success": "Token di autorizzazione: `{token}`. Visualizza il webhook con il comando `/webhookurl`."

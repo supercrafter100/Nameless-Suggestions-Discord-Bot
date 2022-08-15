@@ -16,8 +16,7 @@
                 },
                 "apikey": {
                     "success": "Klíč API byl nastaven.",
-                    "invalid_key": "URL API nebo klíč API je neplatný.",
-                    "wrong_locale": "Jazyk vašeho webu není nastaven na `en_UK`. Kvůli současným omezením webhooků NamelessMC je vyžadováno použití en_UK"
+                    "invalid_key": "URL API nebo klíč API je neplatný."
                 }
             }
         },
