@@ -7,7 +7,7 @@ export default class {
 
     constructor(private readonly bot: Bot) {}
 
-    public async getSuggestion(id: number, guildId: string) {
+    public async getSuggestion(id: string, guildId: string) {
         const apiCredentials = await Database.getApiCredentials(guildId);
         if (!apiCredentials.apikey || !apiCredentials.apiurl) {
             return null;

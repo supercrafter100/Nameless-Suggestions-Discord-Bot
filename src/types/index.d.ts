@@ -48,7 +48,7 @@ export interface ApiComment {
         username: string;
         nickname: string;
     };
-    creatd: string;
+    created: string;
     content: string;
 }
 

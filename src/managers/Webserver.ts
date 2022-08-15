@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import express from "express";
 import { Server } from "http";
+import { Suggestion } from "../classes/Suggestion";
 import Database from "../database/Database";
 import Logger from "../handlers/Logger";
 import Bot from "./Bot";
@@ -37,6 +38,7 @@ export default class {
         const suggestionId = req.body.suggestion_id;
         const isNewSuggestion = req.body.event === "newSuggestion";
         const isNewComment = req.body.event === "newSuggestionComment";
+
         
         // Get guild data from database
         const guildData = await Database.getGuildDataByAuthorizationKey(req.params.id as string);
@@ -44,19 +46,19 @@ export default class {
             this.logger.error(`No guild data found for authorization key ${req.query.id}`);
             return;
         }
-
+        
         
         // Get suggestion data from the api
-        const suggestionData = await this.client.suggestionsApi.getSuggestion(suggestionId, guildData.id);
-        if (!suggestionData) {
+        const suggestion = await Suggestion.getSuggestion(suggestionId, guildData.id, this.client).catch();
+        if (!suggestion.apiData) {
             this.logger.error(`No suggestion data found for suggestion ${suggestionId}`);
             return;
         }
 
-        this.logger.debug("Received network request for suggestion with title " + chalk.yellow(suggestionData.title) + " for guild " + chalk.yellow(guildData.id) + " which should be sent to channel with id " + chalk.yellow(guildData.suggestionChannel));
+        this.logger.debug("Received network request for suggestion with title " + chalk.yellow(suggestion.apiData.title) + " for guild " + chalk.yellow(guildData.id) + " which should be sent to channel with id " + chalk.yellow(guildData.suggestionChannel)+ ". It is a " + chalk.yellow(isNewSuggestion ? "new" : "comment") + " suggestion.");
         
         if (isNewSuggestion) {
-            this.client.suggestions.createSuggestion(suggestionData, guildData, req.body.avatar_url);
+            this.client.suggestions.createSuggestion(suggestion, guildData, req.body.avatar_url);
         }
 
         if (isNewComment) {
@@ -69,7 +71,7 @@ export default class {
                 return;
             }
 
-            this.client.suggestions.createComment(suggestionData, guildData, {
+            this.client.suggestions.createComment(suggestion, guildData, {
                 description: commentInfo?.content,
                 author,
                 avatar: req.body.avatar_url,

@@ -3,6 +3,7 @@ import { ButtonInteraction, Collection, ContextMenuInteraction, Message, Message
 import Database from "../database/Database";
 import Guild from "../database/models/guild.model";
 import Suggestion from "../database/models/suggestion.model";
+import { Suggestion as SuggestionClass } from "../classes/Suggestion";
 import { ApiSuggestion } from "../types";
 import Bot from "./Bot";
 import LanguageManager from "./LanguageManager";
@@ -13,9 +14,15 @@ export default class {
 
     constructor(private readonly bot: Bot) {}
 
-    public async createSuggestion(suggestion: ApiSuggestion, guildInfo: Guild, avatar: string) {
+    public async createSuggestion(suggestion: SuggestionClass, guildInfo: Guild, avatar: string) {
+
+        // Check if there is already an embed for this suggestion, we can skip this entire step if there is
+        if (suggestion.dbData) {
+            return;
+        }
+
         const guild = await this.bot.guilds.fetch(guildInfo.id);
-        if (!guild) {
+        if (!guild || !suggestion.apiData) {
             return null;
         }
 
@@ -26,7 +33,7 @@ export default class {
         }
 
         // Send message in the channel
-        const embed = await this.createEmbed(guildInfo.id, suggestion, suggestion.link, avatar);
+        const embed = await this.createEmbed(guildInfo.id, suggestion.apiData, suggestion.apiData.link, avatar);
         const components = this.getEmbedComponents();
         const message = await channel.send({ embeds: [ embed ], components: [ components ]}).catch((err) => {
             this.bot.logger.warn("Failed to send message to suggestion channel", chalk.yellow(err));
@@ -40,31 +47,35 @@ export default class {
         // Start a thread for the suggestion
         const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion");
         const thread = await message.startThread({
-            name: `${str} #${suggestion.id}`,
+            name: `${str} #${suggestion.apiData.id}`,
         });
         await thread.setRateLimitPerUser(30);
 
         // Create suggestion in database
         Suggestion.create({ 
-            suggestionId: parseInt(suggestion.id),
+            suggestionId: parseInt(suggestion.apiData.id),
             messageId: message.id,
-            status: parseInt(suggestion.status.id),
-            url: suggestion.link,
+            status: parseInt(suggestion.apiData.status.id),
+            url: suggestion.apiData.link,
             guildId: guildInfo.id,
             channelId: guildInfo.suggestionChannel,
         });
     }
 
-    public async createComment(suggestion: ApiSuggestion, guildInfo: Guild, commentInfo: { author: string, description: string, avatar: string }) {  
-        if (this.lastSentThreadMessage.has(suggestion.id.toString())) {
-            const content = this.lastSentThreadMessage.get(suggestion.id.toString())!;
-            this.lastSentThreadMessage.delete(suggestion.id.toString());
+    public async createComment(suggestion: SuggestionClass, guildInfo: Guild, commentInfo: { author: string, description: string, avatar: string }) {  
+        if (!suggestion.apiData) {
+            return;
+        }
+
+        if (this.lastSentThreadMessage.has(suggestion.apiData.id.toString())) {
+            const content = this.lastSentThreadMessage.get(suggestion.apiData.id.toString())!;
+            this.lastSentThreadMessage.delete(suggestion.apiData.id.toString());
             if (commentInfo.description.startsWith(content)) {
                 return;
             }
         }
         
-        const dbSuggestion = await Suggestion.findOne({ where: { suggestionId: suggestion.id, guildId: guildInfo.id }});
+        const dbSuggestion = await Suggestion.findOne({ where: { suggestionId: suggestion.apiData.id, guildId: guildInfo.id }});
         if (!dbSuggestion) {
             return;
         }
@@ -94,10 +105,10 @@ export default class {
         embed.setAuthor({ name: commentInfo.author, iconURL: this.parseAvatarUrl(commentInfo.avatar) });
         await message.thread.send({ embeds: [ embed ]}).catch(() => undefined);
 
-        if (!suggestion.status.open && !message.thread.locked) {
+        if (!suggestion.apiData.status.open && !message.thread.locked) {
             const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion_closed_website");
             await message.thread.setLocked(true, str);
-        } else if (suggestion.status.open && message.thread.locked) {
+        } else if (suggestion.apiData.status.open && message.thread.locked) {
             const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion_opened_website");
             await message.thread.setLocked(false, str);
         }
@@ -218,25 +229,24 @@ export default class {
 
         // Loop through all suggestions and send them in their respective channel
         for (const shortSuggestion of filteredSuggestions) {
-            const suggestion = await this.bot.suggestionsApi.getSuggestion(parseInt(shortSuggestion.id), guildId);
-            if (!suggestion) {
+            const suggestion = await SuggestionClass.getSuggestion(shortSuggestion.id, guildId, this.bot);
+            if (!suggestion.apiData) {
                 continue;
             }
-            if (suggestion.status.open == false) {
+            if (suggestion.apiData.status.open == false) {
                 this.bot.logger.debug("Suggestion is closed, skipping");
                 continue;
             }
-            this.bot.logger.debug("Creating new suggestion from API. Suggestion ID: " + chalk.yellow(suggestion.id));
+            this.bot.logger.debug("Creating new suggestion from API. Suggestion ID: " + chalk.yellow(suggestion.apiData.id));
 
-            await this.createSuggestion(suggestion, guildData, `https://avatars.dicebear.com/api/initials/${suggestion.author.username}.png?size=128`);
-            const comments = await this.bot.suggestionsApi.getSuggestionComments(suggestion.id, guildId);
-            if (!comments) {
-                this.bot.logger.error(`Error getting comments for suggestion ${suggestion.id} from API: ${JSON.stringify(comments)}`);
+            await this.createSuggestion(suggestion, guildData, `https://avatars.dicebear.com/api/initials/${suggestion.apiData.author.username}.png?size=128`);
+            if (!suggestion.comments) {
+                this.bot.logger.error(`Error getting comments for suggestion ${suggestion.apiData.id} from API: ${JSON.stringify(suggestion.comments)}`);
                 continue;
             }
 
             // Load all comments into the suggestion
-            for (const comment of comments?.comments) {
+            for (const comment of suggestion.comments.comments) {
                 this.bot.logger.debug("Creating new comment from API. Comment ID: " + chalk.yellow(comment.id));
                 await this.createComment(suggestion, guildData, {
                     avatar: `https://avatars.dicebear.com/api/initials/${comment.user.username}.png?size=128`,
