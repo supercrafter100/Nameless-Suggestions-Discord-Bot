@@ -9,7 +9,7 @@ export default class {
 
     public async getSuggestion(id: string, guildId: string) {
         const apiCredentials = await Database.getApiCredentials(guildId);
-        if (!apiCredentials.apikey || !apiCredentials.apiurl) {
+        if (!apiCredentials) {
             return null;
         }
 
@@ -25,7 +25,7 @@ export default class {
 
     public async sendReaction(suggestionId: string, guildId: string, type: "like" | "dislike", userId: string) {
         const apiCredentials = await Database.getApiCredentials(guildId);
-        if (!apiCredentials.apikey || !apiCredentials.apiurl) {
+        if (!apiCredentials) {
             return;
         }
 
@@ -44,7 +44,7 @@ export default class {
 
     public async sendComment(suggestionId: string, guildId: string, content: string, userId: string) {
         const apiCredentials = await Database.getApiCredentials(guildId);
-        if (!apiCredentials.apikey || !apiCredentials.apiurl) {
+        if (!apiCredentials) {
             return;
         }
 
@@ -68,7 +68,7 @@ export default class {
     
     public async sendSuggestion(guildId: string, title: string, content: string, userId: string = "") {
         const apiCredentials = await Database.getApiCredentials(guildId);
-        if (!apiCredentials.apikey || !apiCredentials.apiurl) {
+        if (!apiCredentials) {
             return;
         }
 
@@ -97,7 +97,7 @@ export default class {
 
     public async getSuggestions(guildId: string) {
         const apiCredentials = await Database.getApiCredentials(guildId);
-        if (!apiCredentials.apikey || !apiCredentials.apiurl) {
+        if (!apiCredentials) {
             return;
         }
 
@@ -113,7 +113,7 @@ export default class {
 
     public async getSuggestionComments(suggestionId: string, guildId: string) {
         const apiCredentials = await Database.getApiCredentials(guildId);
-        if (!apiCredentials.apikey || !apiCredentials.apiurl) {
+        if (!apiCredentials) {
             return;
         }
 
@@ -129,7 +129,7 @@ export default class {
 
     public async getCommentInfo(suggestionId: string, commentId: string, guildId: string) {
         const apiCredentials = await Database.getApiCredentials(guildId);
-        if (!apiCredentials.apikey || !apiCredentials.apiurl) {
+        if (!apiCredentials) {
             return;
         }
 

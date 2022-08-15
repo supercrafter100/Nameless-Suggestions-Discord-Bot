@@ -21,6 +21,10 @@ export default class Database {
 
     public static async getApiCredentials(guildId: string) {
         const guildData = await Database.getGuildData(guildId);
+        if (!guildData.apiurl) {
+            return;
+        }
+        
         return {
             apiurl: guildData.apiurl + (guildData.apiurl.endsWith("/") ? "" : "/"),
             apikey: guildData.apikey,
