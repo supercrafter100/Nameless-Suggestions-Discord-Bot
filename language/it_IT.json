@@ -1,1 +1,46 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "apikey": {
+                    "invalid_key": "I dati inseriti non sono validi.",
+                    "success": "Chiave API inserita correttamente.",
+                    "wrong_locale": "La lingua del forum non risulta essere `en_UK`. Per le limitazioni attuali dei webhooks di NamelessMC, è necessario usare en_UK"
+                },
+                "authkey": {
+                    "success": "Token di autorizzazione: `{token}`. Visualizza il webhook con il comando `/webhookurl`."
+                },
+                "suggestionChannel": {
+                    "no_textchannel": "Il canale deve essere un canale testuale (e non uno di aggiornamenti)",
+                    "success": "Canale proposte impostato su {channel}."
+                },
+                "language": {
+                    "select_language_option": "Seleziona {language} come lingua",
+                    "success": "Lingua modificata in `{language}`.",
+                    "select_language": "Seleziona la lingua del Bot Discord."
+                }
+            }
+        },
+        "webhookurl": {
+            "success": "URL: `{url}`.\nUsa questo URL come Webhook per il modulo Proposte.",
+            "generate_key_first": "Devi prima generare un token di autorizzazione con `/settings set authkey`."
+        },
+        "suggest": {
+            "validation-error": "Qualcosa non ha funzionato durante la validazione della tua proposta. Il sito ha riportato questo errore: {error}",
+            "cannot_find_user": "Per fare proposte devi avere il tuo account del sito collegato a Discord.",
+            "modal-title": "Proponi qualcosa!",
+            "modal-question-1": "Titolo proposta",
+            "modal-question-2": "Contenuto proposta",
+            "success": "Proposta inserita correttamente! Vedila qua: {link}"
+        }
+    },
+    "suggestionHandler": {
+        "cannot_find_user": "Per commentare devi avere il tuo account del sito collegato a Discord!",
+        "reaction_registered": "`{reaction}` Scelta registrata sul forum correttamente.",
+        "suggestion_closed_website": "Proposta chiusa sul sito",
+        "suggestion": "Proposta",
+        "suggested_by": "Proposto da {user}",
+        "suggestion_opened_website": "Proposta aperta sul sito"
+    },
+    "permission_required": "Non disponi del permesso \"{permission}\" richiesto"
+}
