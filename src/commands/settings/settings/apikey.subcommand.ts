@@ -61,13 +61,6 @@ export default class extends Subcommand {
             return;
         }
 
-        const json = await res.json();
-        if (json.locale !== "en_UK") {
-            const str = await LanguageManager.getString(interaction.guildId!, "commands.settings.set.apikey.wrong_locale");
-            interaction.editReply({ content: str });
-            return;
-        }
-
         // Set the api key
         const guildData = await Database.getGuildData(interaction.guildId);
         guildData.set("apiurl", apiurl);

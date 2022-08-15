@@ -33,11 +33,10 @@ export default class {
     private async handleWebhook(req: express.Request, res: express.Response) {
         res.sendStatus(200);
 
-        
         // Get suggestion ID & check if its a comment or a new suggestion
-        const suggestionId = req.body.embeds[0].title.split(" ")[0].slice(1);
-        const isNewSuggestion = req.body.embeds[0].footer.text.includes("New suggestion");
-        const isNewComment = req.body.embeds[0].footer.text.includes("New comment");
+        const suggestionId = req.body.suggestion_id;
+        const isNewSuggestion = req.body.event.includes("newSuggestion");
+        const isNewComment = req.body.event.includes("newSuggestionComment");
         
         // Get guild data from database
         const guildData = await Database.getGuildDataByAuthorizationKey(req.params.id as string);
@@ -61,9 +60,8 @@ export default class {
         }
 
         if (isNewComment) {
-            const author = req.body.embeds[0].footer.text.split(" ")[3];
-            const idTag = req.body.embeds[0].url.split("#")[1];
-            const commentId = idTag.split("-")[1];
+            const author = req.body.username;
+            const commentId = req.body.comment_id;
 
             const commentInfo = await this.client.suggestionsApi.getCommentInfo(suggestionId, commentId, guildData.id);
             if (!commentInfo) {
@@ -80,7 +78,7 @@ export default class {
 
         if (!isNewSuggestion && !isNewComment) {
             this.logger.error(`Unknown webhook type. Received the following json body for the footer`);
-            console.log(req.body.embeds[0].footer);
+            console.log(req.body);
             return;
         }
     }
