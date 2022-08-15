@@ -4,8 +4,7 @@
             "set": {
                 "apikey": {
                     "success": "Se ha establecido la clave de la API.",
-                    "invalid_key": "La URL o la clave de la API no son válidas.",
-                    "wrong_locale": "El idioma de su sitio web no está configurado como `en_UK`. Debido a las limitaciones actuales de los webhooks de NamelessMC, es necesario utilizar en_UK"
+                    "invalid_key": "La URL o la clave de la API no son válidas."
                 },
                 "authkey": {
                     "success": "El token de autorización ha sido cambiado a `{token}`. Puedes encontrar una nueva URL de webhook usando el comando `/webhookurl`."

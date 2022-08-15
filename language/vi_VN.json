@@ -13,8 +13,7 @@
                 },
                 "apikey": {
                     "invalid_key": "API URL hoặc khóa API không hợp lệ.",
-                    "success": "Khóa API đã được đặt.",
-                    "wrong_locale": "Ngôn ngữ cho trang web của bạn không được đặt thành `en_UK`. Do những hạn chế hiện tại của webhook NamelessMC, bắt buộc phải sử dụng en_UK"
+                    "success": "Khóa API đã được đặt."
                 },
                 "authkey": {
                     "success": "Mã thông báo ủy quyền đã được thay đổi thành `{token}`. Bạn có thể tìm một URL webhook mới bằng cách sử dụng lệnh `/webhookurl`."
