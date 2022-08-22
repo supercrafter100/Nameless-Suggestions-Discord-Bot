@@ -34,10 +34,16 @@ export default class {
     private async handleWebhook(req: express.Request, res: express.Response) {
         res.sendStatus(200);
 
-        // Get suggestion ID & check if its a comment or a new suggestion
-        const suggestionId = req.body.suggestion_id;
-        const isNewSuggestion = req.body.event === "newSuggestion";
-        const isNewComment = req.body.event === "newSuggestionComment";
+        // Get suggestion ID & check if its a comment or a new suggestion (we have to support both webhook types for now)
+        const suggestionId = !req.body.embeds ? req.body.suggestion_id : req.body.embeds[0].title?.split(" ")[0].slice(1);
+        const isNewSuggestion = !req.body.embeds ?  req.body.event === "newSuggestion" : req.body.embeds[0]?.footer.text.includes("New suggestion");;
+        const isNewComment = !req.body.embeds ? req.body.event === "newSuggestionComment" : req.body.embeds[0]?.footer.text.includes("New comment");;
+
+        if (!suggestionId || (!isNewComment && !isNewComment)) {
+            this.logger.error(`Unknown webhook data... The follow body was present:`);
+            console.log(req.body);
+            return;
+        }
 
         
         // Get guild data from database
@@ -62,8 +68,8 @@ export default class {
         }
 
         if (isNewComment) {
-            const author = req.body.username;
-            const commentId = req.body.comment_id;
+            const author = !req.body.embeds ?  req.body.username : req.body.embeds[0].footer.text.split(" ")[3];
+            const commentId = !req.body.embeds ? req.body.comment_id : (req.body.embeds[0]?.url.split('#')[1]?.split('-')[1]);
 
             const commentInfo = await this.client.suggestionsApi.getCommentInfo(suggestionId, commentId, guildData.id);
             if (!commentInfo) {
@@ -79,7 +85,7 @@ export default class {
         }
 
         if (!isNewSuggestion && !isNewComment) {
-            this.logger.error(`Unknown webhook type. Received the following json body for the footer`);
+            this.logger.error(`Unknown webhook type. Received the following json body`);
             console.log(req.body);
             return;
         }

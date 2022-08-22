@@ -69,10 +69,10 @@ export default class {
 
         if (this.lastSentThreadMessage.has(suggestion.apiData.id.toString())) {
             const content = this.lastSentThreadMessage.get(suggestion.apiData.id.toString())!;
-            this.lastSentThreadMessage.delete(suggestion.apiData.id.toString());
             if (commentInfo.description.startsWith(content)) {
                 return;
             }
+            this.lastSentThreadMessage.delete(suggestion.apiData.id.toString()); // Only unset if a new comment has been sent
         }
         
         const dbSuggestion = await Suggestion.findOne({ where: { suggestionId: suggestion.apiData.id, guildId: guildInfo.id }});
@@ -108,9 +108,11 @@ export default class {
         if (!suggestion.apiData.status.open && !message.thread.locked) {
             const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion_closed_website");
             await message.thread.setLocked(true, str);
+            await message.thread.setArchived(true, str);
         } else if (suggestion.apiData.status.open && message.thread.locked) {
             const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion_opened_website");
             await message.thread.setLocked(false, str);
+            await message.thread.setArchived(false, str);
         }
     }
 
