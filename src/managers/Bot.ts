@@ -10,6 +10,7 @@ import SuggestionHandler from "./SuggestionHandler";
 import SuggestionApiHandler from "./SuggestionApiHandler";
 import { db } from "..";
 import LanguageManager from "./LanguageManager";
+import Guild from "../database/models/guild.model";
 
 export default class Bot extends Discord.Client<true> {
     //      Handlers
@@ -60,7 +61,7 @@ export default class Bot extends Discord.Client<true> {
     }
 
     private async startStdinListener() {
-        process.stdin.on("data", (data) => {
+        process.stdin.on("data", async (data) => {
             const input = data.toString().trim();
             const args = input.split(/ +/g);
             const command = args.shift();
@@ -77,6 +78,24 @@ export default class Bot extends Discord.Client<true> {
                     this.suggestions.sendAllSuggestions(guild, parseInt(args[1]));
                 } else {
                     this.suggestions.sendAllSuggestions(guild);
+                }
+            }
+
+            if (command == "sendreminder") {
+                const allGuilds = await Guild.findAll();
+                for (const dbGuild of allGuilds) {
+                    const guild = await this.guilds.fetch(dbGuild.id).catch(err => this.logger.warn(err))
+                    if (guild) {
+                        const guildOwner = await this.users.fetch(guild.ownerId);
+                        if (!guildOwner) {
+                            this.logger.warn("Guild owner of the guild " + chalk.yellow(guild.name) + " cannot be found... Deleted user?");
+                            continue;
+                        }
+
+                        const embed = this.embeds.base();
+                        embed.setDescription(`Hello there ${guildOwner.toString()}!\n\nRecently this bot has been updated to use the latest features of NamelessMC. With the introduction of NamelessMC v2.0.0, a new webhook type has been added that allows this bot to use a lot more data in the future. This is why it has been modified to support this webhook type.\n\nPlease go to \`StaffCP > Configuration > Webhooks\` and find the webhook you set up for this discord bot. Click the edit button next to it and then change the webhook type to \`Normal\`. Once you've done this, save the webhook and you're all set!\n\nA huge thank you for using this bot. Please make sure that you keep the suggestion module from Partydragen updated as well so you can use all the latest features this bot provides you with. Thank you for using the bot and good luck with your server!`)
+                        guildOwner.send({ embeds: [ embed ]}).catch(err => this.logger.warn(err));
+                    }
                 }
             }
         })
