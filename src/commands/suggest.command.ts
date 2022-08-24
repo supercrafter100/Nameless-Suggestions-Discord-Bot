@@ -36,7 +36,7 @@ export default class extends Command {
         titleInput.setLabel(modalQuestion1Str!);
         titleInput.setStyle("SHORT");
         titleInput.setRequired(true);
-        titleInput.setMinLength(3)
+        titleInput.setMinLength(6)
 
         const descriptionInput = new TextInputComponent();
         descriptionInput.setCustomId("suggest-description");
