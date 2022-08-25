@@ -10,7 +10,7 @@ import LanguageManager from "./LanguageManager";
 
 export default class {
 
-    private sentThreadMessages = new Set<Number>();
+    private sentThreadMessages = new Set<string>();
 
     constructor(private readonly bot: Bot) {}
 
@@ -67,8 +67,8 @@ export default class {
             return;
         }
 
-        if (this.sentThreadMessages.has(commentInfo.commentId)) {
-            this.sentThreadMessages.delete(commentInfo.commentId);
+        if (this.sentThreadMessages.has(`${suggestion.apiData.id}-${commentInfo.commentId}`)) {
+            this.sentThreadMessages.delete(`${suggestion.apiData.id}-${commentInfo.commentId}`);
             return;
         }
         
@@ -142,7 +142,7 @@ export default class {
                 }, 5000);
             }            
         } else {
-            this.sentThreadMessages.add(response.comment_id);
+            this.sentThreadMessages.add(`${suggestionInfo.id}-${response.comment_id}`);
         }
     }
 
