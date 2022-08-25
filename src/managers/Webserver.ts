@@ -39,7 +39,7 @@ export default class {
         const isNewSuggestion = !req.body.embeds ?  req.body.event === "newSuggestion" : req.body.embeds[0]?.footer.text.includes("New suggestion");;
         const isNewComment = !req.body.embeds ? req.body.event === "newSuggestionComment" : req.body.embeds[0]?.footer.text.includes("New comment");;
 
-        if (!suggestionId || (!isNewComment && !isNewComment)) {
+        if (!suggestionId || (!isNewSuggestion && !isNewComment)) {
             this.logger.error(`Unknown webhook data... The follow body was present:`);
             console.log(req.body);
             return;
