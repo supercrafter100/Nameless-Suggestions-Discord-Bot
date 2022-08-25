@@ -67,8 +67,8 @@ export default class {
             return;
         }
 
-        if (this.sentThreadMessages.has(this.createThreadMessageCompoundId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId))) {
-            this.sentThreadMessages.delete(this.createThreadMessageCompoundId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId));
+        if (this.sentThreadMessages.has(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId))) {
+            this.sentThreadMessages.delete(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId));
             return;
         }
         
@@ -142,7 +142,7 @@ export default class {
                 }, 5000);
             }            
         } else {
-            this.sentThreadMessages.add(this.createThreadMessageCompoundId(msg.guildId!, suggestionInfo.suggestionId, response.comment_id));
+            this.sentThreadMessages.add(this.createThreadMessageCompositeId(msg.guildId!, suggestionInfo.suggestionId, response.comment_id));
         }
     }
 
@@ -258,7 +258,7 @@ export default class {
         this.bot.logger.debug("Finished sending all suggestions from API.");
     }
 
-    private createThreadMessageCompoundId(guildId: string, suggestionId: string, commentId: number): `${string}-${string}-${string}` {
+    private createThreadMessageCompositeId(guildId: string, suggestionId: string, commentId: number): `${string}-${string}-${string}` {
         return `${guildId}-${suggestionId}-${commentId}`
     }
 }
