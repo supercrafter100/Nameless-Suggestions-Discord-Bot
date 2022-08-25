@@ -42,7 +42,7 @@ export interface ApiListSuggestion {
 }
 
 export interface ApiComment {
-    id: string;
+    id: number;
     user: {
         id: string;
         username: string;
