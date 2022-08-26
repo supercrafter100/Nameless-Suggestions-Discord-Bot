@@ -81,6 +81,7 @@ export default class {
                 description: commentInfo?.content,
                 author,
                 avatar: req.body.avatar_url,
+                commentId: commentInfo.id
             });
         }
 

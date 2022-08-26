@@ -10,7 +10,7 @@ import LanguageManager from "./LanguageManager";
 
 export default class {
 
-    private lastSentThreadMessage = new Collection<string, string>();
+    private sentThreadMessages = new Set<`${string}-${string}-${string}`>();
 
     constructor(private readonly bot: Bot) {}
 
@@ -62,17 +62,14 @@ export default class {
         });
     }
 
-    public async createComment(suggestion: SuggestionClass, guildInfo: Guild, commentInfo: { author: string, description: string, avatar: string }) {  
+    public async createComment(suggestion: SuggestionClass, guildInfo: Guild, commentInfo: { author: string, description: string, avatar: string, commentId: number }) {  
         if (!suggestion.apiData) {
             return;
         }
 
-        if (this.lastSentThreadMessage.has(suggestion.apiData.id.toString())) {
-            const content = this.lastSentThreadMessage.get(suggestion.apiData.id.toString())!;
-            if (commentInfo.description.startsWith(content)) {
-                return;
-            }
-            this.lastSentThreadMessage.delete(suggestion.apiData.id.toString()); // Only unset if a new comment has been sent
+        if (this.sentThreadMessages.has(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId))) {
+            this.sentThreadMessages.delete(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId));
+            return;
         }
         
         const dbSuggestion = await Suggestion.findOne({ where: { suggestionId: suggestion.apiData.id, guildId: guildInfo.id }});
@@ -127,11 +124,9 @@ export default class {
         
         const content = msg.content;
         const authorId = msg.author.id;
-        this.lastSentThreadMessage.set(suggestionInfo.suggestionId.toString(), content); // Save before sending to the site
         
         const response = await this.bot.suggestionsApi.sendComment(suggestionInfo.suggestionId, msg.guildId!, content, authorId);
         if (response.error == "nameless:cannot_find_user") {
-            this.lastSentThreadMessage.delete(suggestionInfo.suggestionId.toString());
             await msg.delete();
             
             const str = await LanguageManager.getString(msg.guildId!, "suggestionHandler.cannot_find_user");
@@ -146,6 +141,8 @@ export default class {
                     sent.delete();
                 }, 5000);
             }            
+        } else {
+            this.sentThreadMessages.add(this.createThreadMessageCompositeId(msg.guildId!, suggestionInfo.suggestionId, response.comment_id));
         }
     }
 
@@ -253,10 +250,15 @@ export default class {
                 await this.createComment(suggestion, guildData, {
                     avatar: `https://avatars.dicebear.com/api/initials/${comment.user.username}.png?size=128`,
                     description: comment.content,
-                    author: comment.user.username
+                    author: comment.user.username,
+                    commentId: comment.id
                 });
             }
         }
         this.bot.logger.debug("Finished sending all suggestions from API.");
+    }
+
+    private createThreadMessageCompositeId(guildId: string, suggestionId: string, commentId: number): `${string}-${string}-${string}` {
+        return `${guildId}-${suggestionId}-${commentId}`
     }
 }
