@@ -211,7 +211,7 @@ export default class {
     }
 
     private fixContent(content: string) {
-        content = content.replace(/<br \/>/g, "");
+        content = content.replace(/<br \/>/g, "\n");
         return content;
     } 
 
