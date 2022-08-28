@@ -7,6 +7,7 @@ import { Suggestion as SuggestionClass } from "../classes/Suggestion";
 import { ApiSuggestion } from "../types";
 import Bot from "./Bot";
 import LanguageManager from "./LanguageManager";
+import { URL } from "url";
 
 export default class {
 
@@ -96,9 +97,11 @@ export default class {
         if (!message.thread) {
             return;
         }
+
+        const content = await this.replaceMessagePlaceholders(commentInfo.description, guildInfo.id);
  
         const embed = this.bot.embeds.baseNoFooter();
-        embed.setDescription(this.stripLength(this.fixContent(commentInfo.description), 2048));
+        embed.setDescription(this.stripLength(this.fixContent(content), 2048));
         embed.setAuthor({ name: commentInfo.author, iconURL: this.parseAvatarUrl(commentInfo.avatar) });
         await message.thread.send({ embeds: [ embed ]}).catch(() => undefined);
 
@@ -172,9 +175,11 @@ export default class {
 
     private async createEmbed(guildId: string, suggestion: ApiSuggestion, url: string, avatar: string) {
         const str = await LanguageManager.getString(guildId, "suggestionHandler.suggested_by", "user", suggestion.author.username);
+        const description = await this.replaceMessagePlaceholders(suggestion.content, guildId);
+
         const embed = this.bot.embeds.base();
         embed.setTitle(`#${suggestion.id} - ${this.stripLength(suggestion.title, 100)}`);
-        embed.setDescription(this.stripLength(this.fixContent(suggestion.content), 4092));
+        embed.setDescription(this.stripLength(this.fixContent(description), 4092));
         embed.setFooter({ text: str!, iconURL: this.parseAvatarUrl(avatar) });	
         embed.setURL(url);
         return embed;
@@ -260,5 +265,34 @@ export default class {
 
     private createThreadMessageCompositeId(guildId: string, suggestionId: string, commentId: number): `${string}-${string}-${string}` {
         return `${guildId}-${suggestionId}-${commentId}`
+    }
+
+    private async replaceMessagePlaceholders(guildId: string, content: string) {
+        const regex = /\[user\](\d+)\[\/user\]/gm
+        let m;
+
+        while ((m = regex.exec(content)) !== null) {
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+
+            const fullMatch = m[0];
+            const numMatch = m[1]
+            
+            const apiCredentials = await Database.getApiCredentials(guildId);
+            if (!apiCredentials) {
+                return content;
+            }
+
+            const siteUser = await this.bot.suggestionsApi.getUserInfo(numMatch, guildId)!;
+            if (!siteUser) {
+                continue;
+            }
+
+            const url = new URL(apiCredentials.apiurl)
+            content.split(fullMatch).join(`[${siteUser.username}](${url.protocol}//${url.hostname}/profile/${encodeURIComponent(siteUser.username!)})`)
+        }
+
+        return content;
     }
 }

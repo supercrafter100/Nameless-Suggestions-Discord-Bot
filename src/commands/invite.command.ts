@@ -25,7 +25,7 @@ export default class extends Command {
         const embed = client.embeds
             .base()
             .setDescription(
-                "To invite the bot. Click [here]() to invite the bot."
+                "To invite the bot. Click [here](https://discord.com/oauth2/authorize?client_id=991303300395847751&permissions=395673939024&scope=bot%20applications.commands) to invite the bot."
             );
         interaction.reply({
             embeds: [embed],

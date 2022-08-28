@@ -1,7 +1,7 @@
 import Bot from "./Bot";
 import fetch from "node-fetch";
 import Database from "../database/Database";
-import { ApiCommentsResponse, ApiListSuggestion, ApiSuggestion } from "../types";
+import { ApiCommentsResponse, ApiListSuggestion, ApiSuggestion, ApiUser } from "../types";
 
 export default class {
 
@@ -141,5 +141,21 @@ export default class {
         }).then((res) => res.json() as Promise<ApiCommentsResponse>).then((json) => json.comments[0]).catch(() => undefined);
 
         return comment;
+    }
+
+    public async getUserInfo(userId: string, guildId: string) {
+        const apiCredentials = await Database.getApiCredentials(guildId);
+        if (!apiCredentials) {
+            return;
+        }
+
+        const user = await fetch(apiCredentials.apiurl + "user/id:" + userId, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${apiCredentials.apikey}`
+            }
+        }).then((res) => res.json()) as Promise<ApiUser>;
+
+        return user;
     }
 }

@@ -58,3 +58,35 @@ export interface ApiCommentsResponse {
     };
     comments: ApiComment[];
 }
+
+export interface ApiUser {
+    exists: boolean;
+    id: number;
+    username: string;
+    language_id: number;
+    language: string;
+    displayname: string;
+    uuid: string;
+    registered_timestamp: number;
+    last_online_timestamp: number;
+    banned: boolean;
+    validated: boolean;
+    user_title: string;
+    discord_id: string;
+    groups: {
+        id: number;
+        name: string;
+        staff: boolean;
+        order: number;
+        ingame_rank_name: string;
+        discord_role_id: string;
+    }[];
+    profile_fields: {
+        name: string;
+        type: number;
+        public: boolean;
+        required: boolean;
+        description: string;
+        value: string;
+    }
+}
