@@ -60,6 +60,7 @@ export interface ApiCommentsResponse {
 }
 
 export interface ApiUser {
+    error?: string
     exists: boolean;
     id: number;
     username: string;

@@ -149,7 +149,7 @@ export default class {
             return;
         }
 
-        const user = await fetch(apiCredentials.apiurl + "user/id:" + userId, {
+        const user = await fetch(apiCredentials.apiurl + "users/id:" + userId, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`
