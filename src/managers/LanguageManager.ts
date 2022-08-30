@@ -81,10 +81,11 @@ export default class LanguageManager {
 	private static getTranslation(json: any, key: string) {
 		const keys = key.split('.');
 		let result = json;
+
 		for (const k of keys) {
 			result = result[k];
 			if (!result) {
-				LanguageManager.logger.warn(`No language key found for: ${key}`);
+				LanguageManager.logger.warn(`No language key found for: ${key} in language ${[...this.languages.entries()].filter(({ 1: v}) => v === json).map(([k]) => k)[0]}`);
 				return undefined;
 			}
 		}

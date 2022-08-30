@@ -271,8 +271,6 @@ export default class {
         const regex = /\[user\](\d+)\[\/user\]/gm
         let m;
 
-        console.log(content);
-
         while ((m = regex.exec(content)) !== null) {
             if (m.index === regex.lastIndex) {
                 regex.lastIndex++;
