@@ -29,7 +29,8 @@
             "modal-question-1": "Suggestie titel",
             "modal-question-2": "Suggestie inhoud",
             "success": "Uw suggestie is geregistreerd! Bekijk hem hier: {link}",
-            "cannot_find_user": "Je moet je Discord account gelinkt hebben aan de website om suggesties te kunnen plaatsen via discord."
+            "cannot_find_user": "Je moet je Discord account gelinkt hebben aan de website om suggesties te kunnen plaatsen via discord.",
+            "validation-error": "Er is iets misgegaan tijdens het valideren van je suggestie. De website beantwoorde met de volgende foutmelding: {error}"
         }
     },
     "permission_required": "Je hebt niet de vereiste \"{permission}\" permissie",
