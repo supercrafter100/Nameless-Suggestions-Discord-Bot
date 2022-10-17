@@ -30,6 +30,7 @@ export default class extends Subcommand {
         const embed = (this.client as Bot).embeds.base()
         const desc = await LanguageManager.getString(interaction.guildId, "commands.settings.set.language.select_language");
         embed.setDescription(desc!);
+        embed.setFooter({ text: "https://translate.namelessmc.com/projects/third-party-resources/suggestions-module-discord-bot/"})
 
         const guildData = await Database.getGuildData(interaction.guildId);
         const current_language = guildData.language;
@@ -66,6 +67,8 @@ export default class extends Subcommand {
         const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.language.success", "language", language);
         const embed2 = (this.client as Bot).embeds.base();
         embed2.setDescription(str!);
+        embed2.setFooter({ text: "https://translate.namelessmc.com/projects/third-party-resources/suggestions-module-discord-bot/"})
+
         interaction.editReply({ embeds: [embed2], components: [] });
     }
 }

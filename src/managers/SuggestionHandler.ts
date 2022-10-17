@@ -13,7 +13,7 @@ export default class {
 
     private sentThreadMessages = new Set<`${string}-${string}-${string}`>();
 
-    constructor(private readonly bot: Bot) {}
+    constructor(private readonly bot: Bot) { }
 
     public async createSuggestion(suggestion: SuggestionClass, guildInfo: Guild, avatar: string) {
 
@@ -36,7 +36,7 @@ export default class {
         // Send message in the channel
         const embed = await this.createEmbed(guildInfo.id, suggestion.apiData, suggestion.apiData.link, avatar);
         const components = this.getEmbedComponents();
-        const message = await channel.send({ embeds: [ embed ], components: [ components ]}).catch((err) => {
+        const message = await channel.send({ embeds: [embed], components: [components] }).catch((err) => {
             this.bot.logger.warn("Failed to send message to suggestion channel", chalk.yellow(err));
             return undefined;
         });
@@ -53,7 +53,7 @@ export default class {
         await thread.setRateLimitPerUser(30);
 
         // Create suggestion in database
-        Suggestion.create({ 
+        Suggestion.create({
             suggestionId: parseInt(suggestion.apiData.id),
             messageId: message.id,
             status: parseInt(suggestion.apiData.status.id),
@@ -63,7 +63,7 @@ export default class {
         });
     }
 
-    public async createComment(suggestion: SuggestionClass, guildInfo: Guild, commentInfo: { author: string, description: string, avatar: string, commentId: number }) {  
+    public async createComment(suggestion: SuggestionClass, guildInfo: Guild, commentInfo: { author: string, description: string, avatar: string, commentId: number }) {
         if (!suggestion.apiData) {
             return;
         }
@@ -72,8 +72,8 @@ export default class {
             this.sentThreadMessages.delete(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId));
             return;
         }
-        
-        const dbSuggestion = await Suggestion.findOne({ where: { suggestionId: suggestion.apiData.id, guildId: guildInfo.id }});
+
+        const dbSuggestion = await Suggestion.findOne({ where: { suggestionId: suggestion.apiData.id, guildId: guildInfo.id } });
         if (!dbSuggestion) {
             return;
         }
@@ -99,11 +99,11 @@ export default class {
         }
 
         const content = await this.replaceMessagePlaceholders(guildInfo.id, commentInfo.description);
- 
+
         const embed = this.bot.embeds.baseNoFooter();
         embed.setDescription(this.stripLength(this.fixContent(content), 2048));
         embed.setAuthor({ name: commentInfo.author, iconURL: this.parseAvatarUrl(commentInfo.avatar) });
-        await message.thread.send({ embeds: [ embed ]}).catch(() => undefined);
+        await message.thread.send({ embeds: [embed] }).catch(() => undefined);
 
         if (!suggestion.apiData.status.open && !message.thread.locked) {
             const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion_closed_website");
@@ -120,30 +120,30 @@ export default class {
         const channel = msg.channel as ThreadChannel;
         const starterMessage = await channel.fetchStarterMessage();
 
-        const suggestionInfo = await Suggestion.findOne({ where: { messageId: starterMessage.id, guildId: msg.guildId }});
+        const suggestionInfo = await Suggestion.findOne({ where: { messageId: starterMessage.id, guildId: msg.guildId } });
         if (!suggestionInfo) {
             return;
         }
-        
+
         const content = msg.content;
         const authorId = msg.author.id;
-        
+
         const response = await this.bot.suggestionsApi.sendComment(suggestionInfo.suggestionId, msg.guildId!, content, authorId);
         if (response.error == "nameless:cannot_find_user") {
             await msg.delete();
-            
+
             const str = await LanguageManager.getString(msg.guildId!, "suggestionHandler.cannot_find_user");
             const embed = this.bot.embeds.base();
             embed.setDescription("`❌` " + str);
 
             try {
-                msg.author.send({ embeds: [ embed ]});
+                msg.author.send({ embeds: [embed] });
             } catch (e) {
-                const sent = await msg.channel.send({ embeds: [embed]});
+                const sent = await msg.channel.send({ embeds: [embed] });
                 setTimeout(() => {
                     sent.delete();
                 }, 5000);
-            }            
+            }
         } else {
             this.sentThreadMessages.add(this.createThreadMessageCompositeId(msg.guildId!, suggestionInfo.suggestionId, response.comment_id));
         }
@@ -152,7 +152,7 @@ export default class {
     public async handleButtonInteraction(interaction: ButtonInteraction, interactionType: "like" | "dislike") {
         await interaction.deferReply({ ephemeral: true });
 
-        const suggestionInfo = await Suggestion.findOne({ where: { messageId: interaction.message.id, guildId: interaction.guildId }});
+        const suggestionInfo = await Suggestion.findOne({ where: { messageId: interaction.message.id, guildId: interaction.guildId } });
         if (!suggestionInfo) {
             return;
         }
@@ -163,14 +163,14 @@ export default class {
             const str = await LanguageManager.getString(interaction.guildId!, "suggestionHandler.cannot_find_user");
             const embed = this.bot.embeds.base();
             embed.setDescription("`❌` " + str);
-            interaction.editReply({ embeds: [ embed ] });
+            interaction.editReply({ embeds: [embed] });
             return;
         }
 
         const str = await LanguageManager.getString(interaction.guildId!, "suggestionHandler.reaction_registered", "reaction", interactionType == "like" ? "👍" : "👎");
         const embed = this.bot.embeds.base();
         embed.setDescription(str!);
-        interaction.editReply({ embeds: [ embed ] });
+        interaction.editReply({ embeds: [embed] });
     }
 
     private async createEmbed(guildId: string, suggestion: ApiSuggestion, url: string, avatar: string) {
@@ -180,7 +180,7 @@ export default class {
         const embed = this.bot.embeds.base();
         embed.setTitle(`#${suggestion.id} - ${this.stripLength(suggestion.title, 100)}`);
         embed.setDescription(this.stripLength(this.fixContent(description), 4092));
-        embed.setFooter({ text: str!, iconURL: this.parseAvatarUrl(avatar) });	
+        embed.setFooter({ text: str!, iconURL: this.parseAvatarUrl(avatar) });
         embed.setURL(url);
         return embed;
     }
@@ -208,6 +208,7 @@ export default class {
     }
 
     private parseAvatarUrl(url: string) {
+        url = url.replace(/ +/g, ""); // Apparently names can have spaces in them?
         url = url.replace(".svg", ".png");
         return url;
     }
@@ -215,7 +216,7 @@ export default class {
     private fixContent(content: string) {
         content = content.replace(/<br \/>/g, "");
         return content;
-    } 
+    }
 
     //
     // UTILITY: Make all suggestions from the api get sent into the suggestion channel. 
@@ -229,7 +230,7 @@ export default class {
             return;
         }
 
-        const filteredSuggestions = apiSuggestions?.suggestions.sort((a, b)=> parseInt(a.id) - parseInt(b.id)).filter(s => parseInt(s.id) > startFrom);
+        const filteredSuggestions = apiSuggestions?.suggestions.sort((a, b) => parseInt(a.id) - parseInt(b.id)).filter(s => parseInt(s.id) > startFrom);
 
         // Loop through all suggestions and send them in their respective channel
         for (const shortSuggestion of filteredSuggestions) {
@@ -278,7 +279,7 @@ export default class {
 
             const fullMatch = m[0];
             const numMatch = m[1]
-            
+
             const apiCredentials = await Database.getApiCredentials(guildId);
             if (!apiCredentials) {
                 return content;
