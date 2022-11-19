@@ -14,6 +14,9 @@
                     "select_language": "Discordボットに使用する言語を選択します。",
                     "select_language_option": "言語として{language}を選択",
                     "success": "言語を`{language}`に変更することに成功しました。"
+                },
+                "authkey": {
+                    "success": "認証トークンは`{token}`に変更されました。新しいウェブフックURLは`/webhookurl`コマンドで確認できます。"
                 }
             }
         },
@@ -22,7 +25,21 @@
             "cannot_find_user": "discordで提案を投稿するには、discordアカウントをウェブサイトでリンクさせる必要があります。",
             "modal-question-1": "提案タイトル",
             "modal-question-2": "提案内容",
-            "success": "あなたの提案が登録されました！こちらからご覧ください: {link}"
+            "success": "あなたの提案が登録されました！こちらからご覧ください: {link}",
+            "validation-error": "提案の検証中に何か問題が発生しました。ウェブサイトは次のように返しました: {error}"
+        },
+        "webhookurl": {
+            "generate_key_first": "`/settings set authkey`を使用して、認証トークンを生成する必要があります。",
+            "success": "URLは`{url}`です。\nこのURLをSuggestionsモジュールのDiscordウェブフックURLとして使用してください。"
         }
-    }
+    },
+    "suggestionHandler": {
+        "suggested_by": "{user}によって提案",
+        "suggestion_opened_website": "提案はウェブサイトで開かれました",
+        "suggestion": "提案",
+        "suggestion_closed_website": "提案はウェブサイトで閉じられました",
+        "cannot_find_user": "Discordで返信するには、ウェブサイトのアカウントがリンクされている必要があります！",
+        "reaction_registered": "あなたのリアクション`{reaction}`がウェブサイトに追加されました。"
+    },
+    "permission_required": "必要な権限\"{permission}\"がありません"
 }
