@@ -129,6 +129,23 @@ export default class {
         const authorId = msg.author.id;
 
         const response = await this.bot.suggestionsApi.sendComment(suggestionInfo.suggestionId, msg.guildId!, content, authorId);
+        if (!response) {
+            await msg.delete();
+            const str = await LanguageManager.getString(msg.guildId!, "invalid-setup");
+            const embed = this.bot.embeds.base();
+            embed.setDescription("`❌` " + str);
+
+            try {
+                msg.author.send({ embeds: [embed] });
+            } catch (e) {
+                const sent = await msg.channel.send({ embeds: [embed] });
+                setTimeout(() => {
+                    sent.delete();
+                }, 5000);
+            }
+            return;
+        }
+
         if (response.error == "nameless:cannot_find_user") {
             await msg.delete();
 
@@ -159,6 +176,21 @@ export default class {
 
         // Attempt to send a like or dislike to the API
         const response = await this.bot.suggestionsApi.sendReaction(suggestionInfo.suggestionId, interaction.guildId!, interactionType, interaction.user.id);
+        if (!response) {
+            const str = await LanguageManager.getString(interaction.guildId!, "invalid-setup");
+            const embed = this.bot.embeds.base();
+            embed.setDescription("`❌` " + str);
+
+            try {
+                interaction.user.send({ embeds: [embed] });
+            } catch (e) {
+                const sent = await interaction.channel!.send({ embeds: [embed] });
+                setTimeout(() => {
+                    sent.delete();
+                }, 5000);
+            }
+            return;
+        }
         if (response.error == "nameless:cannot_find_user") {
             const str = await LanguageManager.getString(interaction.guildId!, "suggestionHandler.cannot_find_user");
             const embed = this.bot.embeds.base();

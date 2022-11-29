@@ -33,6 +33,7 @@
             "success": "The URL is: `{url}`.\nPlease use this URL as the Discord webhook URL for the Suggestions module."
         }
     },
+    "invalid-setup": "The bot has not yet been properly configured. Contact the server administrator!",
     "permission_required": "You do not have the required \"{permission}\" permission",
     "suggestionHandler": {
         "suggestion": "Suggestion",
