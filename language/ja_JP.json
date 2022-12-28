@@ -41,5 +41,6 @@
         "cannot_find_user": "Discordで返信するには、ウェブサイトのアカウントがリンクされている必要があります！",
         "reaction_registered": "あなたのリアクション`{reaction}`がウェブサイトに追加されました。"
     },
-    "permission_required": "必要な権限\"{permission}\"がありません"
+    "permission_required": "必要な権限\"{permission}\"がありません",
+    "invalid-setup": "ボットはまだ正しく設定されていません。サーバー管理者に連絡してください！"
 }
