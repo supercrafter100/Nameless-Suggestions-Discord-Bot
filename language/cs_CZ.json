@@ -41,5 +41,6 @@
         "suggestion_opened_website": "Nápad otevřen na webu",
         "cannot_find_user": "Abyste mohli odpovědět pomocí Discordu, musíte mít připojený váš webový účet!",
         "reaction_registered": "Vaše reakce `{reaction}` byla přidána na web."
-    }
+    },
+    "invalid-setup": "Bot ještě nebyl správně nastaven. Kontaktujte správce serveru!"
 }

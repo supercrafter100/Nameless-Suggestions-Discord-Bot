@@ -41,5 +41,6 @@
         "suggested_by": "Vorgeschlagen von {user}",
         "suggestion_opened_website": "Vorschlag auf der Website eröffnet"
     },
-    "permission_required": "Du hast nicht das erforderliche \"{permission}\"- Recht"
+    "permission_required": "Du hast nicht das erforderliche \"{permission}\"- Recht",
+    "invalid-setup": "Der Bot wurde noch nicht richtig konfiguriert. Kontaktiere den Server-Administrator!"
 }

@@ -41,5 +41,6 @@
         "cannot_find_user": "Aby ste mohli odpovedať cez discord, musíte mať prepojený svoj účet s webstránkou!",
         "suggested_by": "Navrhol {user}",
         "reaction_registered": "Vaša reakcia `{reaction}` bola pridaná na webstránku."
-    }
+    },
+    "invalid-setup": "Bot ešte nebol správne nastavený. Kontaktujte správcu servera!"
 }
