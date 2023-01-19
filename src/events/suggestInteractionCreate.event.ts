@@ -1,4 +1,4 @@
-import { CommandInteraction, Interaction } from "discord.js";
+import { Interaction } from "discord.js";
 import { Event } from "../handlers/EventHandler";
 import LanguageManager from "../managers/LanguageManager";
 
@@ -9,14 +9,14 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
         if (interaction.isModalSubmit() && interaction.customId === "suggest-modal") {
             const title = interaction.fields.getTextInputValue("suggest-title");
             const description = interaction.fields.getTextInputValue("suggest-description");
-            interaction.deferReply({ ephemeral: true });
+            await interaction.deferReply({ ephemeral: true });
 
             let res = await this.client.suggestionsApi.sendSuggestion(interaction.guildId!, title, description, interaction.user.id);
             if (res.error === "nameless:cannot_find_user") {
                 const str = await LanguageManager.getString(interaction.guildId!, "commands.suggest.cannot_find_user");
                 const embed = this.client.embeds.base();
                 embed.setDescription(str!);
-                await interaction.reply({ embeds: [ embed ]});
+                await interaction.reply({ embeds: [embed] });
                 return;
             }
 
@@ -24,7 +24,7 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
                 const str = await LanguageManager.getString(interaction.guildId!, "commands.suggest.validation-error", "error", res.meta.join(', '));
                 const embed = this.client.embeds.base();
                 embed.setDescription(str!);
-                await interaction.reply({ embeds: [ embed ]});
+                await interaction.reply({ embeds: [embed] });
                 return;
             }
 
@@ -38,7 +38,7 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
             const embed = this.client.embeds.base();
             embed.setDescription(str!);
 
-            interaction.editReply({ embeds: [ embed ] });
+            interaction.editReply({ embeds: [embed] });
         }
     }
 }
