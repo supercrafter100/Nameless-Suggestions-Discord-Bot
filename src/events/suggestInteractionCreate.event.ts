@@ -16,7 +16,7 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
                 const str = await LanguageManager.getString(interaction.guildId!, "commands.suggest.cannot_find_user");
                 const embed = this.client.embeds.base();
                 embed.setDescription(str!);
-                await interaction.reply({ embeds: [embed] });
+                await interaction.editReply({ embeds: [embed] });
                 return;
             }
 
@@ -24,7 +24,7 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
                 const str = await LanguageManager.getString(interaction.guildId!, "commands.suggest.validation-error", "error", res.meta.join(', '));
                 const embed = this.client.embeds.base();
                 embed.setDescription(str!);
-                await interaction.reply({ embeds: [embed] });
+                await interaction.editReply({ embeds: [embed] });
                 return;
             }
 
