@@ -15,7 +15,7 @@ export default class {
 
     constructor(private readonly bot: Bot) { }
 
-    public async createSuggestion(suggestion: SuggestionClass, guildInfo: Guild, avatar: string) {
+    public async createSuggestion(suggestion: SuggestionClass, guildInfo: Guild, avatar: string = "") {
 
         // Check if there is already an embed for this suggestion, we can skip this entire step if there is
         if (suggestion.dbData) {
@@ -53,7 +53,7 @@ export default class {
         await thread.setRateLimitPerUser(30);
 
         // Create suggestion in database
-        Suggestion.create({
+        await Suggestion.create({
             suggestionId: parseInt(suggestion.apiData.id),
             messageId: message.id,
             status: parseInt(suggestion.apiData.status.id),
@@ -68,13 +68,17 @@ export default class {
             return;
         }
 
-        if (this.sentThreadMessages.has(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId))) {
-            this.sentThreadMessages.delete(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId));
-            return;
+        if (!suggestion.dbData) {
+            await this.recoverSuggestion(suggestion, guildInfo) // TODO: once the api actually returns the user their avatar, provide it here...
+            await suggestion.refresh();
+
+            if (!suggestion.dbData) {
+                return; // Creation of the suggestion failed...
+            }
         }
 
-        const dbSuggestion = await Suggestion.findOne({ where: { suggestionId: suggestion.apiData.id, guildId: guildInfo.id } });
-        if (!dbSuggestion) {
+        if (this.sentThreadMessages.has(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId))) {
+            this.sentThreadMessages.delete(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId));
             return;
         }
 
@@ -89,7 +93,7 @@ export default class {
         }
 
         // Get the message where the thread is attached to
-        const message = await channel.messages.fetch(dbSuggestion.messageId);
+        const message = await channel.messages.fetch(suggestion.dbData.messageId);
         if (!message) {
             return;
         }
@@ -212,7 +216,8 @@ export default class {
         const embed = this.bot.embeds.base();
         embed.setTitle(`#${suggestion.id} - ${this.stripLength(suggestion.title, 100)}`);
         embed.setDescription(this.stripLength(this.fixContent(description), 4092));
-        embed.setFooter({ text: str!, iconURL: this.parseAvatarUrl(avatar) });
+        if (avatar) embed.setFooter({ text: str!, iconURL: this.parseAvatarUrl(avatar) });
+        else embed.setFooter({ text: str! });
         embed.setURL(url);
         return embed;
     }
@@ -283,6 +288,7 @@ export default class {
             }
 
             // Load all comments into the suggestion
+            await suggestion.refresh();
             for (const comment of suggestion.comments.comments) {
                 this.bot.logger.debug("Creating new comment from API. Comment ID: " + chalk.yellow(comment.id));
                 await this.createComment(suggestion, guildData, {
@@ -294,6 +300,27 @@ export default class {
             }
         }
         this.bot.logger.debug("Finished sending all suggestions from API.");
+    }
+
+    private async recoverSuggestion(suggestion: SuggestionClass, guildData: Guild) {
+        await this.createSuggestion(suggestion, guildData, `https://avatars.dicebear.com/api/initials/${suggestion.apiData!.author.username}.png?size=128`);
+        if (!suggestion.comments) {
+            this.bot.logger.error(`Error getting comments for suggestion ${suggestion.apiData!.id} from API: ${JSON.stringify(suggestion.comments)}`);
+            return;
+        }
+
+        // Load all comments into the suggestion
+        await suggestion.refresh();
+        for (let i = 0; i < suggestion.comments.comments.length - 1; i++) {
+            const comment = suggestion.comments.comments[i];
+            this.bot.logger.debug("Creating new comment from API. Comment ID: " + chalk.yellow(comment.id));
+            await this.createComment(suggestion, guildData, {
+                avatar: `https://avatars.dicebear.com/api/initials/${comment.user.username}.png?size=128`,
+                description: comment.content,
+                author: comment.user.username,
+                commentId: comment.id
+            });
+        }
     }
 
     private createThreadMessageCompositeId(guildId: string, suggestionId: string, commentId: number): `${string}-${string}-${string}` {
