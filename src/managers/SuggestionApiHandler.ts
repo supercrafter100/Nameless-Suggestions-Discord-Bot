@@ -5,7 +5,7 @@ import { ApiCommentsResponse, ApiListSuggestion, ApiSuggestion, ApiUser } from "
 
 export default class {
 
-    constructor(private readonly bot: Bot) {}
+    constructor(private readonly bot: Bot) { }
 
     public async getSuggestion(id: string, guildId: string) {
         const apiCredentials = await Database.getApiCredentials(guildId);
@@ -65,7 +65,7 @@ export default class {
     //
     // SUGGEST CMD
     //
-    
+
     public async sendSuggestion(guildId: string, title: string, content: string, userId: string = "") {
         const apiCredentials = await Database.getApiCredentials(guildId);
         if (!apiCredentials) {
@@ -150,6 +150,22 @@ export default class {
         }
 
         const user = await fetch(apiCredentials.apiurl + "users/id:" + userId, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${apiCredentials.apikey}`
+            }
+        }).then((res) => res.json()) as Promise<ApiUser>;
+
+        return user;
+    }
+
+    public async getUserInfoByIntegrationId(integrationId: string, guildId: string) {
+        const apiCredentials = await Database.getApiCredentials(guildId);
+        if (!apiCredentials) {
+            return;
+        }
+
+        const user = await fetch(apiCredentials.apiurl + "users/integration_id:discord:" + integrationId, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`

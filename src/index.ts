@@ -26,10 +26,10 @@ logger[logtype](
     "Running bot in",
     devmode ? chalk.red("DEV") : chalk.green("PROD"),
     "mode"
-    );
-    logger[logtype]("=================================");
-    logger.blank();
-    
+);
+logger[logtype]("=================================");
+logger.blank();
+
 export {
     db
 }
@@ -61,5 +61,9 @@ if (client.devmode) {
 } else {
     client.login(process.env.TOKEN);
 }
+
+// Try to catch errors and stop the process from crashing
+process.on('uncaughtException', (err) => console.log(err));
+process.on('unhandledRejection', (err) => console.log(err));
 
 export default client;

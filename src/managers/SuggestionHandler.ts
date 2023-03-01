@@ -129,7 +129,7 @@ export default class {
             return;
         }
 
-        const content = msg.content;
+        const content = await this.replaceDiscordMentions(msg.guildId!, msg.content);
         const authorId = msg.author.id;
 
         const response = await this.bot.suggestionsApi.sendComment(suggestionInfo.suggestionId, msg.guildId!, content, authorId);
@@ -315,7 +315,7 @@ export default class {
             const comment = suggestion.comments.comments[i];
             this.bot.logger.debug("Creating new comment from API. Comment ID: " + chalk.yellow(comment.id));
             await this.createComment(suggestion, guildData, {
-                avatar: `https://avatars.dicebear.com/api/initials/${comment.user.username}.png?size=128`,
+                avatar: `https://avatars.dicebear.com/api/initials/${comment.user.username}.png?size=128`, // namelessmc api doesn't include avatar url
                 description: comment.content,
                 author: comment.user.username,
                 commentId: comment.id
@@ -328,9 +328,10 @@ export default class {
     }
 
     private async replaceMessagePlaceholders(guildId: string, content: string) {
+
+        // User placeholders
         const regex = /\[user\](\d+)\[\/user\]/gm
         let m;
-
         while ((m = regex.exec(content)) !== null) {
             if (m.index === regex.lastIndex) {
                 regex.lastIndex++;
@@ -351,6 +352,79 @@ export default class {
 
             const url = new URL(apiCredentials.apiurl)
             content = content.split(fullMatch).join(`[@${siteUser.username}](${url.protocol}//${url.hostname}/profile/${encodeURIComponent(siteUser.username!)})`)
+        }
+
+        // Suggestion placeholders
+        const regex2 = /\[suggestion\](\d+)\[\/suggestion\]/gm
+        let m2;
+        while ((m2 = regex2.exec(content)) !== null) {
+            if (m2.index === regex2.lastIndex) {
+                regex2.lastIndex++;
+            }
+
+            const fullMatch = m2[0];
+            const numMatch = m2[1];
+
+
+            const suggestion = await SuggestionClass.getSuggestion(numMatch, guildId, this.bot);
+            if (!suggestion.apiData) {
+                continue;
+            }
+
+            const messageUrl = `https://discord.com/channels/${guildId}/${suggestion.dbData?.channelId}/${suggestion.dbData?.messageId}`;
+            content = content.split(fullMatch).join(`[#${suggestion.apiData.id}](${messageUrl})`)
+        }
+
+        return content;
+    }
+
+    private async replaceDiscordMentions(guildId: string, content: string) {
+
+        // Replacing literal discord mentions
+        const regex = /<@!?(\d+)>/gm;
+        let m;
+        while ((m = regex.exec(content)) !== null) {
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+
+            const fullMatch = m[0];
+            const numMatch = m[1];
+
+            // Fetch the user from the api
+            const apiCredentials = await Database.getApiCredentials(guildId);
+            if (!apiCredentials) {
+                return content;
+            }
+
+            const user = await this.bot.users.fetch(numMatch).catch(() => undefined);
+            let userMention = `@${user ? user.username : 'Unknown user'}`;
+
+            const siteUser = await this.bot.suggestionsApi.getUserInfoByIntegrationId(numMatch, guildId)!;
+            if (siteUser && !siteUser.error && !!siteUser.exists) {
+                userMention = `[user]${siteUser.id}[/user]`;
+            }
+
+            content = content.split(fullMatch).join(userMention);
+        }
+
+        // Replacing suggestion mentions
+        const regex2 = /#(\d+)/gm;
+        let m2;
+        while ((m2 = regex2.exec(content)) !== null) {
+            if (m2.index === regex2.lastIndex) {
+                regex2.lastIndex++;
+            }
+
+            const fullMatch = m2[0];
+            const numMatch = m2[1];
+
+            const suggestion = await SuggestionClass.getSuggestion(numMatch, guildId, this.bot);
+            if (!suggestion.apiData || !suggestion.apiData.id) {
+                continue;
+            }
+
+            content = content.split(fullMatch).join(`[suggestion]${suggestion.apiData.id}[/suggestion]`);
         }
 
         return content;
