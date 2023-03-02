@@ -1,7 +1,6 @@
 import { Command } from "@crystaldevelopment/command-handler/dist";
-import { ApplicationCommandOptionType } from "discord-api-types";
 import { ApplicationCommandOptionData, CommandInteraction, MessageActionRow, Modal, ModalActionRowComponent, TextInputComponent } from "discord.js";
-import fetch from "node-fetch";
+import Database from "../database/Database";
 import LanguageManager from "../managers/LanguageManager";
 
 export default class extends Command {
@@ -20,6 +19,12 @@ export default class extends Command {
     public async run(interaction: CommandInteraction): Promise<any> {
         if (!interaction.guild || !interaction.guildId) {
             interaction.reply("This command can only be used in a server");
+            return;
+        }
+
+        if (!!await Database.getApiCredentials(interaction.guildId)) {
+            const str = await LanguageManager.getString(interaction.guildId, "invalid-setup");
+            interaction.reply(str!);
             return;
         }
 
@@ -44,17 +49,17 @@ export default class extends Command {
         descriptionInput.setStyle("PARAGRAPH");
         descriptionInput.setMinLength(10);
         descriptionInput.setRequired(true);
-               
-        const firstActionRow = 
+
+        const firstActionRow =
             new MessageActionRow<ModalActionRowComponent>().addComponents(
                 titleInput
             );
-        
-        const secondActionRow = 
+
+        const secondActionRow =
             new MessageActionRow<ModalActionRowComponent>().addComponents(
                 descriptionInput
             );
-        
+
         modal.addComponents(firstActionRow, secondActionRow);
         await interaction.showModal(modal);
     }

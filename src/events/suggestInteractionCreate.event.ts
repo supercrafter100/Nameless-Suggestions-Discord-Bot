@@ -11,12 +11,18 @@ export default class InteractionCreate extends Event<"interactionCreate"> {
             const description = interaction.fields.getTextInputValue("suggest-description");
             await interaction.deferReply({ ephemeral: true });
 
-            let res = await this.client.suggestionsApi.sendSuggestion(interaction.guildId!, title, description, interaction.user.id);
+            const res = await this.client.suggestionsApi.sendSuggestion(interaction.guildId!, title, description, interaction.user.id);
             if (res.error === "nameless:cannot_find_user") {
                 const str = await LanguageManager.getString(interaction.guildId!, "commands.suggest.cannot_find_user");
                 const embed = this.client.embeds.base();
                 embed.setDescription(str!);
                 await interaction.editReply({ embeds: [embed] });
+                return;
+            }
+
+            // There should always be a response, but in case it still fails...
+            if (!res) {
+                interaction.editReply('Something broke! Please try again later.');
                 return;
             }
 
