@@ -22,7 +22,7 @@ export default class extends Command {
             return;
         }
 
-        if (!!await Database.getApiCredentials(interaction.guildId)) {
+        if (!(await Database.getApiCredentials(interaction.guildId))) {
             const str = await LanguageManager.getString(interaction.guildId, "invalid-setup");
             interaction.reply(str!);
             return;

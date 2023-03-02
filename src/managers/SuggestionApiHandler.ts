@@ -23,7 +23,7 @@ export default class {
         return suggestion;
     }
 
-    public async sendReaction(suggestionId: string, guildId: string, type: "like" | "dislike", userId: string) {
+    public async sendReaction(suggestionId: string, guildId: string, type: "like" | "dislike", userId: string, mustBeRemoved: boolean) {
         const apiCredentials = await Database.getApiCredentials(guildId);
         if (!apiCredentials) {
             return;
@@ -32,7 +32,9 @@ export default class {
         const response = await fetch(apiCredentials.apiurl + "suggestions/" + suggestionId + "/" + type, {
             method: "POST",
             body: JSON.stringify({
-                user: `integration_id:discord:${userId}`
+                user: `integration_id:discord:${userId}`,
+                like: mustBeRemoved,
+                dislike: mustBeRemoved
             }),
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,

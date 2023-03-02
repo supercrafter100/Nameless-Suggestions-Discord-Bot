@@ -8,6 +8,7 @@ import { ApiSuggestion } from "../types";
 import Bot from "./Bot";
 import LanguageManager from "./LanguageManager";
 import { URL } from "url";
+import { NamelessUser } from "../classes/NamelessUser";
 
 export default class {
 
@@ -178,8 +179,16 @@ export default class {
             return;
         }
 
+        const suggestion = await SuggestionClass.getSuggestion(suggestionInfo.suggestionId, interaction.guildId!, this.bot);
+        const user = await NamelessUser.getUserByDiscordId(interaction.user.id, interaction.guildId!, this.bot);
+        if (!user || !user.apiData) {
+            return;
+        }
+
+        const mustBeRemoved = !(interactionType === "like" ? suggestion.apiData?.likes.includes(user.apiData.id) : suggestion.apiData?.dislikes.includes(user.apiData.id)) || false;
+
         // Attempt to send a like or dislike to the API
-        const response = await this.bot.suggestionsApi.sendReaction(suggestionInfo.suggestionId, interaction.guildId!, interactionType, interaction.user.id);
+        const response = await this.bot.suggestionsApi.sendReaction(suggestionInfo.suggestionId, interaction.guildId!, interactionType, interaction.user.id, mustBeRemoved);
         if (!response) {
             const str = await LanguageManager.getString(interaction.guildId!, "invalid-setup");
             const embed = this.bot.embeds.base();
@@ -209,8 +218,38 @@ export default class {
         interaction.editReply({ embeds: [embed] });
     }
 
+    public async updateSuggestionEmbed(suggestion: SuggestionClass, guildInfo: Guild) {
+        if (!suggestion.dbData) {
+            await this.recoverSuggestion(suggestion, guildInfo) // TODO: once the api actually returns the user their avatar, provide it here...
+            await suggestion.refresh();
+
+            if (!suggestion.dbData) {
+                return; // Creation of the suggestion failed...
+            }
+        }
+
+        const channel = await this.bot.channels.fetch(suggestion.dbData?.channelId!);
+        if (!channel || !(channel instanceof TextChannel)) {
+            return;
+        }
+
+        const message = await channel.messages.fetch(suggestion.dbData?.messageId!);
+        if (!message) {
+            return;
+        }
+
+        // Get the current avatar url
+        const avatar = message.embeds[0].footer?.iconURL;
+        if (!avatar) {
+            return;
+        }
+
+        const embed = await this.createEmbed(guildInfo.id, suggestion.apiData!, suggestion.dbData!.url, avatar);
+        await message.edit({ embeds: [embed] });
+    }
+
     private async createEmbed(guildId: string, suggestion: ApiSuggestion, url: string, avatar: string) {
-        const str = await LanguageManager.getString(guildId, "suggestionHandler.suggested_by", "user", suggestion.author.username);
+        const str = (await LanguageManager.getString(guildId, "suggestionHandler.suggested_by", "user", suggestion.author.username)) + ` |  ${suggestion.likes_count} 👍 ${suggestion.dislikes_count} 👎`;
         const description = await this.replaceMessagePlaceholders(guildId, suggestion.content);
 
         const embed = this.bot.embeds.base();

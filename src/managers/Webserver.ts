@@ -34,26 +34,31 @@ export default class {
     private async handleWebhook(req: express.Request, res: express.Response) {
         res.sendStatus(200);
 
+        if (req.body.embeds?.length && (!req.body.embeds[0].footer || !req.body.embeds[0].footer.text)) {
+            return; // Invalid webhook data from an unsupported event
+        }
+
         // Get suggestion ID & check if its a comment or a new suggestion (we have to support both webhook types for now)
         const suggestionId = !req.body.embeds ? req.body.suggestion_id : req.body.embeds[0].title?.split(" ")[0].slice(1);
-        const isNewSuggestion = !req.body.embeds ?  req.body.event === "newSuggestion" : req.body.embeds[0]?.footer.text.includes("New suggestion");;
+        const isNewSuggestion = !req.body.embeds ? req.body.event === "newSuggestion" : req.body.embeds[0]?.footer.text.includes("New suggestion");;
         const isNewComment = !req.body.embeds ? req.body.event === "newSuggestionComment" : req.body.embeds[0]?.footer.text.includes("New comment");;
+        const isVote = req.body.event === "userSuggestionVote";
 
-        if (!suggestionId || (!isNewSuggestion && !isNewComment)) {
+        if (!suggestionId || (!isNewSuggestion && !isNewComment && !isVote)) {
             this.logger.error(`Unknown webhook data... The follow body was present:`);
-            console.log(req.body);
+            console.log(req.body.embeds[0].footer);
             return;
         }
 
-        
+
         // Get guild data from database
         const guildData = await Database.getGuildDataByAuthorizationKey(req.params.id as string);
         if (!guildData) {
             this.logger.error(`No guild data found for authorization key ${req.query.id}`);
             return;
         }
-        
-        
+
+
         // Get suggestion data from the api
         const suggestion = await Suggestion.getSuggestion(suggestionId, guildData.id, this.client).catch();
         if (!suggestion.apiData) {
@@ -61,14 +66,14 @@ export default class {
             return;
         }
 
-        this.logger.debug("Received network request for suggestion with title " + chalk.yellow(suggestion.apiData.title) + " for guild " + chalk.yellow(guildData.id) + " which should be sent to channel with id " + chalk.yellow(guildData.suggestionChannel)+ ". It is a " + chalk.yellow(isNewSuggestion ? "new" : "comment") + " suggestion.");
-        
+        this.logger.debug("Received network request for suggestion with title " + chalk.yellow(suggestion.apiData.title) + " for guild " + chalk.yellow(guildData.id) + " which should be sent to channel with id " + chalk.yellow(guildData.suggestionChannel) + ". It is a " + chalk.yellow(isNewSuggestion ? "new" : "comment") + " suggestion.");
+
         if (isNewSuggestion) {
             this.client.suggestions.createSuggestion(suggestion, guildData, req.body.avatar_url);
         }
 
         if (isNewComment) {
-            const author = !req.body.embeds ?  req.body.username : req.body.embeds[0].footer.text.split(" ")[3];
+            const author = !req.body.embeds ? req.body.username : req.body.embeds[0].footer.text.split(" ")[3];
             const commentId = !req.body.embeds ? req.body.comment_id : (req.body.embeds[0]?.url.split('#')[1]?.split('-')[1]);
 
             const commentInfo = await this.client.suggestionsApi.getCommentInfo(suggestionId, commentId, guildData.id);
@@ -85,10 +90,8 @@ export default class {
             });
         }
 
-        if (!isNewSuggestion && !isNewComment) {
-            this.logger.error(`Unknown webhook type. Received the following json body`);
-            console.log(req.body);
-            return;
+        if (isVote) {
+            this.client.suggestions.updateSuggestionEmbed(suggestion, guildData);
         }
     }
 }
