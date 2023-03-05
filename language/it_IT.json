@@ -41,5 +41,6 @@
         "suggested_by": "Proposto da {user}",
         "suggestion_opened_website": "Proposta aperta sul sito"
     },
-    "permission_required": "Non disponi del permesso \"{permission}\" richiesto"
+    "permission_required": "Non disponi del permesso \"{permission}\" richiesto",
+    "invalid-setup": "Il bot non è stato configurato correttamente. Contatta un amministratore!"
 }
