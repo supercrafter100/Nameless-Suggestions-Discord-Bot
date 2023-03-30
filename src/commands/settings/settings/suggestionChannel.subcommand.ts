@@ -30,7 +30,7 @@ export default class extends Subcommand {
             return;
         }
 
-        const channel = interaction.options.getChannel("channel")!;
+        const channel = interaction.options.getChannel("channel", true);
         if (!(channel instanceof TextChannel)) {
             const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.suggestionChannel.no_textchannel");
             interaction.reply({ content: str, ephemeral: true });
