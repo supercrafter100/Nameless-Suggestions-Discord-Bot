@@ -1,11 +1,10 @@
 import { Command } from "@crystaldevelopment/command-handler/dist";
 import {
     ApplicationCommandOptionData,
-    CommandInteraction,
+    ChatInputCommandInteraction,
     GuildMember,
 } from "discord.js";
 import Database from "../database/Database";
-import Guild from "../database/models/guild.model";
 import Bot from "../managers/Bot";
 import LanguageManager from "../managers/LanguageManager";
 
@@ -22,7 +21,7 @@ export default class extends Command {
         null;
     }
 
-    public async run(interaction: CommandInteraction): Promise<any> {
+    public async run(interaction: ChatInputCommandInteraction): Promise<any> {
         if (!interaction.guild || !interaction.guildId) {
             interaction.reply("This command can only be used in a server");
             return;
@@ -32,7 +31,7 @@ export default class extends Command {
             return;
         }
 
-        if (!interaction.member.permissions.has("MANAGE_GUILD")) {
+        if (!interaction.member.permissions.has("ManageGuild")) {
             const str = await LanguageManager.getString(interaction.guildId, "permission_required", "permission", "MANAGE_GUILD");
             await interaction.reply(
                 str!

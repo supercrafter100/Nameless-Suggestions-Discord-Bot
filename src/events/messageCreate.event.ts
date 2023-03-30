@@ -1,4 +1,4 @@
-import { CommandInteraction, Message } from "discord.js";
+import { Message } from "discord.js";
 import Database from "../database/Database";
 import { Event } from "../handlers/EventHandler";
 

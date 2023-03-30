@@ -1,6 +1,5 @@
 import { Subcommand } from "@crystaldevelopment/command-handler/dist";
-import { CommandInteraction } from "discord.js";
-import Bot from "../../../managers/Bot";
+import { ChatInputCommandInteraction } from "discord.js";
 import { nanoid } from "nanoid";
 import Database from "../../../database/Database";
 import LanguageManager from "../../../managers/LanguageManager";
@@ -18,7 +17,7 @@ export default class extends Subcommand {
         null;
     }
 
-    public async run(interaction: CommandInteraction) {
+    public async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.guildId || !interaction.guild) {
             interaction.reply("This command can only be used in a server");
             return;
@@ -32,7 +31,7 @@ export default class extends Subcommand {
         await guildData.save()
 
         const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.authkey.success", "token", token);
-        interaction.reply({ 
+        interaction.reply({
             content: str,
             ephemeral: true
         });

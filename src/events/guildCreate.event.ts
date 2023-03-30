@@ -1,4 +1,4 @@
-import { CommandInteraction, Guild } from "discord.js";
+import { Guild } from "discord.js";
 import { Event } from "../handlers/EventHandler";
 
 export default class InteractionCreate extends Event<"guildCreate"> {

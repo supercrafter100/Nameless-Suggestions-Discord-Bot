@@ -1,6 +1,5 @@
 import { Subcommand } from "@crystaldevelopment/command-handler/dist";
-import { ApplicationCommandOptionType } from "discord-api-types";
-import { CommandInteraction } from "discord.js";
+import { ApplicationCommandOptionType, ChatInputCommandInteraction } from "discord.js";
 import Bot from "../../../managers/Bot";
 import fetch from "node-fetch";
 import Guild from "../../../database/models/guild.model";
@@ -33,14 +32,14 @@ export default class extends Subcommand {
         null;
     }
 
-    public async run(interaction: CommandInteraction) {
+    public async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.guildId || !interaction.guild) {
             interaction.reply("This command can only be used in a server");
             return;
         }
 
-        const apiurl = interaction.options.getString("apiurl")!;
-        const apikey = interaction.options.getString("apikey")!;
+        const apiurl = interaction.options.getString("apiurl", true);
+        const apikey = interaction.options.getString("apikey", true);
 
         await interaction.deferReply({ ephemeral: true });
 

@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { ButtonInteraction, Collection, ContextMenuInteraction, Message, MessageActionRow, MessageButton, TextChannel, ThreadChannel } from "discord.js";
+import { ButtonInteraction, Message, ActionRowBuilder, ButtonBuilder, TextChannel, ThreadChannel, ButtonStyle } from "discord.js";
 import Database from "../database/Database";
 import Guild from "../database/models/guild.model";
 import Suggestion from "../database/models/suggestion.model";
@@ -124,6 +124,10 @@ export default class {
     public async sendCommentToSite(msg: Message) {
         const channel = msg.channel as ThreadChannel;
         const starterMessage = await channel.fetchStarterMessage();
+        if (!starterMessage) {
+            this.bot.logger.error("Starter message was null!");
+            return;
+        };
 
         const suggestionInfo = await Suggestion.findOne({ where: { messageId: starterMessage.id, guildId: msg.guildId } });
         if (!suggestionInfo) {
@@ -262,16 +266,16 @@ export default class {
     }
 
     private getEmbedComponents() {
-        const row = new MessageActionRow();
+        const row = new ActionRowBuilder<ButtonBuilder>();
         row.addComponents(
-            new MessageButton()
+            new ButtonBuilder()
                 .setCustomId("like-suggestion")
                 .setEmoji("👍")
-                .setStyle("SUCCESS"),
-            new MessageButton()
+                .setStyle(ButtonStyle.Success),
+            new ButtonBuilder()
                 .setCustomId("dislike-suggestion")
                 .setEmoji("👎")
-                .setStyle("DANGER"),
+                .setStyle(ButtonStyle.Danger),
         )
         return row;
     }

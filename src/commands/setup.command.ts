@@ -1,9 +1,6 @@
 import { Command } from "@crystaldevelopment/command-handler/dist";
-import { ApplicationCommandOptionType } from "discord-api-types";
-import { ApplicationCommandOptionData, CommandInteraction } from "discord.js";
-import fetch from "node-fetch";
+import { ApplicationCommandOptionData, ChatInputCommandInteraction } from "discord.js";
 import Bot from "../managers/Bot";
-import Embeds from "../util/Embeds";
 
 export default class extends Command {
     public name = "setup";
@@ -18,7 +15,7 @@ export default class extends Command {
         null;
     }
 
-    public async run(interaction: CommandInteraction): Promise<any> {
+    public async run(interaction: ChatInputCommandInteraction): Promise<any> {
         const client = interaction.client as Bot;
 
         // Step 1, introduction & requesting api key

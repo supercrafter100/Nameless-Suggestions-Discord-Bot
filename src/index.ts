@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import Logger from "./handlers/Logger";
 import chalk from "chalk";
-import { Intents, Options } from "discord.js";
+import { Options, GatewayIntentBits, ActivityType } from "discord.js";
 import { Sequelize } from "sequelize";
 
 dotenv.config();
@@ -37,10 +37,9 @@ export {
 import Bot from "./managers/Bot";
 const client = new Bot({
     intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-        Intents.FLAGS.GUILD_MEMBERS,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
     ],
     makeCache: Options.cacheWithLimits({
         MessageManager: 10,
@@ -50,7 +49,7 @@ const client = new Bot({
         activities: [
             {
                 name: "Suggestions",
-                type: "WATCHING",
+                type: ActivityType.Watching,
             },
         ],
     },

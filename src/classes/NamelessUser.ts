@@ -1,7 +1,5 @@
 import { ApiUser } from "../types";
-import SuggestionModel from "../database/models/suggestion.model";
 import Bot from "../managers/Bot";
-import chalk from "chalk";
 
 export class NamelessUser {
     public apiData: ApiUser | undefined;

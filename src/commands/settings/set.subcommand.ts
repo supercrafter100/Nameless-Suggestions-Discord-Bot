@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import path from "path";
 import { SubcommandGroup } from "@crystaldevelopment/command-handler/dist";
 
@@ -14,7 +14,7 @@ export default class extends SubcommandGroup {
     public onLoad() {
         null;
     }
-    public async run(interaction: CommandInteraction) {
+    public async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.isCommand()) {
             return;
         }

@@ -1,10 +1,8 @@
 import { Subcommand } from "@crystaldevelopment/command-handler/dist";
-import { CommandInteraction, MessageActionRow, MessageSelectMenu } from "discord.js";
+import { ChatInputCommandInteraction, ActionRowBuilder, StringSelectMenuBuilder, ComponentType } from "discord.js";
 import Bot from "../../../managers/Bot";
-import { nanoid } from "nanoid";
 import Database from "../../../database/Database";
 import LanguageManager from "../../../managers/LanguageManager";
-import Embeds from "../../../util/Embeds";
 
 export default class extends Subcommand {
     public name = "language";
@@ -19,30 +17,30 @@ export default class extends Subcommand {
         null;
     }
 
-    public async run(interaction: CommandInteraction) {
+    public async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.guildId || !interaction.guild) {
             interaction.reply("This command can only be used in a server");
             return;
         }
-        
+
         await interaction.deferReply({ ephemeral: true });
 
         const embed = (this.client as Bot).embeds.base()
         const desc = await LanguageManager.getString(interaction.guildId, "commands.settings.set.language.select_language");
         embed.setDescription(desc!);
-        embed.setFooter({ text: "https://translate.namelessmc.com/projects/third-party-resources/suggestions-module-discord-bot/"})
+        embed.setFooter({ text: "https://translate.namelessmc.com/projects/third-party-resources/suggestions-module-discord-bot/" })
 
         const guildData = await Database.getGuildData(interaction.guildId);
         const current_language = guildData.language;
         const available_languages = Object.keys(LanguageManager.languageMap);
 
         const select_lang_str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.language.select_language_option");
-        const row = new MessageActionRow();
+        const row = new ActionRowBuilder<StringSelectMenuBuilder>();
         row.addComponents(
-            new MessageSelectMenu()
+            new StringSelectMenuBuilder()
                 .setCustomId("select-language")
                 .setPlaceholder(current_language)
-                .addOptions(available_languages.map(c => { return { label: c, value: c, description: select_lang_str!.replace("{language}", c)}}))
+                .addOptions(available_languages.map(c => { return { label: c, value: c, description: select_lang_str!.replace("{language}", c) } }))
         );
 
         await interaction.editReply({ embeds: [embed], components: [row] });
@@ -54,7 +52,7 @@ export default class extends Subcommand {
 
         const response = await interaction.channel?.awaitMessageComponent({
             filter,
-            componentType: "SELECT_MENU",
+            componentType: ComponentType.StringSelect,
             time: 60000
         });
 
@@ -67,7 +65,7 @@ export default class extends Subcommand {
         const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.language.success", "language", language);
         const embed2 = (this.client as Bot).embeds.base();
         embed2.setDescription(str!);
-        embed2.setFooter({ text: "https://translate.namelessmc.com/projects/third-party-resources/suggestions-module-discord-bot/"})
+        embed2.setFooter({ text: "https://translate.namelessmc.com/projects/third-party-resources/suggestions-module-discord-bot/" })
 
         interaction.editReply({ embeds: [embed2], components: [] });
     }

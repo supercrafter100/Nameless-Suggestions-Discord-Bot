@@ -46,7 +46,7 @@ export default class {
 
         if (!suggestionId || (!isNewSuggestion && !isNewComment && !isVote)) {
             this.logger.error(`Unknown webhook data... The follow body was present:`);
-            console.log(req.body.embeds[0].footer);
+            console.log(req.body);
             return;
         }
 
@@ -62,7 +62,7 @@ export default class {
         // Get suggestion data from the api
         const suggestion = await Suggestion.getSuggestion(suggestionId, guildData.id, this.client).catch();
         if (!suggestion.apiData) {
-            this.logger.error(`No suggestion data found for suggestion ${suggestionId}`);
+            this.logger.error(`No suggestion data found for suggestion ${suggestionId} which was meant to go to guild ${guildData.id}`);
             return;
         }
 

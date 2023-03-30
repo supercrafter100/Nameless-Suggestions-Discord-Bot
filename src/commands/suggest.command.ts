@@ -1,5 +1,5 @@
 import { Command } from "@crystaldevelopment/command-handler/dist";
-import { ApplicationCommandOptionData, CommandInteraction, MessageActionRow, Modal, ModalActionRowComponent, TextInputComponent } from "discord.js";
+import { ApplicationCommandOptionData, CommandInteraction, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ModalActionRowComponentBuilder } from "discord.js";
 import Database from "../database/Database";
 import LanguageManager from "../managers/LanguageManager";
 
@@ -32,31 +32,31 @@ export default class extends Command {
         const modalQuestion1Str = await LanguageManager.getString(interaction.guildId, "commands.suggest.modal-question-1");
         const modalQuestion2Str = await LanguageManager.getString(interaction.guildId, "commands.suggest.modal-question-2");
 
-        const modal = new Modal();
+        const modal = new ModalBuilder();
         modal.setCustomId("suggest-modal");
         modal.setTitle(modalTitleStr!);
 
-        const titleInput = new TextInputComponent();
+        const titleInput = new TextInputBuilder();
         titleInput.setCustomId("suggest-title");
         titleInput.setLabel(modalQuestion1Str!);
-        titleInput.setStyle("SHORT");
+        titleInput.setStyle(TextInputStyle.Short);
         titleInput.setRequired(true);
         titleInput.setMinLength(6)
 
-        const descriptionInput = new TextInputComponent();
+        const descriptionInput = new TextInputBuilder();
         descriptionInput.setCustomId("suggest-description");
         descriptionInput.setLabel(modalQuestion2Str!);
-        descriptionInput.setStyle("PARAGRAPH");
+        descriptionInput.setStyle(TextInputStyle.Paragraph);
         descriptionInput.setMinLength(10);
         descriptionInput.setRequired(true);
 
         const firstActionRow =
-            new MessageActionRow<ModalActionRowComponent>().addComponents(
+            new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
                 titleInput
             );
 
         const secondActionRow =
-            new MessageActionRow<ModalActionRowComponent>().addComponents(
+            new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
                 descriptionInput
             );
 

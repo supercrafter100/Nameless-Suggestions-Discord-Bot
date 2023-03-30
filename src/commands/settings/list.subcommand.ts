@@ -1,5 +1,5 @@
 import { Subcommand } from "@crystaldevelopment/command-handler/dist";
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import Database from "../../database/Database";
 import Bot from "../../managers/Bot";
 
@@ -16,7 +16,7 @@ export default class extends Subcommand {
         null;
     }
 
-    public async run(interaction: CommandInteraction) {
+    public async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.guild || !interaction.guildId) {
             interaction.reply("This command can only be used in a server");
             return;
@@ -40,10 +40,9 @@ export default class extends Subcommand {
                 `🌐 **Api url**: ${apiurl ? `\`${apiurl}\`` : "*Not set*"}`,
                 `🔑 **API Key**: ${apikey ? `\`${apikey}\`` : "*Not set*"}`,
                 `🔒 **Auth Key**: ${authkey ? `\`${authkey}\`` : "*Not set*"}`,
-                `💬 **Suggestion Channel**: ${
-                    suggestionChannelId
-                        ? `<#${suggestionChannelId}>`
-                        : "*Not set*"
+                `💬 **Suggestion Channel**: ${suggestionChannelId
+                    ? `<#${suggestionChannelId}>`
+                    : "*Not set*"
                 }`,
             ].join("\n")
         );
