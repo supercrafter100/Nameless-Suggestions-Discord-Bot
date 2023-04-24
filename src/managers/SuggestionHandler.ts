@@ -347,6 +347,34 @@ export default class {
         await message.edit({ embeds: [embed], components: [components] });
     }
 
+    public async removeDeletedComment(suggestion: SuggestionClass, commentId: string) {
+        if (!suggestion.dbData || !suggestion.apiData) return;
+
+        // Get the comment from our database
+        const dbComment = await Comment.findOne({
+            where: { guildId: suggestion.dbData.guildId, channelId: suggestion.dbData.channelId, commentId: commentId },
+        });
+
+        if (!dbComment) return;
+
+        // Fetch the comment
+        const channel = await this.bot.channels.fetch(suggestion.dbData.channelId);
+        if (!channel || !(channel instanceof TextChannel)) {
+            return;
+        }
+
+        const message = await channel.messages.fetch(suggestion.dbData.messageId);
+        if (!message || !message.thread) {
+            return;
+        }
+
+        const commentMessage = await message.thread.messages.fetch(dbComment.messageId).catch(() => undefined);
+        if (!commentMessage) return;
+
+        await commentMessage.delete().catch(() => undefined);
+        await dbComment.destroy();
+    }
+
     private async createEmbed(guildId: string, suggestion: ApiSuggestion, url: string, avatar: string) {
         const str = await LanguageManager.getString(
             guildId,
@@ -379,7 +407,7 @@ export default class {
 
     private stripLength(str: string, length: number) {
         if (str.length > length) {
-            return str.substring(0, length) + '...';
+            return str.substring(0, length - 3) + '...';
         }
         return str;
     }

@@ -47,8 +47,9 @@ export default class {
             ? req.body.event === 'newSuggestionComment'
             : req.body.embeds[0]?.footer.text.includes('New comment');
         const isVote = req.body.event === 'userSuggestionVote';
+        const isCommentDelete = req.body.event === 'deleteSuggestionComment';
 
-        if (!suggestionId || (!isNewSuggestion && !isNewComment && !isVote)) {
+        if (!suggestionId || (!isNewSuggestion && !isNewComment && !isVote && !isCommentDelete)) {
             this.logger.error(`Unknown webhook data... The follow body was present:`);
             console.log(req.body);
             return;
@@ -72,6 +73,7 @@ export default class {
 
         let type = 'new suggestion';
         if (isNewComment) type = 'comment';
+        if (isCommentDelete) type = 'comment delete';
         if (isVote) type = 'vote';
 
         this.logger.debug(
@@ -104,6 +106,10 @@ export default class {
 
         if (isVote) {
             this.client.suggestions.updateSuggestionEmbed(suggestion, guildData);
+        }
+
+        if (isCommentDelete) {
+            this.client.suggestions.removeDeletedComment(suggestion, req.body.comment_id);
         }
     }
 }
