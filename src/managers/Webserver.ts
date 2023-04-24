@@ -77,7 +77,6 @@ export default class {
         }
 
         if (isNewComment) {
-            const author = !req.body.embeds ? req.body.username : req.body.embeds[0].footer.text.split(" ")[3];
             const commentId = !req.body.embeds ? req.body.comment_id : (req.body.embeds[0]?.url.split('#')[1]?.split('-')[1]);
 
             const commentInfo = await this.client.suggestionsApi.getCommentInfo(suggestionId, commentId, guildData.id);
@@ -86,12 +85,7 @@ export default class {
                 return;
             }
 
-            this.client.suggestions.createComment(suggestion, guildData, {
-                description: commentInfo?.content,
-                author,
-                avatar: req.body.avatar_url,
-                commentId: commentInfo.id
-            });
+            this.client.suggestions.createComment(suggestion, guildData, commentInfo);
         }
 
         if (isVote) {

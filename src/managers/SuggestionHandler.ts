@@ -4,11 +4,13 @@ import Database from "../database/Database";
 import Guild from "../database/models/guild.model";
 import Suggestion from "../database/models/suggestion.model";
 import { Suggestion as SuggestionClass } from "../classes/Suggestion";
-import { ApiSuggestion } from "../types";
+import { ApiComment, ApiSuggestion } from "../types";
 import Bot from "./Bot";
 import LanguageManager from "./LanguageManager";
 import { URL } from "url";
 import { NamelessUser } from "../classes/NamelessUser";
+import { getWebhookForChannel } from "../util/WebhookUtils";
+import Comment from "../database/models/comment.model";
 
 export default class {
 
@@ -72,7 +74,7 @@ export default class {
         });
     }
 
-    public async createComment(suggestion: SuggestionClass, guildInfo: Guild, commentInfo: { author: string, description: string, avatar: string, commentId: number }) {
+    public async createComment(suggestion: SuggestionClass, guildInfo: Guild, commentInfo: ApiComment) {
         if (!suggestion.apiData) {
             return;
         }
@@ -86,8 +88,8 @@ export default class {
             }
         }
 
-        if (this.sentThreadMessages.has(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId))) {
-            this.sentThreadMessages.delete(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.commentId));
+        if (this.sentThreadMessages.has(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.id))) {
+            this.sentThreadMessages.delete(this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.id));
             return;
         }
 
@@ -111,12 +113,40 @@ export default class {
             return;
         }
 
-        const content = await this.replaceMessagePlaceholders(guildInfo.id, commentInfo.description);
+        const content = await this.replaceMessagePlaceholders(guildInfo.id, commentInfo.content);
 
-        const embed = this.bot.embeds.baseNoFooter();
-        embed.setDescription(this.stripLength(this.fixContent(content), 2048));
-        embed.setAuthor({ name: commentInfo.author, iconURL: this.parseAvatarUrl(commentInfo.avatar) });
-        await message.thread.send({ embeds: [embed] }).catch(() => undefined);
+        const author = await suggestion.getAuthor();
+        if (!author) {
+            return;
+        }
+        const authorAvatar = author.avatar_url || `https://avatars.dicebear.com/api/initials/${suggestion.apiData.author.username}.png?size=128`;
+
+        // Get webhook to send message as
+        const webhook = await getWebhookForChannel(channel);
+
+        let threadMessage: Message;
+        if (webhook) {
+            threadMessage = await webhook.send({
+                content: this.fixContent(content),
+                username: commentInfo.user.username,
+                avatarURL: authorAvatar,
+                threadId: message.thread.id
+            });
+        } else {
+            const embed = this.bot.embeds.baseNoFooter();
+            embed.setDescription(this.stripLength(this.fixContent(content), 2048));
+            embed.setAuthor({ name: commentInfo.user.username, iconURL: authorAvatar });
+            threadMessage = await message.thread.send({ embeds: [embed] });
+        }
+
+        await Comment.create({
+            suggestionId: suggestion.apiData.id,
+            commentId: commentInfo.id,
+
+            guildId: suggestion.dbData.guildId,
+            channelId: suggestion.dbData.channelId,
+            messageId: threadMessage.id
+        });
 
         if (!suggestion.apiData.status.open && !message.thread.locked) {
             const str = await LanguageManager.getString(guildInfo.id, "suggestionHandler.suggestion_closed_website");
@@ -262,8 +292,6 @@ export default class {
         const embed = await this.createEmbed(guildInfo.id, suggestion.apiData!, suggestion.dbData!.url, authorAvatar);
         const components = this.getEmbedComponents({ likes: parseInt(suggestion.apiData.likes_count), dislikes: parseInt(suggestion.apiData.dislikes_count) });
         await message.edit({ embeds: [embed], components: [components] });
-
-        console.log("update 3?")
     }
 
     private async createEmbed(guildId: string, suggestion: ApiSuggestion, url: string, avatar: string) {
@@ -348,12 +376,7 @@ export default class {
             await suggestion.refresh();
             for (const comment of suggestion.comments.comments) {
                 this.bot.logger.debug("Creating new comment from API. Comment ID: " + chalk.yellow(comment.id));
-                await this.createComment(suggestion, guildData, {
-                    avatar: `https://avatars.dicebear.com/api/initials/${comment.user.username}.png?size=128`,
-                    description: comment.content,
-                    author: comment.user.username,
-                    commentId: comment.id
-                });
+                await this.createComment(suggestion, guildData, comment);
             }
         }
         this.bot.logger.debug("Finished sending all suggestions from API.");
@@ -371,12 +394,7 @@ export default class {
         for (let i = 0; i < suggestion.comments.comments.length - 1; i++) {
             const comment = suggestion.comments.comments[i];
             this.bot.logger.debug("Creating new comment from API. Comment ID: " + chalk.yellow(comment.id));
-            await this.createComment(suggestion, guildData, {
-                avatar: `https://avatars.dicebear.com/api/initials/${comment.user.username}.png?size=128`, // namelessmc api doesn't include avatar url
-                description: comment.content,
-                author: comment.user.username,
-                commentId: comment.id
-            });
+            await this.createComment(suggestion, guildData, comment);
         }
     }
 
