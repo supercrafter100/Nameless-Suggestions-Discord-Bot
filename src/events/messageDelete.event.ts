@@ -1,9 +1,9 @@
-import { Message } from "discord.js";
-import Suggestion from "../database/models/suggestion.model";
-import { Event } from "../handlers/EventHandler";
+import { Message } from 'discord.js';
+import Suggestion from '../database/models/suggestion.model';
+import { Event } from '../handlers/EventHandler';
 
-export default class InteractionCreate extends Event<"messageDelete"> {
-    public event = "messageDelete";
+export default class InteractionCreate extends Event<'messageDelete'> {
+    public event = 'messageDelete';
 
     public async run(msg: Message) {
         if (!msg.guild || !msg.guild.id) return;

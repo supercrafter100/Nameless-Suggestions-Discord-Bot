@@ -1,15 +1,15 @@
-import { Collection } from "discord.js";
-import Guild from "./models/guild.model";
+import { Collection } from 'discord.js';
+import Guild from './models/guild.model';
 
 export default class Database {
-
     private static guildInfo = new Collection<string, Guild>();
 
     public static async getGuildData(guildId: string) {
-        if (Database.guildInfo.has(guildId)) return Database.guildInfo.get(guildId)!;
+        const g = Database.guildInfo.get(guildId);
+        if (g) return g;
+
         let guild = await Guild.findOne({ where: { id: guildId } });
-        if (!guild)
-           guild = await Guild.create({ id: guildId }); 
+        if (!guild) guild = await Guild.create({ id: guildId });
         Database.guildInfo.set(guildId, guild);
         return guild;
     }
@@ -24,9 +24,9 @@ export default class Database {
         if (!guildData.apiurl) {
             return;
         }
-        
+
         return {
-            apiurl: guildData.apiurl + (guildData.apiurl.endsWith("/") ? "" : "/"),
+            apiurl: guildData.apiurl + (guildData.apiurl.endsWith('/') ? '' : '/'),
             apikey: guildData.apikey,
         };
     }

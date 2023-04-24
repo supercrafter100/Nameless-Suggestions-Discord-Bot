@@ -1,40 +1,39 @@
-import dotenv from "dotenv";
-import Logger from "./handlers/Logger";
-import chalk from "chalk";
-import { Options, GatewayIntentBits, ActivityType } from "discord.js";
-import { Sequelize } from "sequelize";
+import dotenv from 'dotenv';
+import Logger from './handlers/Logger';
+import chalk from 'chalk';
+import { Options, GatewayIntentBits, ActivityType } from 'discord.js';
+import { Sequelize } from 'sequelize';
 
 dotenv.config();
 
 // Setting up
 
 const logger = new Logger();
-logger.prefix = chalk.bold.redBright("MASTER");
-const devmode = process.env.npm_lifecylce_event == "dev";
+logger.prefix = chalk.bold.redBright('MASTER');
+const devmode = process.env.npm_lifecylce_event == 'dev';
 
-const logtype = devmode ? "warn" : "info";
+const logtype = devmode ? 'warn' : 'info';
 
-const db = new Sequelize(process.env.DB_NAME!, process.env.DB_USER!, process.env.DB_PASS!, {
+if (!process.env.DB_NAME || !process.env.DB_USER || !process.env.DB_PASS) {
+    console.log('Required database environmental variables not set! Exiting!');
+    process.exit(1);
+}
+
+const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
     host: process.env.DB_HOST,
-    dialect: "mariadb",
-    logging: false
+    dialect: 'mariadb',
+    logging: false,
 });
 
 logger.blank();
-logger[logtype]("=================================");
-logger[logtype](
-    "Running bot in",
-    devmode ? chalk.red("DEV") : chalk.green("PROD"),
-    "mode"
-);
-logger[logtype]("=================================");
+logger[logtype]('=================================');
+logger[logtype]('Running bot in', devmode ? chalk.red('DEV') : chalk.green('PROD'), 'mode');
+logger[logtype]('=================================');
 logger.blank();
 
-export {
-    db
-}
+export { db };
 // Don't import bot before db is initialized
-import Bot from "./managers/Bot";
+import Bot from './managers/Bot';
 const client = new Bot({
     intents: [
         GatewayIntentBits.Guilds,
@@ -49,7 +48,7 @@ const client = new Bot({
     presence: {
         activities: [
             {
-                name: "Suggestions",
+                name: 'Suggestions',
                 type: ActivityType.Watching,
             },
         ],

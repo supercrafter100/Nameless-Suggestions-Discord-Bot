@@ -1,11 +1,10 @@
-import Bot from "./Bot";
-import fetch from "node-fetch";
-import Database from "../database/Database";
-import { APIWebsiteInfo, ApiCommentsResponse, ApiListSuggestion, ApiSuggestion, ApiUser } from "../types";
+import Bot from './Bot';
+import fetch from 'node-fetch';
+import Database from '../database/Database';
+import { APIWebsiteInfo, ApiCommentsResponse, ApiListSuggestion, ApiSuggestion, ApiUser } from '../types';
 
 export default class {
-
-    constructor(private readonly bot: Bot) { }
+    constructor(private readonly bot: Bot) {}
 
     //
     // General endpoints
@@ -17,24 +16,26 @@ export default class {
             return null;
         }
 
-        const suggestion = await fetch(apiCredentials.apiurl + "info", {
-            method: "GET",
+        const suggestion = (await fetch(apiCredentials.apiurl + 'info', {
+            method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()).catch(() => undefined) as APIWebsiteInfo;
+        })
+            .then((res) => res.json())
+            .catch(() => undefined)) as APIWebsiteInfo;
 
         return suggestion;
     }
 
-    public async createWebhook(guildId: string, options: { name?: string, url: string, events: string[] }) {
+    public async createWebhook(guildId: string, options: { name?: string; url: string; events: string[] }) {
         const apiCredentials = await Database.getApiCredentials(guildId);
         if (!apiCredentials) {
             return null;
         }
 
-        const result = await fetch(apiCredentials.apiurl + "webhooks/create", {
-            method: "POST",
+        const result = await fetch(apiCredentials.apiurl + 'webhooks/create', {
+            method: 'POST',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
@@ -42,8 +43,8 @@ export default class {
                 name: options.name || 'Suggestions Bot',
                 url: options.url,
                 type: '1',
-                events: options.events
-            })
+                events: options.events,
+            }),
         }).then((res) => res.json());
 
         if (result.message) return true;
@@ -60,33 +61,43 @@ export default class {
             return null;
         }
 
-        const suggestion = await fetch(apiCredentials.apiurl + "suggestions/" + id, {
-            method: "GET",
+        const suggestion = (await fetch(apiCredentials.apiurl + 'suggestions/' + id, {
+            method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()).catch(() => undefined) as ApiSuggestion;
+        })
+            .then((res) => res.json())
+            .catch(() => undefined)) as ApiSuggestion;
 
         return suggestion;
     }
 
-    public async sendReaction(suggestionId: string, guildId: string, type: "like" | "dislike", userId: string, mustBeRemoved: boolean) {
+    public async sendReaction(
+        suggestionId: string,
+        guildId: string,
+        type: 'like' | 'dislike',
+        userId: string,
+        mustBeRemoved: boolean
+    ) {
         const apiCredentials = await Database.getApiCredentials(guildId);
         if (!apiCredentials) {
             return;
         }
 
-        const response = await fetch(apiCredentials.apiurl + "suggestions/" + suggestionId + "/" + type, {
-            method: "POST",
+        const response = await fetch(apiCredentials.apiurl + 'suggestions/' + suggestionId + '/' + type, {
+            method: 'POST',
             body: JSON.stringify({
                 user: `integration_id:discord:${userId}`,
                 like: mustBeRemoved,
-                dislike: mustBeRemoved
+                dislike: mustBeRemoved,
             }),
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()).catch(() => undefined);
+        })
+            .then((res) => res.json())
+            .catch(() => undefined);
 
         return response;
     }
@@ -97,16 +108,18 @@ export default class {
             return;
         }
 
-        const response = await fetch(apiCredentials.apiurl + "suggestions/" + suggestionId + "/comment", {
-            method: "POST",
+        const response = await fetch(apiCredentials.apiurl + 'suggestions/' + suggestionId + '/comment', {
+            method: 'POST',
             body: JSON.stringify({
                 user: `integration_id:discord:${userId}`,
-                content
+                content,
             }),
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()).catch(() => undefined);
+        })
+            .then((res) => res.json())
+            .catch(() => undefined);
 
         return response;
     }
@@ -115,27 +128,31 @@ export default class {
     // SUGGEST CMD
     //
 
-    public async sendSuggestion(guildId: string, title: string, content: string, userId: string = "") {
+    public async sendSuggestion(guildId: string, title: string, content: string, userId = '') {
         const apiCredentials = await Database.getApiCredentials(guildId);
         if (!apiCredentials) {
             return;
         }
 
-        let body = {
+        type bodyType = { title: string; content: string; user?: string };
+
+        const body: bodyType = {
             title,
-            content
-        } as any
+            content,
+        };
         if (userId.length > 0) {
             body.user = `integration_id:discord:${userId}`;
         }
 
-        const response = await fetch(apiCredentials.apiurl + "suggestions/create", {
-            method: "POST",
+        const response = await fetch(apiCredentials.apiurl + 'suggestions/create', {
+            method: 'POST',
             body: JSON.stringify(body),
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()).catch(() => undefined);;
+        })
+            .then((res) => res.json())
+            .catch(() => undefined);
 
         return response;
     }
@@ -150,12 +167,14 @@ export default class {
             return;
         }
 
-        const suggestions = await fetch(apiCredentials.apiurl + "suggestions", {
-            method: "GET",
+        const suggestions = (await fetch(apiCredentials.apiurl + 'suggestions', {
+            method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()).catch(() => undefined) as ApiListSuggestion;
+        })
+            .then((res) => res.json())
+            .catch(() => undefined)) as ApiListSuggestion;
 
         return suggestions;
     }
@@ -166,12 +185,14 @@ export default class {
             return;
         }
 
-        const comments = await fetch(apiCredentials.apiurl + "suggestions/" + suggestionId + "/comments", {
-            method: "GET",
+        const comments = (await fetch(apiCredentials.apiurl + 'suggestions/' + suggestionId + '/comments', {
+            method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()).catch(() => undefined) as ApiCommentsResponse;
+        })
+            .then((res) => res.json())
+            .catch(() => undefined)) as ApiCommentsResponse;
 
         return comments;
     }
@@ -182,12 +203,18 @@ export default class {
             return;
         }
 
-        const comment = await fetch(apiCredentials.apiurl + "suggestions/" + suggestionId + "/comments/&comment=" + commentId, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${apiCredentials.apikey}`,
-            },
-        }).then((res) => res.json() as Promise<ApiCommentsResponse>).then((json) => json.comments[0]).catch(() => undefined);
+        const comment = await fetch(
+            apiCredentials.apiurl + 'suggestions/' + suggestionId + '/comments/&comment=' + commentId,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${apiCredentials.apikey}`,
+                },
+            }
+        )
+            .then((res) => res.json() as Promise<ApiCommentsResponse>)
+            .then((json) => json.comments[0])
+            .catch(() => undefined);
 
         return comment;
     }
@@ -198,12 +225,12 @@ export default class {
             return;
         }
 
-        const user = await fetch(apiCredentials.apiurl + "users/id:" + userId, {
+        const user = (await fetch(apiCredentials.apiurl + 'users/id:' + userId, {
             method: 'GET',
             headers: {
-                Authorization: `Bearer ${apiCredentials.apikey}`
-            }
-        }).then((res) => res.json()) as Promise<ApiUser>;
+                Authorization: `Bearer ${apiCredentials.apikey}`,
+            },
+        }).then((res) => res.json())) as Promise<ApiUser>;
 
         return user;
     }
@@ -214,12 +241,12 @@ export default class {
             return;
         }
 
-        const user = await fetch(apiCredentials.apiurl + "users/integration_id:discord:" + integrationId, {
+        const user = (await fetch(apiCredentials.apiurl + 'users/integration_id:discord:' + integrationId, {
             method: 'GET',
             headers: {
-                Authorization: `Bearer ${apiCredentials.apikey}`
-            }
-        }).then((res) => res.json()) as Promise<ApiUser>;
+                Authorization: `Bearer ${apiCredentials.apikey}`,
+            },
+        }).then((res) => res.json())) as Promise<ApiUser>;
 
         return user;
     }

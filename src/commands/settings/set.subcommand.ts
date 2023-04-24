@@ -1,14 +1,14 @@
-import { ChatInputCommandInteraction } from "discord.js";
-import path from "path";
-import { SubcommandGroup } from "@crystaldevelopment/command-handler/dist";
+import { ChatInputCommandInteraction } from 'discord.js';
+import path from 'path';
+import { SubcommandGroup } from '@crystaldevelopment/command-handler/dist';
 
 export default class extends SubcommandGroup {
-    public name = "set";
-    public description = "Set a setting";
+    public name = 'set';
+    public description = 'Set a setting';
     public options = [];
 
     public onStart(): void {
-        this.loadSubcommandsFromDir(path.join(__dirname, "settings"), true);
+        this.loadSubcommandsFromDir(path.join(__dirname, 'settings'), true);
     }
 
     public onLoad() {

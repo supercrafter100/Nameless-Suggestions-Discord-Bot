@@ -1,11 +1,11 @@
-import { Message } from "discord.js";
-import Database from "../database/Database";
-import { Event } from "../handlers/EventHandler";
+import { Message } from 'discord.js';
+import Database from '../database/Database';
+import { Event } from '../handlers/EventHandler';
 
-export default class InteractionCreate extends Event<"messageCreate"> {
-    public event = "messageCreate";
+export default class InteractionCreate extends Event<'messageCreate'> {
+    public event = 'messageCreate';
 
-    public async run(msg: Message) {
+    public async run(msg: Message<true>) {
         if (!msg.guild || !msg.guild.id) return;
         const guildData = await Database.getGuildData(msg.guild.id);
 
@@ -14,7 +14,12 @@ export default class InteractionCreate extends Event<"messageCreate"> {
             return;
         }
 
-        if (msg.channel.isThread() && msg.channel.parentId === guildData.suggestionChannel && !msg.author.bot && !msg.author.system) {
+        if (
+            msg.channel.isThread() &&
+            msg.channel.parentId === guildData.suggestionChannel &&
+            !msg.author.bot &&
+            !msg.author.system
+        ) {
             this.client.suggestions.sendCommentToSite(msg);
         }
     }

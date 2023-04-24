@@ -43,7 +43,7 @@ export interface ApiListSuggestion {
             id: string;
             name: string;
             open: boolean;
-        }
+        };
     }[];
 }
 
@@ -66,7 +66,7 @@ export interface ApiCommentsResponse {
 }
 
 export interface ApiUser {
-    error?: string
+    error?: string;
     exists: boolean;
     id: number;
     username: string;
@@ -95,6 +95,6 @@ export interface ApiUser {
         required: boolean;
         description: string;
         value: string;
-    }
+    };
     avatar_url?: string;
 }

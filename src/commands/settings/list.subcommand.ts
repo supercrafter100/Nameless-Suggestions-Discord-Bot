@@ -1,11 +1,11 @@
-import { Subcommand } from "@crystaldevelopment/command-handler/dist";
-import { ChatInputCommandInteraction } from "discord.js";
-import Database from "../../database/Database";
-import Bot from "../../managers/Bot";
+import { Subcommand } from '@crystaldevelopment/command-handler/dist';
+import { ChatInputCommandInteraction } from 'discord.js';
+import Database from '../../database/Database';
+import Bot from '../../managers/Bot';
 
 export default class extends Subcommand {
-    public name = "list";
-    public description = "List all settings";
+    public name = 'list';
+    public description = 'List all settings';
     public options = [];
 
     public onStart(): void {
@@ -18,7 +18,7 @@ export default class extends Subcommand {
 
     public async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.guild || !interaction.guildId) {
-            interaction.reply("This command can only be used in a server");
+            interaction.reply('This command can only be used in a server');
             return;
         }
 
@@ -37,14 +37,11 @@ export default class extends Subcommand {
         const embed = client.embeds.base();
         embed.setDescription(
             [
-                `🌐 **Api url**: ${apiurl ? `\`${apiurl}\`` : "*Not set*"}`,
-                `🔑 **API Key**: ${apikey ? `\`${apikey}\`` : "*Not set*"}`,
-                `🔒 **Auth Key**: ${authkey ? `\`${authkey}\`` : "*Not set*"}`,
-                `💬 **Suggestion Channel**: ${suggestionChannelId
-                    ? `<#${suggestionChannelId}>`
-                    : "*Not set*"
-                }`,
-            ].join("\n")
+                `🌐 **Api url**: ${apiurl ? `\`${apiurl}\`` : '*Not set*'}`,
+                `🔑 **API Key**: ${apikey ? `\`${apikey}\`` : '*Not set*'}`,
+                `🔒 **Auth Key**: ${authkey ? `\`${authkey}\`` : '*Not set*'}`,
+                `💬 **Suggestion Channel**: ${suggestionChannelId ? `<#${suggestionChannelId}>` : '*Not set*'}`,
+            ].join('\n')
         );
 
         // Send the embed
