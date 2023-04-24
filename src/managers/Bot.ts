@@ -57,7 +57,7 @@ export default class Bot extends Discord.Client<true> {
         this.events.load(join(__dirname, '../events'));
         this.commands.loadFromDirectory(join(__dirname, '../commands'));
         db.sync();
-        LanguageManager.loadLanguages(join(__dirname, '../../language'));
+        LanguageManager.loadLanguages(join(__dirname, '../language'));
     }
 
     private async startStdinListener() {
