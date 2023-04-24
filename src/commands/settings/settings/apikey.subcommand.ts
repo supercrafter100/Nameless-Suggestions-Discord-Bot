@@ -5,6 +5,8 @@ import fetch from "node-fetch";
 import Guild from "../../../database/models/guild.model";
 import Database from "../../../database/Database";
 import LanguageManager from "../../../managers/LanguageManager";
+import { APIWebsiteInfo } from "../../../types";
+import { nanoid } from "nanoid";
 
 export default class extends Subcommand {
     public name = "apikey";
@@ -65,6 +67,35 @@ export default class extends Subcommand {
         guildData.set("apiurl", apiurl);
         guildData.set("apikey", apikey);
         await guildData.save();
+
+        // Get website info
+        const info = await res.json() as APIWebsiteInfo;
+        const version = info.nameless_version;
+
+        const majorVersionNumber = parseInt(version.split('.')[1]);
+        if (majorVersionNumber >= 1) { // We can create webhooks on this website
+            const token = nanoid();
+
+            // Set the new authorization key
+            guildData.set("authorizationKey", token);
+            await guildData.save();
+
+            const url =
+                process.env.DOMAIN! +
+                (process.env.DOMAIN!.endsWith("/") ? "" : "/") +
+                "webhook/" +
+                token;
+
+            await (this.client as Bot).suggestionsApi.createWebhook(interaction.guildId, {
+                name: 'Suggestions discord bot',
+                url: url,
+                events: ["newSuggestion", "newSuggestionComment", "deleteSuggestion", "deleteSuggestionComment", "userSuggestionVote"]
+            })
+
+            const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.apikey.success_2_1");
+            interaction.editReply({ content: str });
+            return;
+        }
 
         const str = await LanguageManager.getString(interaction.guildId, "commands.settings.set.apikey.success");
         interaction.editReply({ content: str });

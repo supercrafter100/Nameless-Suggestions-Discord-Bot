@@ -4,7 +4,8 @@
             "set": {
                 "apikey": {
                     "invalid_key": "The API URL or API key is invalid.",
-                    "success": "The API key has been set."
+                    "success": "The API key has been set.",
+                    "success_2_1": "The api key has been set. A webhook has been created automatically on your website because you are using NamelessMC v2.1 or above. You should be all set up! If you had already set up the bot before, the webhook likely got created again (so you should delete this newly created one)"
                 },
                 "authkey": {
                     "success": "The authorization token has been changed to `{token}`. You can find a new webhook URL by using the `/webhookurl` command."

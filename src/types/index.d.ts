@@ -1,3 +1,9 @@
+export interface APIWebsiteInfo {
+    nameless_version: string;
+    locale: string;
+    modules: string[];
+}
+
 export interface ApiSuggestion {
     id: string;
     link: string;
@@ -90,4 +96,5 @@ export interface ApiUser {
         description: string;
         value: string;
     }
+    avatar_url?: string;
 }

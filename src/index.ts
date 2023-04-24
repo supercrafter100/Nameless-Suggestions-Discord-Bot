@@ -39,6 +39,7 @@ const client = new Bot({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMessageReactions,
     ],
     makeCache: Options.cacheWithLimits({

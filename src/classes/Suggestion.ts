@@ -2,12 +2,13 @@ import { ApiSuggestion, ApiCommentsResponse } from "../types";
 import SuggestionModel from "../database/models/suggestion.model";
 import Bot from "../managers/Bot";
 import chalk from "chalk";
+import { NamelessUser } from "./NamelessUser";
 
 export class Suggestion {
     public apiData: ApiSuggestion | undefined;
     public comments: ApiCommentsResponse | undefined;
     public dbData: SuggestionModel | undefined;
-    
+
     private id: string;
     private client: Bot;
     private guildId: string;
@@ -41,6 +42,12 @@ export class Suggestion {
     public async getComments() {
         const comments = await this.client.suggestionsApi.getSuggestionComments(this.id, this.guildId);
         this.comments = comments;
+    }
+
+    public async getAuthor() {
+        if (!this.apiData) throw new Error("Api data was not defined!");
+        const author = NamelessUser.getUserById(this.apiData.author.id, this.guildId, this.client);
+        return author;
     }
 
     public async refresh() {

@@ -66,10 +66,14 @@ export default class {
             return;
         }
 
-        this.logger.debug("Received network request for suggestion with title " + chalk.yellow(suggestion.apiData.title) + " for guild " + chalk.yellow(guildData.id) + " which should be sent to channel with id " + chalk.yellow(guildData.suggestionChannel) + ". It is a " + chalk.yellow(isNewSuggestion ? "new" : "comment") + " suggestion.");
+        let type = "new suggestion";
+        if (isNewComment) type = "comment";
+        if (isVote) type = "vote";
+
+        this.logger.debug("Received network request for suggestion with title " + chalk.yellow(suggestion.apiData.title) + " for guild " + chalk.yellow(guildData.id) + " which should be sent to channel with id " + chalk.yellow(type) + ".");
 
         if (isNewSuggestion) {
-            this.client.suggestions.createSuggestion(suggestion, guildData, req.body.avatar_url);
+            this.client.suggestions.createSuggestion(suggestion, guildData);
         }
 
         if (isNewComment) {

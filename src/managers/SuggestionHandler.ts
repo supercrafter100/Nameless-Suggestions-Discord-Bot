@@ -16,7 +16,7 @@ export default class {
 
     constructor(private readonly bot: Bot) { }
 
-    public async createSuggestion(suggestion: SuggestionClass, guildInfo: Guild, avatar: string = "") {
+    public async createSuggestion(suggestion: SuggestionClass, guildInfo: Guild) {
 
         // Check if there is already an embed for this suggestion, we can skip this entire step if there is
         if (suggestion.dbData) {
@@ -34,9 +34,17 @@ export default class {
             return null;
         }
 
+        // Get the current avatar url
+        const author = await suggestion.getAuthor();
+        if (!author) {
+            return;
+        }
+        const authorAvatar = author.avatar_url || `https://avatars.dicebear.com/api/initials/${suggestion.apiData.author.username}.png?size=128`;
+
         // Send message in the channel
-        const embed = await this.createEmbed(guildInfo.id, suggestion.apiData, suggestion.apiData.link, avatar);
-        const components = this.getEmbedComponents();
+
+        const embed = await this.createEmbed(guildInfo.id, suggestion.apiData, suggestion.apiData.link, authorAvatar);
+        const components = this.getEmbedComponents({ likes: parseInt(suggestion.apiData.likes_count), dislikes: parseInt(suggestion.apiData.dislikes_count) });
         const message = await channel.send({ embeds: [embed], components: [components] }).catch((err) => {
             this.bot.logger.warn("Failed to send message to suggestion channel", chalk.yellow(err));
             return undefined;
@@ -70,7 +78,7 @@ export default class {
         }
 
         if (!suggestion.dbData) {
-            await this.recoverSuggestion(suggestion, guildInfo) // TODO: once the api actually returns the user their avatar, provide it here...
+            await this.recoverSuggestion(suggestion, guildInfo);
             await suggestion.refresh();
 
             if (!suggestion.dbData) {
@@ -155,7 +163,7 @@ export default class {
             return;
         }
 
-        if (response.error == "nameless:cannot_find_user") {
+        if (response.error === "nameless:cannot_find_user") {
             await msg.delete();
 
             const str = await LanguageManager.getString(msg.guildId!, "suggestionHandler.cannot_find_user");
@@ -185,11 +193,11 @@ export default class {
 
         const suggestion = await SuggestionClass.getSuggestion(suggestionInfo.suggestionId, interaction.guildId!, this.bot);
         const user = await NamelessUser.getUserByDiscordId(interaction.user.id, interaction.guildId!, this.bot);
-        if (!user || !user.apiData) {
+        if (!user) {
             return;
         }
 
-        const mustBeRemoved = !(interactionType === "like" ? suggestion.apiData?.likes.includes(user.apiData.id) : suggestion.apiData?.dislikes.includes(user.apiData.id)) || false;
+        const mustBeRemoved = !(interactionType === "like" ? suggestion.apiData?.likes.includes(user.id) : suggestion.apiData?.dislikes.includes(user.id)) || false;
 
         // Attempt to send a like or dislike to the API
         const response = await this.bot.suggestionsApi.sendReaction(suggestionInfo.suggestionId, interaction.guildId!, interactionType, interaction.user.id, mustBeRemoved);
@@ -223,6 +231,8 @@ export default class {
     }
 
     public async updateSuggestionEmbed(suggestion: SuggestionClass, guildInfo: Guild) {
+        if (!suggestion.apiData) return;
+
         if (!suggestion.dbData) {
             await this.recoverSuggestion(suggestion, guildInfo) // TODO: once the api actually returns the user their avatar, provide it here...
             await suggestion.refresh();
@@ -243,17 +253,21 @@ export default class {
         }
 
         // Get the current avatar url
-        const avatar = message.embeds[0].footer?.iconURL;
-        if (!avatar) {
+        const author = await suggestion.getAuthor();
+        if (!author) {
             return;
         }
+        const authorAvatar = author.avatar_url || `https://avatars.dicebear.com/api/initials/${suggestion.apiData.author.username}.png?size=128`;
 
-        const embed = await this.createEmbed(guildInfo.id, suggestion.apiData!, suggestion.dbData!.url, avatar);
-        await message.edit({ embeds: [embed] });
+        const embed = await this.createEmbed(guildInfo.id, suggestion.apiData!, suggestion.dbData!.url, authorAvatar);
+        const components = this.getEmbedComponents({ likes: parseInt(suggestion.apiData.likes_count), dislikes: parseInt(suggestion.apiData.dislikes_count) });
+        await message.edit({ embeds: [embed], components: [components] });
+
+        console.log("update 3?")
     }
 
     private async createEmbed(guildId: string, suggestion: ApiSuggestion, url: string, avatar: string) {
-        const str = (await LanguageManager.getString(guildId, "suggestionHandler.suggested_by", "user", suggestion.author.username)) + ` |  ${suggestion.likes_count} 👍 ${suggestion.dislikes_count} 👎`;
+        const str = (await LanguageManager.getString(guildId, "suggestionHandler.suggested_by", "user", suggestion.author.username));
         const description = await this.replaceMessagePlaceholders(guildId, suggestion.content);
 
         const embed = this.bot.embeds.base();
@@ -265,16 +279,16 @@ export default class {
         return embed;
     }
 
-    private getEmbedComponents() {
+    private getEmbedComponents({ likes, dislikes }: { likes: number, dislikes: number }) {
         const row = new ActionRowBuilder<ButtonBuilder>();
         row.addComponents(
             new ButtonBuilder()
                 .setCustomId("like-suggestion")
-                .setEmoji("👍")
+                .setLabel(`${likes} 👍`)
                 .setStyle(ButtonStyle.Success),
             new ButtonBuilder()
                 .setCustomId("dislike-suggestion")
-                .setEmoji("👎")
+                .setLabel(`${dislikes} 👎`)
                 .setStyle(ButtonStyle.Danger),
         )
         return row;
@@ -324,7 +338,7 @@ export default class {
             }
             this.bot.logger.debug("Creating new suggestion from API. Suggestion ID: " + chalk.yellow(suggestion.apiData.id));
 
-            await this.createSuggestion(suggestion, guildData, `https://avatars.dicebear.com/api/initials/${suggestion.apiData.author.username}.png?size=128`);
+            await this.createSuggestion(suggestion, guildData);
             if (!suggestion.comments) {
                 this.bot.logger.error(`Error getting comments for suggestion ${suggestion.apiData.id} from API: ${JSON.stringify(suggestion.comments)}`);
                 continue;
@@ -346,7 +360,7 @@ export default class {
     }
 
     private async recoverSuggestion(suggestion: SuggestionClass, guildData: Guild) {
-        await this.createSuggestion(suggestion, guildData, `https://avatars.dicebear.com/api/initials/${suggestion.apiData!.author.username}.png?size=128`);
+        await this.createSuggestion(suggestion, guildData);
         if (!suggestion.comments) {
             this.bot.logger.error(`Error getting comments for suggestion ${suggestion.apiData!.id} from API: ${JSON.stringify(suggestion.comments)}`);
             return;

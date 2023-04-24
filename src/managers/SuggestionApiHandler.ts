@@ -1,11 +1,58 @@
 import Bot from "./Bot";
 import fetch from "node-fetch";
 import Database from "../database/Database";
-import { ApiCommentsResponse, ApiListSuggestion, ApiSuggestion, ApiUser } from "../types";
+import { APIWebsiteInfo, ApiCommentsResponse, ApiListSuggestion, ApiSuggestion, ApiUser } from "../types";
 
 export default class {
 
     constructor(private readonly bot: Bot) { }
+
+    //
+    // General endpoints
+    //
+
+    public async getWebsiteInfo(guildId: string) {
+        const apiCredentials = await Database.getApiCredentials(guildId);
+        if (!apiCredentials) {
+            return null;
+        }
+
+        const suggestion = await fetch(apiCredentials.apiurl + "info", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${apiCredentials.apikey}`,
+            },
+        }).then((res) => res.json()).catch(() => undefined) as APIWebsiteInfo;
+
+        return suggestion;
+    }
+
+    public async createWebhook(guildId: string, options: { name?: string, url: string, events: string[] }) {
+        const apiCredentials = await Database.getApiCredentials(guildId);
+        if (!apiCredentials) {
+            return null;
+        }
+
+        const result = await fetch(apiCredentials.apiurl + "webhooks/create", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${apiCredentials.apikey}`,
+            },
+            body: JSON.stringify({
+                name: options.name || 'Suggestions Bot',
+                url: options.url,
+                type: '1',
+                events: options.events
+            })
+        }).then((res) => res.json());
+
+        if (result.message) return true;
+        return false;
+    }
+
+    //
+    // Suggestion related endpoints
+    //
 
     public async getSuggestion(id: string, guildId: string) {
         const apiCredentials = await Database.getApiCredentials(guildId);
@@ -59,7 +106,7 @@ export default class {
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
             },
-        }).then((res) => res.json()).catch(() => undefined);;
+        }).then((res) => res.json()).catch(() => undefined);
 
         return response;
     }
