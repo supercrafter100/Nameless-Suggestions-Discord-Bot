@@ -48,8 +48,12 @@ export default class {
             : req.body.embeds[0]?.footer.text.includes('New comment');
         const isVote = req.body.event === 'userSuggestionVote';
         const isCommentDelete = req.body.event === 'deleteSuggestionComment';
+        const isSuggestionDelete = req.body.event === 'deleteSuggestion';
 
-        if (!suggestionId || (!isNewSuggestion && !isNewComment && !isVote && !isCommentDelete)) {
+        if (
+            !suggestionId ||
+            (!isNewSuggestion && !isNewComment && !isVote && !isCommentDelete && !isSuggestionDelete)
+        ) {
             this.logger.error(`Unknown webhook data... The follow body was present:`);
             console.log(req.body);
             return;
@@ -64,7 +68,7 @@ export default class {
 
         // Get suggestion data from the api
         const suggestion = await Suggestion.getSuggestion(suggestionId, guildData.id, this.client).catch();
-        if (!suggestion.apiData) {
+        if (!suggestion.apiData && !isSuggestionDelete) {
             this.logger.error(
                 `No suggestion data found for suggestion ${suggestionId} which was meant to go to guild ${guildData.id}`
             );
@@ -75,15 +79,18 @@ export default class {
         if (isNewComment) type = 'comment';
         if (isCommentDelete) type = 'comment delete';
         if (isVote) type = 'vote';
+        if (isSuggestionDelete) type = 'suggestion delete';
 
         this.logger.debug(
             'Received network request for suggestion with title ' +
-                chalk.yellow(suggestion.apiData.title) +
+                chalk.yellow(suggestion.apiData ? suggestion.apiData.title : 'unknown (deleted)') +
                 ' for guild ' +
                 chalk.yellow(guildData.id) +
                 ' which should be sent to channel with id ' +
-                chalk.yellow(type) +
-                '.'
+                chalk.yellow(guildData.suggestionChannel) +
+                '.' +
+                ' It is a ' +
+                chalk.yellow(type)
         );
 
         if (isNewSuggestion) {
@@ -110,6 +117,10 @@ export default class {
 
         if (isCommentDelete) {
             this.client.suggestions.removeDeletedComment(suggestion, req.body.comment_id);
+        }
+
+        if (isSuggestionDelete) {
+            this.client.suggestions.removeDeletedSuggestion(suggestion);
         }
     }
 }

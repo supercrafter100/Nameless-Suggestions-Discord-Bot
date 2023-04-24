@@ -375,6 +375,25 @@ export default class {
         await dbComment.destroy();
     }
 
+    public async removeDeletedSuggestion(suggestion: SuggestionClass) {
+        if (!suggestion.dbData) return;
+
+        // Fetch the comment
+        const channel = await this.bot.channels.fetch(suggestion.dbData.channelId);
+        if (!channel || !(channel instanceof TextChannel)) {
+            return;
+        }
+
+        const message = await channel.messages.fetch(suggestion.dbData.messageId);
+        if (!message || !message.thread) {
+            return;
+        }
+
+        await message.thread.delete('Suggestion was deleted').catch(() => undefined);
+        await message.delete().catch(() => undefined);
+        await suggestion.dbData.destroy();
+    }
+
     private async createEmbed(guildId: string, suggestion: ApiSuggestion, url: string, avatar: string) {
         const str = await LanguageManager.getString(
             guildId,
