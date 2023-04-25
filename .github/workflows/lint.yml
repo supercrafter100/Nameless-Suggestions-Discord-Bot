@@ -18,4 +18,4 @@ jobs:
             - name: yarn install and build
               run: |
                   yarn
-                  yarn build
+                  yarn lint
