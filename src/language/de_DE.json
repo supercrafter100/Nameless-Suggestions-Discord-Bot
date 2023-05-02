@@ -13,7 +13,8 @@
                 },
                 "apikey": {
                     "invalid_key": "Die API-URL oder der API-Schlüssel ist ungültig.",
-                    "success": "Der API-Schlüssel wurde festgelegt."
+                    "success": "Der API-Schlüssel wurde festgelegt.",
+                    "success_2_1": "Der Api-Schlüssel wurde festgelegt. Ein Webhook wurde automatisch auf deiner Website erstellt, da du NamelessMC v2.1 oder höher verwendest. Du solltest jetzt bereit sein! Wenn du den Bot bereits vorher eingerichtet hattest, wurde der Webhook wahrscheinlich erneut erstellt (daher solltest du diese neu erstellte Datei löschen)"
                 },
                 "authkey": {
                     "success": "Der Autorisierungs-Token wurde in `{token}` geändert. Du kannst eine neue Webhook URL mit dem Befehl `/webhookurl` finden."
