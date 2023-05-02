@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 import Suggestion from '../database/models/suggestion.model';
 import { Event } from '../handlers/EventHandler';
+import Comment from '../database/models/comment.model';
 
 export default class InteractionCreate extends Event<'messageDelete'> {
     public event = 'messageDelete';
@@ -10,6 +11,7 @@ export default class InteractionCreate extends Event<'messageDelete'> {
         const suggestion = await Suggestion.findOne({ where: { messageId: msg.id, guildId: msg.guildId } });
         if (suggestion) {
             await suggestion.destroy();
+            await Comment.destroy({ where: { suggestionId: suggestion.suggestionId } });
         }
     }
 }

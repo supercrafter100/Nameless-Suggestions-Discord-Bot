@@ -7,6 +7,7 @@ import {
     TextChannel,
     ThreadChannel,
     ButtonStyle,
+    ColorResolvable,
 } from 'discord.js';
 import Database from '../database/Database';
 import Guild from '../database/models/guild.model';
@@ -371,8 +372,23 @@ export default class {
         const commentMessage = await message.thread.messages.fetch(dbComment.messageId).catch(() => undefined);
         if (!commentMessage) return;
 
+        // Weird discord thing. If a thread is archiued or locked, messages
+        // cannot be deleted. So we should unlock it, delete the comment
+        // then lock and archive it again. Weird workaround but it works.
+        let wasLocked = false;
+        if (message.thread.locked || message.thread.archived) {
+            await message.thread.setLocked(false, 'Temp-unlock for pending comment deletion...');
+            await message.thread.setArchived(false, 'Temp-unarchive for pending comment deletion...');
+            wasLocked = true;
+        }
+
         await commentMessage.delete().catch(() => undefined);
         await dbComment.destroy();
+
+        if (wasLocked) {
+            await message.thread.setLocked(true, 'Lock after pending comment deletion...');
+            await message.thread.setArchived(true, 'Archive after pending comment deletion...');
+        }
     }
 
     public async removeDeletedSuggestion(suggestion: SuggestionClass) {
@@ -404,6 +420,7 @@ export default class {
         const description = await this.replaceMessagePlaceholders(guildId, suggestion.content);
 
         const embed = this.bot.embeds.base();
+        if (suggestion.status.color) embed.setColor(suggestion.status.color as ColorResolvable);
         embed.setTitle(`#${suggestion.id} - ${this.stripLength(suggestion.title, 100)}`);
         embed.setDescription(this.stripLength(this.fixContent(description), 4092));
         if (avatar) embed.setFooter({ text: str, iconURL: this.parseAvatarUrl(avatar) });

@@ -96,6 +96,7 @@ export default class extends Subcommand {
                     'deleteSuggestion',
                     'deleteSuggestionComment',
                     'userSuggestionVote',
+                    'updateSuggestion',
                 ],
             });
 

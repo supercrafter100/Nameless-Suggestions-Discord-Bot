@@ -49,10 +49,16 @@ export default class {
         const isVote = req.body.event === 'userSuggestionVote';
         const isCommentDelete = req.body.event === 'deleteSuggestionComment';
         const isSuggestionDelete = req.body.event === 'deleteSuggestion';
+        const isSuggestionUpdate = req.body.event === 'updateSuggestion';
 
         if (
             !suggestionId ||
-            (!isNewSuggestion && !isNewComment && !isVote && !isCommentDelete && !isSuggestionDelete)
+            (!isNewSuggestion &&
+                !isNewComment &&
+                !isVote &&
+                !isCommentDelete &&
+                !isSuggestionDelete &&
+                !isSuggestionUpdate)
         ) {
             this.logger.error(`Unknown webhook data... The follow body was present:`);
             console.log(req.body);
@@ -80,6 +86,7 @@ export default class {
         if (isCommentDelete) type = 'comment delete';
         if (isVote) type = 'vote';
         if (isSuggestionDelete) type = 'suggestion delete';
+        if (isSuggestionUpdate) type = 'suggestion updated';
 
         this.logger.debug(
             'Received network request for suggestion with title ' +
@@ -121,6 +128,10 @@ export default class {
 
         if (isSuggestionDelete) {
             this.client.suggestions.removeDeletedSuggestion(suggestion);
+        }
+
+        if (isSuggestionUpdate) {
+            this.client.suggestions.updateSuggestionEmbed(suggestion, guildData);
         }
     }
 }

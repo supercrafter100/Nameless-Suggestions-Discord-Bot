@@ -19,6 +19,7 @@ export interface ApiSuggestion {
         id: string;
         name: string;
         open: boolean;
+        color?: string;
     };
     category: {
         id: string;
