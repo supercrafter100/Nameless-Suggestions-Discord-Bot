@@ -4,7 +4,8 @@
             "set": {
                 "apikey": {
                     "invalid_key": "De API adres of API sleutel is ongeldig.",
-                    "success": "De API sleutel is ingesteld."
+                    "success": "De API sleutel is ingesteld.",
+                    "success_2_1": "De api sleutel is ingesteld. Een webhook is automatisch aangemaakt op je website omdat je NamelessMC v2.1 of hoger gebruikt. Alles is ingesteld! Als je de bot al eerder ingesteld had, is de kans groot dat de webhook opnieuw is aangemaakt (dus verwijder deze nieuw aangemaakte)"
                 },
                 "suggestionChannel": {
                     "no_textchannel": "Het kanaal moet een tekst kanaal zijn (en geen nieuws kanaal)",
@@ -41,5 +42,6 @@
         "cannot_find_user": "Je moet je website account gelinkt hebben om te kunnen reageren via Discord!",
         "reaction_registered": "Uw `{reaction}` reactie is toegevoegd op de website.",
         "suggested_by": "gesuggereerd door {user}"
-    }
+    },
+    "invalid-setup": "De bot is nog niet correct geconfigureerd. Contacteer de server administror!"
 }
