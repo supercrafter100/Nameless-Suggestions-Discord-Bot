@@ -455,8 +455,24 @@ export default class {
     }
 
     private fixContent(content: string) {
-        content = content.replace(/<br \/>/g, '');
-        return content;
+        const map: Record<string, string> = {
+            '&amp;': '&',
+            '&#038;': '&',
+            '&nbsp;': ' ',
+            '&lt;': '<',
+            '&gt;': '>',
+            '&quot;': '"',
+            '&#039;': "'",
+            '&#8217;': '’',
+            '&#8216;': '‘',
+            '&#8211;': '–',
+            '&#8212;': '—',
+            '&#8230;': '…',
+            '&#8221;': '”',
+            '<br>': '\n',
+            '<br/>': '\n',
+        };
+        return content.replace(/&[\w\d#]{2,5};/g, (m) => map[m] ?? m);
     }
 
     //
