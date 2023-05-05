@@ -24,7 +24,7 @@ import Comment from '../database/models/comment.model';
 export default class {
     private sentThreadMessages = new Set<`${string}-${string}-${string}`>();
 
-    constructor(private readonly bot: Bot) {}
+    constructor(private readonly bot: Bot) { }
 
     public async createSuggestion(suggestion: SuggestionClass, guildInfo: Guild) {
         // Check if there is already an embed for this suggestion, we can skip this entire step if there is
@@ -147,14 +147,14 @@ export default class {
         let threadMessage: Message;
         if (webhook) {
             threadMessage = await webhook.send({
-                content: this.fixContent(content),
+                content: this.stripLength(this.fixContent(content), 2000),
                 username: commentInfo.user.username,
                 avatarURL: authorAvatar,
                 threadId: message.thread.id,
             });
         } else {
             const embed = this.bot.embeds.baseNoFooter();
-            embed.setDescription(this.stripLength(this.fixContent(content), 2048));
+            embed.setDescription(this.stripLength(this.fixContent(content), 2000));
             embed.setAuthor({ name: commentInfo.user.username, iconURL: authorAvatar });
             threadMessage = await message.thread.send({ embeds: [embed] });
         }
