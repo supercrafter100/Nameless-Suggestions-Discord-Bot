@@ -23,6 +23,15 @@ export function splitOversizedMessage(content: string, length = 2000) {
 
     let currentPart = '';
     for (let i = 0; i < words.length; i++) {
+        // Edge case where people might spam one giant word
+        if (words[i].length + 1 > length) {
+            parts.push(currentPart.trim());
+            parts.push(words[i].substring(0, length - 3) + '...');
+            currentPart = '';
+            continue;
+        }
+
+        // Check if word fits in our current context
         if (currentPart.length + (' ' + words[i]).length > length) {
             parts.push(currentPart.trim());
             currentPart = words[i];
