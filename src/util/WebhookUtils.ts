@@ -16,3 +16,20 @@ export async function getWebhookForChannel(channel: TextChannel) {
 
     return newHook;
 }
+
+export function splitOversizedMessage(content: string, length = 2000) {
+    const words = content.split(' ');
+    const parts = [];
+
+    let currentPart = '';
+    for (let i = 0; i < words.length; i++) {
+        if (currentPart.length + (' ' + words[i]).length > length) {
+            parts.push(currentPart.trim());
+            currentPart = words[i];
+        } else {
+            currentPart += ' ' + words[i];
+        }
+    }
+
+    return parts;
+}
