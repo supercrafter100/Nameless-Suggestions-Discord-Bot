@@ -40,6 +40,6 @@ export function splitOversizedMessage(content: string, length = 2000) {
         }
     }
 
-    if (currentPart.trim().length > 0) parts.push(currentPart);
+    if (currentPart.trim().length > 0) parts.push(currentPart.trim());
     return parts;
 }
