@@ -479,11 +479,8 @@ export default class {
             '&#8212;': '—',
             '&#8230;': '…',
             '&#8221;': '”',
-            '<br>': '',
-            '<br/>': '',
-            '<br />': '',
         };
-        return content.replace(/&[\w\d#]{2,5};/g, (m) => map[m] ?? m);
+        return content.replace(/<br \/>/g, '').replace(/&[\w\d#]{2,5};/g, (m) => map[m] ?? m);
     }
 
     //

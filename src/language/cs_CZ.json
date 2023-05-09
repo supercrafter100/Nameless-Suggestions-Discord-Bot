@@ -16,7 +16,8 @@
                 },
                 "apikey": {
                     "success": "Klíč API byl nastaven.",
-                    "invalid_key": "URL API nebo klíč API je neplatný."
+                    "invalid_key": "URL API nebo klíč API je neplatný.",
+                    "success_2_1": "Byl nastaven klíč API. Na vašem webu byl automaticky vytvořen webhook, protože používáte NamelessMC v2.1 nebo novější. Měli byste být připraveni! Pokud jste již dříve nastavili bota, byl webhook nejspíš vytvořen znovu (takže byste tento nově vytvořený webhook měli odstranit)"
                 }
             }
         },

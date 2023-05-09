@@ -4,7 +4,8 @@
             "set": {
                 "apikey": {
                     "success": "Se ha establecido la clave de la API.",
-                    "invalid_key": "La URL o la clave de la API no son válidas."
+                    "invalid_key": "La URL o la clave de la API no son válidas.",
+                    "success_2_1": "La clave de la API se ha establecido. Se ha creado automáticamente un webhook en tu sitio web porque estás usando NamelessMC v2.1 o superior. ¡Debería estar todo configurado! Si ya habías configurado el bot antes, es probable que se haya creado el webhook nuevamente (por lo que deberías eliminar este nuevo)"
                 },
                 "authkey": {
                     "success": "El token de autorización ha sido cambiado a `{token}`. Puedes encontrar una nueva URL de webhook usando el comando `/webhookurl`."
