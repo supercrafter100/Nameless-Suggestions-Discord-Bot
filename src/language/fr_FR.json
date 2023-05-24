@@ -1,1 +1,16 @@
-{}
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "apikey": {
+                    "invalid_key": "L'URL ou la clé de l'API n'est pas valide.",
+                    "success": "La clé de l'API a été définie.",
+                    "success_2_1": "La clé API a été définie. Un webhook a été créé automatiquement sur votre site internet parce que vous utilisez NamelessMC v2.1 ou supérieur. Vous devriez être prêt ! Si vous aviez déjà configuré le bot auparavant, le webhook a probablement été créé à nouveau (vous devriez donc supprimer celui qui vient d'être créé)"
+                },
+                "authkey": {
+                    "success": "Le jeton d'autorisation a été changé en `{token}`. Vous pouvez trouver une nouvelle URL de webhook en utilisant la commande `/webhookurl`."
+                }
+            }
+        }
+    }
+}
