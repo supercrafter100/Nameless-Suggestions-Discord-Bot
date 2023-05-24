@@ -137,9 +137,7 @@ export default class {
         if (!author) {
             return;
         }
-        const authorAvatar =
-            author.avatar_url ||
-            `https://avatars.dicebear.com/api/initials/${suggestion.apiData.author.username}.png?size=128`;
+        const authorAvatar = author.avatar_url || `https://cravatar.eu/helmavatar/${author.username}`;
 
         // Get webhook to send message as
         const webhook = await getWebhookForChannel(channel);
