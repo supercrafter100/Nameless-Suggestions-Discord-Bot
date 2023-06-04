@@ -132,11 +132,11 @@ export default class {
         }
 
         const content = await this.replaceMessagePlaceholders(guildInfo.id, commentInfo.content);
-
-        const author = await suggestion.getAuthor();
+        const author = await NamelessUser.getUserById(commentInfo.user.id, guildInfo.id, this.bot);
         if (!author) {
             return;
         }
+
         const authorAvatar = author.avatar_url || `https://cravatar.eu/helmavatar/${author.username}`;
 
         // Get webhook to send message as
