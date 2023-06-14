@@ -429,7 +429,7 @@ export default class {
 
         const embed = this.bot.embeds.base();
         if (suggestion.status.color) embed.setColor(suggestion.status.color as ColorResolvable);
-        embed.setTitle(`#${suggestion.id} - ${this.stripLength(suggestion.title, 100)}`);
+        embed.setTitle(`#${suggestion.id} - ${this.stripLength(this.fixContent(suggestion.title), 100)}`);
         embed.setDescription(this.stripLength(this.fixContent(description), 4092));
         if (avatar) embed.setFooter({ text: str, iconURL: this.parseAvatarUrl(avatar) });
         else embed.setFooter({ text: str });

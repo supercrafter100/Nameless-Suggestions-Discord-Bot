@@ -104,6 +104,34 @@ export default class Bot extends Discord.Client<true> {
                     }
                 }
             }
+
+            if (command == 'getsiteversions') {
+                const allGuilds = await Guild.findAll();
+                for (const dbGuild of allGuilds) {
+                    const guild = await this.guilds
+                        .fetch(dbGuild.id)
+                        .catch(() =>
+                            this.logger.warn(`Could not fetch guild info for ${dbGuild.id}, am I not in it anymore?`)
+                        );
+                    if (guild) {
+                        if (!dbGuild.apikey || !dbGuild.apiurl) {
+                            this.logger.warn(`No api key configured for ${guild.name} (${guild.id})`);
+                            continue;
+                        }
+
+                        // Fetch website info
+                        const websiteInfo = await this.suggestionsApi.getWebsiteInfo(guild.id);
+                        if (!websiteInfo) {
+                            this.logger.warn(`No website info found for ${guild.name} (${guild.id})`);
+                            continue;
+                        }
+
+                        this.logger.info(
+                            `${guild.name} (${guild.id}) is running NamelessMC Version ${websiteInfo.nameless_version}`
+                        );
+                    }
+                }
+            }
         });
     }
 }
