@@ -32,7 +32,8 @@
         "webhookurl": {
             "generate_key_first": "You need to generate an authorization token first using `/settings set authkey`.",
             "success": "The URL is: `{url}`.\nPlease use this URL as the Discord webhook URL for the Suggestions module."
-        }
+        },
+        "donate": "If you want to support my work and cover the hosting costs of this bot, a (monthly) donation would be really appreciated! You can support me [here]({x})"
     },
     "invalid-setup": "The bot has not yet been properly configured. Contact the server administrator!",
     "permission_required": "You do not have the required \"{permission}\" permission",
