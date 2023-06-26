@@ -32,7 +32,8 @@
         "webhookurl": {
             "success": "URL je: `{url}`.\nPoužijte toto jako URL Discord webhooku pro doplněk nápadů.",
             "generate_key_first": "Nejprve musíte vygenerovat autorizační token pomocí `/settings set authkey`."
-        }
+        },
+        "donate": "Pokud chcete podpořit mou práci a pokrýt náklady na hosting tohoto bota, velmi bych si vážil (měsíčních) příspěvků! Podpořit mě můžete [zde]({x})"
     },
     "permission_required": "Nemáte požadované oprávnění \"{permission}\"",
     "suggestionHandler": {
