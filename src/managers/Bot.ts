@@ -11,6 +11,7 @@ import SuggestionApiHandler from './SuggestionApiHandler';
 import { db } from '..';
 import LanguageManager from './LanguageManager';
 import Guild from '../database/models/guild.model';
+import { createClient } from 'redis';
 
 export default class Bot extends Discord.Client<true> {
     //      Handlers
@@ -25,6 +26,7 @@ export default class Bot extends Discord.Client<true> {
 
     //      Util
 
+    public readonly redis;
     public readonly logger = new Logger();
     public readonly embeds = new Embeds(this);
     public readonly webserver;
@@ -42,6 +44,7 @@ export default class Bot extends Discord.Client<true> {
         this.webserver = new Webserver(this);
         this.suggestions = new SuggestionHandler(this);
         this.suggestionsApi = new SuggestionApiHandler(this);
+        this.redis = createClient({ url: process.env.REDIS_URL });
 
         this.logger.prefix = chalk.green('BOT');
         this.devmode = process.env.npm_lifecycle_event == 'dev';
@@ -58,6 +61,7 @@ export default class Bot extends Discord.Client<true> {
         this.commands.loadFromDirectory(join(__dirname, '../commands'));
         db.sync();
         LanguageManager.loadLanguages(join(__dirname, '../language'));
+        await this.redis.connect();
     }
 
     private async startStdinListener() {

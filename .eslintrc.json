@@ -5,7 +5,10 @@
         "prettier"
     ],
     "rules": {
-        "prettier/prettier": "error",
+        "prettier/prettier": [
+            "error", 
+            { "endOfLine": "auto "}
+        ],        
         "indent": ["error", 4]
     },
     "extends": [
