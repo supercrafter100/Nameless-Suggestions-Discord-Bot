@@ -7,7 +7,7 @@
     "rules": {
         "prettier/prettier": [
             "error", 
-            { "endOfLine": "auto "}
+            { "endOfLine": "auto"}
         ],        
         "indent": ["error", 4]
     },

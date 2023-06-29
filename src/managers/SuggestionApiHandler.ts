@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import Bot from './Bot';
 import { readdirSync } from 'fs';
 import { join } from 'path';

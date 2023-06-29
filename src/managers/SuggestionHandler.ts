@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import BaseSuggestionHandler from './BaseSuggestionHandler.js';
 import Bot from './Bot.js';
 import { join } from 'path';
