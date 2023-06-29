@@ -11,13 +11,12 @@ export default abstract class BaseSuggestionHandler {
     abstract minVersion: number;
     abstract maxVersion: number | undefined;
 
-    public api: BaseSuggestionAPI;
+    public api!: BaseSuggestionAPI;
     public bot: Bot;
 
     public sentThreadMessages = new Set<`${string}-${string}-${string}`>();
 
-    constructor(api: BaseSuggestionAPI, bot: Bot) {
-        this.api = api;
+    constructor(bot: Bot) {
         this.bot = bot;
     }
 

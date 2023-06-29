@@ -20,7 +20,7 @@ export default class {
                 const endpointClass = require(endpointPath).default;
                 if (endpointClass) {
                     this.bot.logger.info(`Loaded api handler ${chalk.yellow(endpointName)}`);
-                    this.loadedApi.push(new endpointClass(this.bot));
+                    this.loadedApi.push(new endpointClass());
                 }
             }
         }

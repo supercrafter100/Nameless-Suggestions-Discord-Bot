@@ -47,6 +47,8 @@ export default class {
             this.bot.logger.warn(`No suitable api handler found for guild ${guildId} with version ${apiVersion}`);
             suitableApi = this.loadedHandler[0]; // Fall back to the most recent api handler
         }
+
+        suitableApi.api = await this.bot.suggestionsApi.getApi(guildId);
         return suitableApi;
     }
 }
