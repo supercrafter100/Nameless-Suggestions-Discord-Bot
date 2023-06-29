@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export default class UserTransformer<T> {
     public static ID = new UserTransformer<string>('id');
     public static USERNAME = new UserTransformer<string>('username');

@@ -8,8 +8,9 @@ export default class InteractionCreate extends Event<'interactionCreate'> {
     public async run(interaction: Interaction) {
         if (interaction.isCommand()) return this.client.commands.runCommand(interaction as CommandInteraction);
 
+        if (!interaction.guildId) return;
         if (interaction.isButton() && ['like-suggestion', 'dislike-suggestion'].includes(interaction.customId)) {
-            const suggestionHandler = await this.client.suggestions.getHandler(interaction.guildId!);
+            const suggestionHandler = await this.client.suggestions.getHandler(interaction.guildId);
             suggestionHandler.handleReactionInteraction(
                 interaction,
                 reactionType[interaction.customId === 'like-suggestion' ? 'LIKE' : 'DISLIKE']

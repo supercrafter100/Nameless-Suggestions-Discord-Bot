@@ -285,13 +285,13 @@ export default class extends BaseSuggestionHandler {
                 mustBeRemoved
             )
             .catch(async (error) => {
-                if (!(error instanceof ApiError)) {
+                if (!(error instanceof ApiError) || !interaction.guildId) {
                     return;
                 }
 
                 if (error.namespace === 'nameless' && error.code === 'cannot_find_user') {
                     const str = await LanguageManager.getString(
-                        interaction.guildId!,
+                        interaction.guildId,
                         'suggestionHandler.cannot_find_user'
                     );
                     const embed = this.bot.embeds.base();

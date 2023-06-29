@@ -28,7 +28,7 @@ export default class InteractionCreate extends Event<'interactionCreate'> {
             const res = await apiHandler
                 .createSuggestion(credentials, title, description, interaction.user.id)
                 .catch(async (err) => {
-                    if (!(err instanceof ApiError)) {
+                    if (!(err instanceof ApiError) || !interaction.guildId) {
                         this.client.logger.error('Error sending suggestion: ', err);
                         interaction.editReply('Something broke! Please try again later.');
                         return;
@@ -36,7 +36,7 @@ export default class InteractionCreate extends Event<'interactionCreate'> {
 
                     if (err.namespace === 'nameless' && err.code === 'cannot_find_user') {
                         const str = await LanguageManager.getString(
-                            interaction.guildId!,
+                            interaction.guildId,
                             'commands.suggest.cannot_find_user'
                         );
                         const embed = this.client.embeds.base();
@@ -47,10 +47,10 @@ export default class InteractionCreate extends Event<'interactionCreate'> {
 
                     if (err.namespace === 'nameless' && err.code === 'validation_errors') {
                         const str = await LanguageManager.getString(
-                            interaction.guildId!,
+                            interaction.guildId,
                             'commands.suggest.validation-error',
                             'error',
-                            err.meta!.join(', ')
+                            err.meta?.join(', ') || ''
                         );
                         const embed = this.client.embeds.base();
                         embed.setDescription(str);

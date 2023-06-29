@@ -1,9 +1,8 @@
-import UserFilter from "./UserFilter";
+import UserFilter from './UserFilter';
 
 export default class FilteredUserListBuilder {
-
     private filters: Map<UserFilter<unknown>, unknown> = new Map();
-    private operator: "AND" | "OR" = "AND";
+    private operator: 'AND' | 'OR' = 'AND';
 
     public withFilter<T>(filter: UserFilter<T>, value: T) {
         this.filters.set(filter, value);
@@ -11,22 +10,22 @@ export default class FilteredUserListBuilder {
     }
 
     public all() {
-        this.operator = "AND";
+        this.operator = 'AND';
         return this;
     }
 
     public any() {
-        this.operator = "OR";
+        this.operator = 'OR';
         return this;
     }
 
     public build() {
         const parameters: string[] = [];
         if (this.filters != null) {
-            parameters.push("operator");
+            parameters.push('operator');
             parameters.push(this.operator);
-            parameters.push("limit");
-            parameters.push("0");
+            parameters.push('limit');
+            parameters.push('0');
             for (const [k, v] of this.filters) {
                 parameters.push(k.name());
                 parameters.push(v as string);

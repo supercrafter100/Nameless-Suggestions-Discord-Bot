@@ -86,7 +86,7 @@ export default class extends Subcommand {
             await guildData.save();
 
             const apiHandler = await (this.client as Bot).suggestionsApi.getApi(interaction.guildId);
-            const credentials = (await Database.getApiCredentials(interaction.guildId))!; // We can be certain they are defined here
+            const credentials = { url: apiurl, key: apikey }; // We can be certain they are defined here
 
             const url = process.env.DOMAIN + (process.env.DOMAIN.endsWith('/') ? '' : '/') + 'webhook/' + token;
             await apiHandler.createWebhook(credentials, {
