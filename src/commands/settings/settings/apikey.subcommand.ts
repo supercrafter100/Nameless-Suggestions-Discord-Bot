@@ -4,7 +4,7 @@ import Bot from '../../../managers/Bot';
 import fetch from 'node-fetch';
 import Database from '../../../database/Database';
 import LanguageManager from '../../../managers/LanguageManager';
-import { APIWebsiteInfo } from '../../../types';
+import { APIWebsiteInfo } from '../../../api/types';
 import { nanoid } from 'nanoid';
 
 export default class extends Subcommand {
@@ -85,9 +85,11 @@ export default class extends Subcommand {
             guildData.set('authorizationKey', token);
             await guildData.save();
 
-            const url = process.env.DOMAIN + (process.env.DOMAIN.endsWith('/') ? '' : '/') + 'webhook/' + token;
+            const apiHandler = await (this.client as Bot).suggestionsApi.getApi(interaction.guildId);
+            const credentials = { url: apiurl, key: apikey }; // We can be certain they are defined here
 
-            await (this.client as Bot).suggestionsApi.createWebhook(interaction.guildId, {
+            const url = process.env.DOMAIN + (process.env.DOMAIN.endsWith('/') ? '' : '/') + 'webhook/' + token;
+            await apiHandler.createWebhook(credentials, {
                 name: 'Suggestions discord bot',
                 url: url,
                 events: [

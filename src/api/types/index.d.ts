@@ -99,3 +99,17 @@ export interface ApiUser {
     };
     avatar_url?: string;
 }
+
+export interface CreateCommentResponse {
+    comment_id: number;
+}
+
+export interface SendReactionResponse {
+    message: string;
+}
+
+export interface ApiError {
+    error: string;
+    message: string;
+    meta?: string[];
+}

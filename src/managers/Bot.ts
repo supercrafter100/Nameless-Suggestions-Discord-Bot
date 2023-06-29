@@ -11,6 +11,8 @@ import SuggestionApiHandler from './SuggestionApiHandler';
 import { db } from '..';
 import LanguageManager from './LanguageManager';
 import Guild from '../database/models/guild.model';
+import Redis from 'ioredis';
+import Database from '../database/Database.js';
 
 export default class Bot extends Discord.Client<true> {
     //      Handlers
@@ -25,6 +27,7 @@ export default class Bot extends Discord.Client<true> {
 
     //      Util
 
+    public readonly redis;
     public readonly logger = new Logger();
     public readonly embeds = new Embeds(this);
     public readonly webserver;
@@ -42,6 +45,11 @@ export default class Bot extends Discord.Client<true> {
         this.webserver = new Webserver(this);
         this.suggestions = new SuggestionHandler(this);
         this.suggestionsApi = new SuggestionApiHandler(this);
+        this.redis = new Redis({
+            host: process.env.redis_host,
+            port: parseInt(process.env.redis_port ?? '6379'),
+            password: process.env.redis_password,
+        });
 
         this.logger.prefix = chalk.green('BOT');
         this.devmode = process.env.npm_lifecycle_event == 'dev';
@@ -58,6 +66,9 @@ export default class Bot extends Discord.Client<true> {
         this.commands.loadFromDirectory(join(__dirname, '../commands'));
         db.sync();
         LanguageManager.loadLanguages(join(__dirname, '../language'));
+
+        this.suggestionsApi.loadApiVersions();
+        this.suggestions.loadHandlerVersions();
     }
 
     private async startStdinListener() {
@@ -65,21 +76,6 @@ export default class Bot extends Discord.Client<true> {
             const input = data.toString().trim();
             const args = input.split(/ +/g);
             const command = args.shift();
-
-            if (command == 'migrate') {
-                const guild = args[0];
-                if (!guild) {
-                    this.logger.error('No guild specified');
-                    return;
-                }
-
-                this.logger.info(`Migrating suggestions for guild ${guild}`);
-                if (args[1]) {
-                    this.suggestions.sendAllSuggestions(guild, parseInt(args[1]));
-                } else {
-                    this.suggestions.sendAllSuggestions(guild);
-                }
-            }
 
             if (command == 'sendreminder') {
                 const allGuilds = await Guild.findAll();
@@ -120,7 +116,15 @@ export default class Bot extends Discord.Client<true> {
                         }
 
                         // Fetch website info
-                        const websiteInfo = await this.suggestionsApi.getWebsiteInfo(guild.id);
+                        const credentials = await Database.getApiCredentials(guild.id);
+                        if (!credentials) {
+                            this.logger.warn(`No api credentials found for ${guild.name} (${guild.id})`);
+                            continue;
+                        }
+
+                        const websiteInfo = await (
+                            await this.suggestionsApi.getApi(guild.id)
+                        ).getWebsiteInfo(credentials);
                         if (!websiteInfo) {
                             this.logger.warn(`No website info found for ${guild.name} (${guild.id})`);
                             continue;

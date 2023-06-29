@@ -100,8 +100,16 @@ export default class {
                 chalk.yellow(type)
         );
 
+        const suggestionHandler = await this.client.suggestions.getHandler(guildData.id);
+        const suggestionApi = await this.client.suggestionsApi.getApi(guildData.id);
+        const credentials = await Database.getApiCredentials(guildData.id);
+        if (!credentials) {
+            this.logger.warn(`No api credentials found for guild ${guildData.id} yet recieved an incoming request`);
+            return;
+        }
+
         if (isNewSuggestion) {
-            this.client.suggestions.createSuggestion(suggestion, guildData);
+            suggestionHandler.createSuggestion(suggestion, guildData);
         }
 
         if (isNewComment) {
@@ -109,29 +117,29 @@ export default class {
                 ? req.body.comment_id
                 : req.body.embeds[0]?.url.split('#')[1]?.split('-')[1];
 
-            const commentInfo = await this.client.suggestionsApi.getCommentInfo(suggestionId, commentId, guildData.id);
+            const commentInfo = await suggestionApi.getComment(credentials, suggestionId, commentId);
             if (!commentInfo) {
                 this.logger.error(`No comment info found for comment ${commentId}`);
                 return;
             }
 
-            this.client.suggestions.createComment(suggestion, guildData, commentInfo);
+            suggestionHandler.createComment(suggestion, guildData, commentInfo);
         }
 
         if (isVote) {
-            this.client.suggestions.updateSuggestionEmbed(suggestion, guildData);
+            suggestionHandler.updateSuggestionEmbed(suggestion, guildData);
         }
 
         if (isCommentDelete) {
-            this.client.suggestions.removeDeletedComment(suggestion, req.body.comment_id);
+            suggestionHandler.removeDeletedComment(suggestion, req.body.comment_id);
         }
 
         if (isSuggestionDelete) {
-            this.client.suggestions.removeDeletedSuggestion(suggestion);
+            suggestionHandler.removeDeletedSuggestion(suggestion);
         }
 
         if (isSuggestionUpdate) {
-            this.client.suggestions.updateSuggestionEmbed(suggestion, guildData);
+            suggestionHandler.updateSuggestionEmbed(suggestion, guildData);
         }
     }
 }

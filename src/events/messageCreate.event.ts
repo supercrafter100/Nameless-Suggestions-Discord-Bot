@@ -6,7 +6,7 @@ export default class InteractionCreate extends Event<'messageCreate'> {
     public event = 'messageCreate';
 
     public async run(msg: Message<true>) {
-        if (!msg.guild || !msg.guild.id) return;
+        if (!msg.guild || !msg.guild.id || !msg.guildId) return;
         const guildData = await Database.getGuildData(msg.guild.id);
 
         if (guildData.suggestionChannel === msg.channel.id && msg.system) {
@@ -20,7 +20,8 @@ export default class InteractionCreate extends Event<'messageCreate'> {
             !msg.author.bot &&
             !msg.author.system
         ) {
-            this.client.suggestions.sendCommentToSite(msg);
+            const suggestionHandler = await this.client.suggestions.getHandler(msg.guildId);
+            suggestionHandler.sendComment(msg);
         }
     }
 }

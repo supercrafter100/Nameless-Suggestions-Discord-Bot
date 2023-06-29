@@ -1,16 +1,19 @@
 import { CommandInteraction, Interaction } from 'discord.js';
 import { Event } from '../handlers/EventHandler';
+import { reactionType } from '../managers/BaseSuggestionAPI.js';
 
 export default class InteractionCreate extends Event<'interactionCreate'> {
     public event = 'interactionCreate';
 
-    public run(interaction: Interaction) {
+    public async run(interaction: Interaction) {
         if (interaction.isCommand()) return this.client.commands.runCommand(interaction as CommandInteraction);
 
+        if (!interaction.guildId) return;
         if (interaction.isButton() && ['like-suggestion', 'dislike-suggestion'].includes(interaction.customId)) {
-            this.client.suggestions.handleButtonInteraction(
+            const suggestionHandler = await this.client.suggestions.getHandler(interaction.guildId);
+            suggestionHandler.handleReactionInteraction(
                 interaction,
-                interaction.customId === 'like-suggestion' ? 'like' : 'dislike'
+                reactionType[interaction.customId === 'like-suggestion' ? 'LIKE' : 'DISLIKE']
             );
         }
     }
