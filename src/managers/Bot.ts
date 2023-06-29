@@ -11,7 +11,8 @@ import SuggestionApiHandler from './SuggestionApiHandler';
 import { db } from '..';
 import LanguageManager from './LanguageManager';
 import Guild from '../database/models/guild.model';
-import { createClient } from 'redis';
+import Redis from 'ioredis';
+import Database from '../database/Database.js';
 
 export default class Bot extends Discord.Client<true> {
     //      Handlers
@@ -44,7 +45,7 @@ export default class Bot extends Discord.Client<true> {
         this.webserver = new Webserver(this);
         this.suggestions = new SuggestionHandler(this);
         this.suggestionsApi = new SuggestionApiHandler(this);
-        this.redis = createClient({ url: process.env.REDIS_URL });
+        this.redis = new Redis(process.env.REDIS_URL as string);
 
         this.logger.prefix = chalk.green('BOT');
         this.devmode = process.env.npm_lifecycle_event == 'dev';
@@ -124,7 +125,15 @@ export default class Bot extends Discord.Client<true> {
                         }
 
                         // Fetch website info
-                        const websiteInfo = await this.suggestionsApi.getWebsiteInfo(guild.id);
+                        const credentials = await Database.getApiCredentials(guild.id);
+                        if (!credentials) {
+                            this.logger.warn(`No api credentials found for ${guild.name} (${guild.id})`);
+                            continue;
+                        }
+
+                        const websiteInfo = await (
+                            await this.suggestionsApi.getApi(guild.id)
+                        ).getWebsiteInfo(credentials);
                         if (!websiteInfo) {
                             this.logger.warn(`No website info found for ${guild.name} (${guild.id})`);
                             continue;

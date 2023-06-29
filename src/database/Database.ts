@@ -26,8 +26,8 @@ export default class Database {
         }
 
         return {
-            apiurl: guildData.apiurl + (guildData.apiurl.endsWith('/') ? '' : '/'),
-            apikey: guildData.apikey,
+            url: guildData.apiurl + (guildData.apiurl.endsWith('/') ? '' : '/'),
+            key: guildData.apikey,
         };
     }
 }

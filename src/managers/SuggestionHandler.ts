@@ -13,7 +13,7 @@ import Database from '../database/Database';
 import Guild from '../database/models/guild.model';
 import Suggestion from '../database/models/suggestion.model';
 import { Suggestion as SuggestionClass } from '../classes/Suggestion';
-import { ApiComment, ApiSuggestion } from '../types';
+import { ApiComment, ApiSuggestion } from '../api/types';
 import Bot from './Bot';
 import LanguageManager from './LanguageManager';
 import { URL } from 'url';

@@ -1,14 +1,24 @@
 import { APIUser, Snowflake } from 'discord.js';
-import { APIWebsiteInfo, ApiComment, ApiCommentsResponse, ApiListSuggestion, ApiSuggestion } from '../types/index.js';
+import {
+    APIWebsiteInfo,
+    ApiComment,
+    ApiCommentsResponse,
+    ApiListSuggestion,
+    ApiSuggestion,
+    CreateCommentResponse,
+} from '../api/types/index.js';
 
 export type createWebhookOptions = { name?: string; url: string; events: string[] };
 export enum reactionType {
-    LIKE,
-    DISLIKE,
+    LIKE = 'like',
+    DISLIKE = 'dislike',
 }
 export type ApiCredentials = { url: string; key: string };
 
 export default abstract class BaseSuggestionAPI {
+    abstract minVersion: number;
+    abstract maxVersion: number | undefined;
+
     /**
      * Get website info
      * @param credentials The credentials to use
@@ -20,7 +30,7 @@ export default abstract class BaseSuggestionAPI {
      * @param credentials The credentials to use
      * @param options The options used for creating the webhook
      */
-    abstract createWebhook(credentials: ApiCredentials, options: createWebhookOptions): Promise<boolean>;
+    abstract createWebhook(credentials: ApiCredentials, options: createWebhookOptions): Promise<void>;
 
     /**
      * Get a list of all suggestions from the site (CAN BE REALLY LONG)
@@ -49,15 +59,21 @@ export default abstract class BaseSuggestionAPI {
         type: reactionType,
         userId: Snowflake,
         mustBeRemoved: boolean
-    ): Promise<unknown>;
+    ): Promise<void>;
 
     /**
      * Create a comment on a suggestion
      * @param credentials The credentials to use
+     * @param suggestionId The suggestion id to create a comment for
      * @param content The content of the comment
      * @param userId The user id of the discord user that sends the comment
      */
-    abstract createComment(credentials: ApiCredentials, content: string, userId: Snowflake): Promise<unknown>;
+    abstract createComment(
+        credentials: ApiCredentials,
+        suggestionId: string,
+        content: string,
+        userId: Snowflake
+    ): Promise<CreateCommentResponse>;
 
     /**
      * Get a comment for a suggestion
@@ -72,7 +88,7 @@ export default abstract class BaseSuggestionAPI {
      * @param credentials The credentials to use
      * @param suggestionId The suggestion id to get the comments for
      */
-    abstract getSuggestionComments(credentials: ApiCredentials, suggestionId: string): Promise<ApiCommentsResponse>;
+    abstract getComments(credentials: ApiCredentials, suggestionId: string): Promise<ApiCommentsResponse>;
 
     /**
      * Create a suggestion
@@ -86,7 +102,7 @@ export default abstract class BaseSuggestionAPI {
         title: string,
         content: string,
         userId: Snowflake
-    ): Promise<unknown>;
+    ): Promise<void>;
 
     /**
      * Get info about a user by user id
