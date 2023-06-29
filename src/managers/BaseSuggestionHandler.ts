@@ -1,10 +1,10 @@
 import { ButtonInteraction, Message, Snowflake, EmbedBuilder } from 'discord.js';
-import { ApiComment } from '../api/types/index.js';
+import { ApiComment, ApiSuggestion } from '../api/types/index.js';
 import { Suggestion } from '../classes/Suggestion.js';
 import Guild from '../database/models/guild.model.js';
 import BaseSuggestionAPI, { reactionType } from './BaseSuggestionAPI.js';
 import Bot from './Bot.js';
-import chalk from 'chalk/index.js';
+import chalk from 'chalk';
 import Database from '../database/Database.js';
 
 export default abstract class BaseSuggestionHandler {
@@ -54,14 +54,14 @@ export default abstract class BaseSuggestionHandler {
      * @param suggestion The suggestion to update the embed for
      * @param guildInfo The guild info to use
      */
-    abstract updateSuggestionEmbed(suggestion: Suggestion, guildInfo: Snowflake): Promise<void>;
+    abstract updateSuggestionEmbed(suggestion: Suggestion, guildInfo: Guild): Promise<void>;
 
     /**
      * Remove a deleted comment from a suggestion thread
      * @param suggestion The suggestion to delete a comment for
      * @param commentId The id of the comment to remove
      */
-    abstract removedDeletedComment(suggestion: Suggestion, commentId: string): Promise<void>;
+    abstract removeDeletedComment(suggestion: Suggestion, commentId: string): Promise<void>;
 
     /**
      * Remove a deleted suggestion from the suggestion channel
@@ -74,7 +74,7 @@ export default abstract class BaseSuggestionHandler {
      * @param suggestion The suggestion to create an embed for
      * @param guildId The guild id used for the translations
      */
-    abstract createEmbed(suggestion: Suggestion, guildId: Snowflake): Promise<EmbedBuilder>;
+    abstract createEmbed(suggestion: ApiSuggestion, guildId: Snowflake, avatarUrl: string): Promise<EmbedBuilder>;
 
     /**
      * Construct a composite id for a thread message

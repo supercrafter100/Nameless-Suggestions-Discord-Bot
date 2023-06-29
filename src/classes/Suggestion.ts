@@ -1,8 +1,10 @@
-import { ApiSuggestion, ApiCommentsResponse } from '../types';
+import { ApiSuggestion, ApiCommentsResponse } from '../api/types';
 import SuggestionModel from '../database/models/suggestion.model';
 import Bot from '../managers/Bot';
 import chalk from 'chalk';
 import { NamelessUser } from './NamelessUser';
+import Database from '../database/Database.js';
+import { ApiCredentials } from '../managers/BaseSuggestionAPI.js';
 
 export class Suggestion {
     public apiData: ApiSuggestion | undefined;
@@ -12,6 +14,7 @@ export class Suggestion {
     private id: string;
     private client: Bot;
     private guildId: string;
+    private credentials!: ApiCredentials;
 
     public static async getSuggestion(id: string, guildId: string, client: Bot) {
         const suggestion = new Suggestion(id, guildId, client);
@@ -26,7 +29,8 @@ export class Suggestion {
     }
 
     public async getApiData() {
-        const suggestion = (await this.client.suggestionsApi.getSuggestion(this.id, this.guildId)) ?? undefined;
+        const apiProvider = await this.client.suggestionsApi.getApi(this.guildId);
+        const suggestion = await apiProvider.getSuggestion(this.credentials, this.guildId);
         this.apiData = suggestion;
     }
 
@@ -43,7 +47,9 @@ export class Suggestion {
     }
 
     public async getComments() {
-        const comments = await this.client.suggestionsApi.getSuggestionComments(this.id, this.guildId);
+        const apiProvider = await this.client.suggestionsApi.getApi(this.guildId);
+
+        const comments = await apiProvider.getComments(this.credentials, this.id);
         this.comments = comments;
     }
 
@@ -54,6 +60,10 @@ export class Suggestion {
     }
 
     public async refresh() {
+        const credentials = await Database.getApiCredentials(this.guildId);
+        if (!credentials) throw new Error('Credentials were not found!');
+        this.credentials = credentials;
+
         await this.getApiData();
         await this.getDbData();
         await this.getComments();

@@ -1,11 +1,11 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
-import { ApplicationCommandOptionData, ChatInputCommandInteraction } from 'discord.js';
+import { ChatInputCommandInteraction } from 'discord.js';
 import Bot from '../managers/Bot';
 
 export default class extends Command {
     public name = 'setup';
     public description = 'Setup the discord bot';
-    public options: ApplicationCommandOptionData[] = [];
+    public options = [];
 
     public onStart(): void {
         null;

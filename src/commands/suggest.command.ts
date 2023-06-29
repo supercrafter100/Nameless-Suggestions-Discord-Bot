@@ -1,6 +1,5 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
 import {
-    ApplicationCommandOptionData,
     CommandInteraction,
     ActionRowBuilder,
     ModalBuilder,
@@ -14,7 +13,7 @@ import LanguageManager from '../managers/LanguageManager';
 export default class extends Command {
     public name = 'suggest';
     public description = 'Suggest something!';
-    public options: ApplicationCommandOptionData[] = [];
+    public options = [];
 
     public onStart(): void {
         null;

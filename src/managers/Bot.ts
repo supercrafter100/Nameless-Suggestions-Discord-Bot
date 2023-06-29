@@ -45,7 +45,11 @@ export default class Bot extends Discord.Client<true> {
         this.webserver = new Webserver(this);
         this.suggestions = new SuggestionHandler(this);
         this.suggestionsApi = new SuggestionApiHandler(this);
-        this.redis = new Redis(process.env.REDIS_URL as string);
+        this.redis = new Redis({
+            host: process.env.redis_host,
+            port: parseInt(process.env.redis_port ?? '6379'),
+            password: process.env.redis_password,
+        });
 
         this.logger.prefix = chalk.green('BOT');
         this.devmode = process.env.npm_lifecycle_event == 'dev';
@@ -62,7 +66,9 @@ export default class Bot extends Discord.Client<true> {
         this.commands.loadFromDirectory(join(__dirname, '../commands'));
         db.sync();
         LanguageManager.loadLanguages(join(__dirname, '../language'));
-        await this.redis.connect();
+
+        this.suggestionsApi.loadApiVersions();
+        this.suggestions.loadHandlerVersions();
     }
 
     private async startStdinListener() {
@@ -70,21 +76,6 @@ export default class Bot extends Discord.Client<true> {
             const input = data.toString().trim();
             const args = input.split(/ +/g);
             const command = args.shift();
-
-            if (command == 'migrate') {
-                const guild = args[0];
-                if (!guild) {
-                    this.logger.error('No guild specified');
-                    return;
-                }
-
-                this.logger.info(`Migrating suggestions for guild ${guild}`);
-                if (args[1]) {
-                    this.suggestions.sendAllSuggestions(guild, parseInt(args[1]));
-                } else {
-                    this.suggestions.sendAllSuggestions(guild);
-                }
-            }
 
             if (command == 'sendreminder') {
                 const allGuilds = await Guild.findAll();

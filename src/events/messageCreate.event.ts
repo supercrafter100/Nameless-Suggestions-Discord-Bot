@@ -20,7 +20,8 @@ export default class InteractionCreate extends Event<'messageCreate'> {
             !msg.author.bot &&
             !msg.author.system
         ) {
-            this.client.suggestions.sendCommentToSite(msg);
+            const suggestionHandler = await this.client.suggestions.getHandler(msg.guildId!);
+            suggestionHandler.sendComment(msg);
         }
     }
 }

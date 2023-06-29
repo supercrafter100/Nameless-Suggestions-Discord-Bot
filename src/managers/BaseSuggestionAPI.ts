@@ -1,11 +1,13 @@
-import { APIUser, Snowflake } from 'discord.js';
+import { Snowflake } from 'discord.js';
 import {
     APIWebsiteInfo,
     ApiComment,
     ApiCommentsResponse,
     ApiListSuggestion,
     ApiSuggestion,
+    ApiUser,
     CreateCommentResponse,
+    SendReactionResponse,
 } from '../api/types/index.js';
 
 export type createWebhookOptions = { name?: string; url: string; events: string[] };
@@ -59,7 +61,7 @@ export default abstract class BaseSuggestionAPI {
         type: reactionType,
         userId: Snowflake,
         mustBeRemoved: boolean
-    ): Promise<void>;
+    ): Promise<SendReactionResponse>;
 
     /**
      * Create a comment on a suggestion
@@ -102,19 +104,19 @@ export default abstract class BaseSuggestionAPI {
         title: string,
         content: string,
         userId: Snowflake
-    ): Promise<void>;
+    ): Promise<ApiSuggestion>;
 
     /**
      * Get info about a user by user id
      * @param credentials The credentials to use
      * @param userId The user id to get the info for
      */
-    abstract getUser(credentials: ApiCredentials, userId: string): Promise<APIUser>;
+    abstract getUser(credentials: ApiCredentials, userId: string): Promise<ApiUser>;
 
     /**
      * Get info about a user by discord user id
      * @param credentials The credentials to use
      * @param userId The user id to get the info for
      */
-    abstract getUserByDiscordId(credentials: ApiCredentials, userId: Snowflake): Promise<APIUser>;
+    abstract getUserByDiscordId(credentials: ApiCredentials, userId: Snowflake): Promise<ApiUser>;
 }

@@ -1,9 +1,9 @@
 import Bot from './Bot';
-import { readFileSync, readdirSync } from 'fs';
+import { readdirSync } from 'fs';
 import { join } from 'path';
 import BaseSuggestionAPI from './BaseSuggestionAPI.js';
 import Database from '../database/Database.js';
-import chalk from 'chalk/index.js';
+import chalk from 'chalk';
 
 export default class {
     constructor(private readonly bot: Bot) {}
@@ -26,7 +26,6 @@ export default class {
 
         // Sort the endpoints from most recent to least recent
         this.loadedApi.sort((a, b) => b.minVersion - a.minVersion);
-
         this.bot.logger.info(`Loaded ${chalk.yellow(this.loadedApi.length)} api handlers`);
     }
 

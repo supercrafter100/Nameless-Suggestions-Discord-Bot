@@ -1,4 +1,4 @@
-import { APIUser, Snowflake } from 'discord.js';
+import { Snowflake } from 'discord.js';
 import {
     APIWebsiteInfo,
     ApiComment,
@@ -6,6 +6,8 @@ import {
     ApiListSuggestion,
     ApiSuggestion,
     CreateCommentResponse,
+    SendReactionResponse,
+    ApiUser,
 } from '../../api/types/index.js';
 import BaseSuggestionAPI, { ApiCredentials, createWebhookOptions, reactionType } from '../BaseSuggestionAPI.js';
 import { TypedAPIFetch } from '../../util/TypedFetch.js';
@@ -44,13 +46,18 @@ export default class extends BaseSuggestionAPI {
         type: reactionType,
         userId: Snowflake,
         mustBeRemoved: boolean
-    ): Promise<void> {
+    ): Promise<SendReactionResponse> {
         const userTransformer = UserTransformerBuilder(UserTransformer.INTEGRATION_ID, ['discord', userId]);
-        await TypedAPIFetch(credentials, Routes.createReaction(suggestionId, type), 'POST', {
-            user: userTransformer,
-            like: mustBeRemoved,
-            dislike: mustBeRemoved,
-        });
+        return await TypedAPIFetch<SendReactionResponse>(
+            credentials,
+            Routes.createReaction(suggestionId, type),
+            'POST',
+            {
+                user: userTransformer,
+                like: mustBeRemoved,
+                dislike: mustBeRemoved,
+            }
+        );
     }
 
     async createComment(
@@ -74,20 +81,25 @@ export default class extends BaseSuggestionAPI {
         return await TypedAPIFetch<ApiCommentsResponse>(credentials, Routes.getComments(suggestionId));
     }
 
-    async createSuggestion(credentials: ApiCredentials, title: string, content: string, userId: string): Promise<void> {
+    async createSuggestion(
+        credentials: ApiCredentials,
+        title: string,
+        content: string,
+        userId: string
+    ): Promise<ApiSuggestion> {
         const userTransformer = UserTransformerBuilder(UserTransformer.INTEGRATION_ID, ['discord', userId]);
-        await TypedAPIFetch(credentials, Routes.createSuggestion(), 'POST', {
+        return await TypedAPIFetch<ApiSuggestion>(credentials, Routes.createSuggestion(), 'POST', {
             title: title,
             content: content,
             user: userTransformer,
         });
     }
-    async getUser(credentials: ApiCredentials, userId: string): Promise<APIUser> {
+    async getUser(credentials: ApiCredentials, userId: string): Promise<ApiUser> {
         const userTransformer = UserTransformerBuilder(UserTransformer.ID, userId);
-        return await TypedAPIFetch<APIUser>(credentials, Routes.getUser(userTransformer));
+        return await TypedAPIFetch<ApiUser>(credentials, Routes.getUser(userTransformer));
     }
-    async getUserByDiscordId(credentials: ApiCredentials, userId: string): Promise<APIUser> {
+    async getUserByDiscordId(credentials: ApiCredentials, userId: string): Promise<ApiUser> {
         const userTransformer = UserTransformerBuilder(UserTransformer.INTEGRATION_ID, ['discord', userId]);
-        return await TypedAPIFetch<APIUser>(credentials, Routes.getUser(userTransformer));
+        return await TypedAPIFetch<ApiUser>(credentials, Routes.getUser(userTransformer));
     }
 }
