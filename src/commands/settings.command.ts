@@ -1,12 +1,12 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
-import { ApplicationCommandOptionData, ChatInputCommandInteraction, GuildMember } from 'discord.js';
+import { ChatInputCommandInteraction, GuildMember } from 'discord.js';
 import { join } from 'path';
 import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public readonly name = 'settings';
     public readonly description = 'Configure settings';
-    public options: ApplicationCommandOptionData[] = [];
+    public options = [];
 
     public onStart() {
         this.loadSubcommandsFromDir(join(__dirname, 'settings'));

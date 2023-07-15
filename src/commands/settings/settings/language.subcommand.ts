@@ -57,14 +57,16 @@ export default class extends Subcommand {
 
         await interaction.editReply({ embeds: [embed], components: [row] });
 
-        const response = await interaction.channel?.awaitMessageComponent({
-            filter: (i) => {
-                i.deferUpdate();
-                return i.user.id === interaction.user.id;
-            },
-            componentType: ComponentType.StringSelect,
-            time: 60000,
-        });
+        const response = await interaction.channel
+            ?.awaitMessageComponent({
+                filter: (i) => {
+                    i.deferUpdate();
+                    return i.user.id === interaction.user.id;
+                },
+                componentType: ComponentType.StringSelect,
+                time: 60000,
+            })
+            .catch(() => undefined);
 
         if (!response) return;
 

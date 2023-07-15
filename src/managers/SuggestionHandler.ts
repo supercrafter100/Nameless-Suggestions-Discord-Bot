@@ -535,6 +535,15 @@ export default class {
         if (!suggestion.apiData) return;
 
         await this.createSuggestion(suggestion, guildData);
+        await suggestion.refresh();
+        if (!suggestion.dbData) {
+            this.bot.logger.error(
+                `Error getting suggestion ${suggestion.apiData.id} from database when attempting to recover it, full suggestion can be found below`
+            );
+            console.log(suggestion.apiData);
+            console.log(guildData);
+            return;
+        }
         if (!suggestion.comments) {
             this.bot.logger.error(
                 `Error getting comments for suggestion ${suggestion.apiData.id} from API: ${JSON.stringify(

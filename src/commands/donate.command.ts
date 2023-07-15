@@ -1,12 +1,12 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
-import { ApplicationCommandOptionData, ChatInputCommandInteraction } from 'discord.js';
+import { ChatInputCommandInteraction } from 'discord.js';
 import Bot from '../managers/Bot';
 import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public name = 'donate';
     public description = 'Feeling generous?';
-    public options: ApplicationCommandOptionData[] = [];
+    public options = [];
 
     public onStart(): void {
         null;
