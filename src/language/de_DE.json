@@ -32,7 +32,8 @@
         "webhookurl": {
             "success": "Die URL lautet: `{url}`.\nBitte verwende diese URL als Discord-Webhook-URL für das Modul \"Vorschläge\".",
             "generate_key_first": "Du musst zuerst ein Autorisierungs-Token mit `/settings set authkey` erzeugen."
-        }
+        },
+        "donate": "Wenn du meine Arbeit unterstützen und die Hosting-Kosten dieses Bots decken möchten, wäre eine (monatliche) Spende sehr willkommen! Du kannst mich [hier]({x}) unterstützen"
     },
     "suggestionHandler": {
         "suggestion": "Vorschlag",
