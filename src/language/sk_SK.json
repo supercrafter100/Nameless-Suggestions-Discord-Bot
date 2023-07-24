@@ -32,7 +32,8 @@
         "webhookurl": {
             "generate_key_first": "Najprv musíte vygenerovať autorizačný token pomocou `/settings set authkey`.",
             "success": "Adresa URL je: `{url}`.\nPoužite túto webovú adresu ako webovú adresu discord webhooku pre modul návrhov."
-        }
+        },
+        "donate": "Ak chcete podporiť moju prácu a pokryť náklady na hosting tohto bota, (mesačný) príspevok by som veľmi ocenil! Môžete ma podporiť [tu]({x})"
     },
     "permission_required": "Nemáte požadované povolenie \"{permission}\"",
     "suggestionHandler": {
