@@ -17,10 +17,10 @@ If you want to support this project or my work in general, it would be really ap
 3. Install all dependencies by executing `npm install -D`
 4. Build the bot `npx tsc`
 5. Create a `.env` file and put in the contents of the `.example.env` file that is included. Then fill in the values
-   > `TOKEN`: This should be your Discord Bot's token</br>
-   > `GUILDID`: This should be the ID of your Discord Server [how?](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)</br>
-   > `DOMAIN`: This should be the URL of the SERVER you're hosting the bot on. For example, if your IP is `5.5.5.5`, and you're running the bot on port `4032` with no SSL, your `DOMAIN` would be `http://5.5.5.5:4032`</br>
-   > `DB_*`: These values should be the same as your nameless mc database.</br>
+   - `TOKEN`: This should be your Discord Bot's token</br>
+   - `GUILDID`: This should be the ID of your Discord Server [how?](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)</br>
+   - `DOMAIN`: This should be the URL of the SERVER you're hosting the bot on. For example, if your IP is `5.5.5.5`, and you're running the bot on port `4032` with no SSL, your `DOMAIN` would be `http://5.5.5.5:4032`</br>
+   - `DB_*`: These values should be the same as your nameless mc database.</br>
 7. Run the bot using `npm run start`
 
 ## Setup
