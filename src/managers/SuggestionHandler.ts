@@ -137,7 +137,7 @@ export default class {
             return;
         }
 
-        const authorAvatar = author.avatar_url || `https://cravatar.eu/helmavatar/${author.username}`;
+        const authorAvatar = author.avatar_url || `https://cravatar.eu/helmavatar/${author.username.trim()}`;
 
         // Get webhook to send message as
         const webhook = await getWebhookForChannel(channel);
@@ -151,13 +151,13 @@ export default class {
                 threadMessage = await webhook.send({
                     content: part,
                     username: commentInfo.user.username,
-                    avatarURL: authorAvatar,
+                    avatarURL: this.parseAvatarUrl(authorAvatar),
                     threadId: message.thread.id,
                 });
             } else {
                 const embed = this.bot.embeds.baseNoFooter();
                 embed.setDescription(part);
-                embed.setAuthor({ name: commentInfo.user.username, iconURL: authorAvatar });
+                embed.setAuthor({ name: commentInfo.user.username, iconURL: this.parseAvatarUrl(authorAvatar) });
                 threadMessage = await message.thread.send({ embeds: [embed] });
             }
         }
