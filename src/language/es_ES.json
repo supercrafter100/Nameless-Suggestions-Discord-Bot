@@ -32,7 +32,8 @@
         "webhookurl": {
             "generate_key_first": "Es necesario generar primero un token de autorización utilizando `/settings set authkey`.",
             "success": "La URL es: `{url}`.\nUtilice esta URL como la URL del webhook de Discord para el módulo de Sugerencias."
-        }
+        },
+        "donate": "Si deseas apoyar mi trabajo y cubrir los costos de alojamiento de este bot, se agradecería mucho una donación (mensual). Puedes apoyarme [aquí]({x})"
     },
     "suggestionHandler": {
         "suggestion_opened_website": "Sugerencia abierta en el sitio web",
