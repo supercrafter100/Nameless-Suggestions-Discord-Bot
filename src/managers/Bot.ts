@@ -25,7 +25,7 @@ export default class Bot extends Discord.Client<true> {
 
     //      Util
 
-    public readonly logger = new Logger();
+    public readonly logger = new Logger(this);
     public readonly embeds = new Embeds(this);
     public readonly webserver;
     public readonly suggestions;
@@ -35,6 +35,7 @@ export default class Bot extends Discord.Client<true> {
 
     public readonly extension: string;
     public readonly devmode: boolean;
+    public debug = false;
 
     constructor(options: Discord.ClientOptions) {
         super(options);
@@ -131,6 +132,11 @@ export default class Bot extends Discord.Client<true> {
                         );
                     }
                 }
+            }
+
+            if (command == 'debug') {
+                this.debug = !this.debug;
+                this.logger.info('Debug mode set to', chalk.yellow(this.debug.toString()));
             }
         });
     }

@@ -20,6 +20,7 @@ export default class {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
+                'X-API-Key': apiCredentials.apikey,
             },
         })
             .then((res) => res.json())
@@ -38,6 +39,7 @@ export default class {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
+                'X-API-Key': apiCredentials.apikey,
             },
             body: JSON.stringify({
                 name: options.name || 'Suggestions Bot',
@@ -65,6 +67,7 @@ export default class {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
+                'X-API-Key': apiCredentials.apikey,
             },
         })
             .then((res) => res.json())
@@ -94,6 +97,7 @@ export default class {
             }),
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
+                'X-API-Key': apiCredentials.apikey,
             },
         })
             .then((res) => res.json())
@@ -116,6 +120,7 @@ export default class {
             }),
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
+                'X-API-Key': apiCredentials.apikey,
             },
         })
             .then((res) => res.json())
@@ -149,6 +154,7 @@ export default class {
             body: JSON.stringify(body),
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
+                'X-API-Key': apiCredentials.apikey,
             },
         })
             .then((res) => res.json())
@@ -171,6 +177,7 @@ export default class {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
+                'X-API-Key': apiCredentials.apikey,
             },
         })
             .then((res) => res.json())
@@ -189,6 +196,7 @@ export default class {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
+                'X-API-Key': apiCredentials.apikey,
             },
         })
             .then((res) => res.json())
@@ -209,6 +217,7 @@ export default class {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${apiCredentials.apikey}`,
+                    'X-API-Key': apiCredentials.apikey,
                 },
             }
         )
@@ -229,6 +238,7 @@ export default class {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
+                'X-API-Key': apiCredentials.apikey,
             },
         }).then((res) => res.json())) as Promise<ApiUser>;
 
@@ -245,6 +255,7 @@ export default class {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${apiCredentials.apikey}`,
+                'X-API-Key': apiCredentials.apikey,
             },
         }).then((res) => res.json())) as Promise<ApiUser>;
 

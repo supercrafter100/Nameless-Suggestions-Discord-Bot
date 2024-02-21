@@ -6,6 +6,7 @@ import Database from '../../../database/Database';
 import LanguageManager from '../../../managers/LanguageManager';
 import { APIWebsiteInfo } from '../../../types';
 import { nanoid } from 'nanoid';
+import chalk from 'chalk';
 
 export default class extends Subcommand {
     public name = 'apikey';
@@ -49,15 +50,26 @@ export default class extends Subcommand {
 
         await interaction.deferReply({ ephemeral: true });
 
+        const client = this.client as Bot;
+        client.logger.debug('Fetching api info for api url', chalk.yellow(apiurl), 'and api key', chalk.yellow(apikey));
+
         // Check if the api url + key is valid
         const res = await fetch(`${apiurl}${apiurl.endsWith('/') ? '' : '/'}info`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${apikey}`,
+                'X-API-Key': `${apikey}`,
             },
-        }).catch(() => undefined);
+        }).catch((e) => {
+            client.logger.debug('Error fetching api info');
+            client.logger.debug(e);
+            return undefined;
+        });
 
         if (!res || !res.ok) {
+            client.logger.debug('Invalid api url or key');
+            client.logger.debug(res);
+            client.logger.debug(await res?.text());
             const str = await LanguageManager.getString(
                 interaction.guildId,
                 'commands.settings.set.apikey.invalid_key'
@@ -77,15 +89,23 @@ export default class extends Subcommand {
         const version = info.nameless_version;
 
         const majorVersionNumber = parseInt(version.split('.')[1]);
+        client.logger.debug(
+            'NamelessMC version',
+            chalk.yellow(version),
+            'major version number',
+            chalk.yellow(majorVersionNumber)
+        );
         if (majorVersionNumber >= 1) {
             // We can create webhooks on this website
             const token = nanoid();
+            client.logger.debug('Creating webhook with token', chalk.yellow(token));
 
             // Set the new authorization key
             guildData.set('authorizationKey', token);
             await guildData.save();
 
             const url = process.env.DOMAIN + (process.env.DOMAIN.endsWith('/') ? '' : '/') + 'webhook/' + token;
+            client.logger.debug('Webhook url', chalk.yellow(url));
 
             await (this.client as Bot).suggestionsApi.createWebhook(interaction.guildId, {
                 name: 'Suggestions discord bot',

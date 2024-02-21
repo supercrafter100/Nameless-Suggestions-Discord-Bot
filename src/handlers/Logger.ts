@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import chalk from 'chalk';
+import Bot from '../managers/Bot';
 
 export default class Logger {
     //
@@ -32,7 +33,11 @@ export default class Logger {
     //	Class methods
     //
 
-    constructor(private size: number = 5, private showBlank: boolean = true) {}
+    constructor(
+        private readonly client: Bot | undefined = undefined,
+        private size: number = 5,
+        private showBlank: boolean = true
+    ) {}
 
     public prefix: string | undefined = undefined;
 
@@ -62,7 +67,8 @@ export default class Logger {
     }
 
     public debug(...messages: unknown[]) {
-        this.loghandler(chalk.bgWhite.black(' ' + Logger.makeSize('DEBUG', this.size) + ' '), 'log', ...messages);
+        if (this.client && this.client.debug)
+            this.loghandler(chalk.bgWhite.black(' ' + Logger.makeSize('DEBUG', this.size) + ' '), 'log', ...messages);
     }
 
     public info(...messages: unknown[]) {
