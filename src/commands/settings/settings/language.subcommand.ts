@@ -1,5 +1,11 @@
 import { Subcommand } from '@crystaldevelopment/command-handler/dist';
-import { ChatInputCommandInteraction, ActionRowBuilder, StringSelectMenuBuilder, ComponentType } from 'discord.js';
+import {
+    ChatInputCommandInteraction,
+    ActionRowBuilder,
+    StringSelectMenuBuilder,
+    ComponentType,
+    TextChannel,
+} from 'discord.js';
 import Bot from '../../../managers/Bot';
 import Database from '../../../database/Database';
 import LanguageManager from '../../../managers/LanguageManager';
@@ -20,6 +26,11 @@ export default class extends Subcommand {
     public async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.guildId || !interaction.guild) {
             interaction.reply('This command can only be used in a server');
+            return;
+        }
+
+        if (!(interaction.channel instanceof TextChannel)) {
+            interaction.reply('This command can only be used in a text channel');
             return;
         }
 
@@ -56,7 +67,6 @@ export default class extends Subcommand {
         );
 
         await interaction.editReply({ embeds: [embed], components: [row] });
-
         const response = await interaction.channel
             ?.awaitMessageComponent({
                 filter: (i) => {

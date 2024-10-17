@@ -251,6 +251,10 @@ export default class {
     }
 
     public async handleButtonInteraction(interaction: ButtonInteraction, interactionType: 'like' | 'dislike') {
+        if (!(interaction.channel instanceof TextChannel)) {
+            return; // Interaction is not in a text channel
+        }
+
         await interaction.deferReply({ ephemeral: true });
 
         const suggestionInfo = await Suggestion.findOne({
