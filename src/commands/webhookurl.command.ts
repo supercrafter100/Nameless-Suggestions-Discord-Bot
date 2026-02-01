@@ -37,7 +37,7 @@ export default class extends Command {
                 interaction.guildId,
                 'permission_required',
                 'permission',
-                'MANAGE_GUILD'
+                'MANAGE_GUILD',
             );
             await interaction.reply(str);
             return;

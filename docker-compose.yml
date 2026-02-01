@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    container_name: nameless-suggestions-bot
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      - TOKEN=${TOKEN}
+      - GUILDID=${GUILDID}
+      - DOMAIN=${DOMAIN}
+      - PORT=${PORT}
+      - DB_HOST=db
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    ports:
+      - "${PORT}:${PORT}"
+    networks:
+      - nameless-suggestions
+
+  db:
+    image: mariadb:11
+    container_name: nameless-suggestions-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - nameless-suggestions
+
+volumes:
+  db_data:
+
+networks:
+  nameless-suggestions:

@@ -76,7 +76,7 @@ export default class {
         const suggestion = await Suggestion.getSuggestion(suggestionId, guildData.id, this.client).catch();
         if (!suggestion.apiData && !isSuggestionDelete) {
             this.logger.error(
-                `No suggestion data found for suggestion ${suggestionId} which was meant to go to guild ${guildData.id}`
+                `No suggestion data found for suggestion ${suggestionId} which was meant to go to guild ${guildData.id}`,
             );
             return;
         }
@@ -97,7 +97,7 @@ export default class {
                 chalk.yellow(guildData.suggestionChannel) +
                 '.' +
                 ' It is a ' +
-                chalk.yellow(type)
+                chalk.yellow(type),
         );
 
         if (isNewSuggestion) {

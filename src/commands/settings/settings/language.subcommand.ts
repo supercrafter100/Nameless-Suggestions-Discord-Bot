@@ -39,7 +39,7 @@ export default class extends Subcommand {
         const embed = (this.client as Bot).embeds.base();
         const desc = await LanguageManager.getString(
             interaction.guildId,
-            'commands.settings.set.language.select_language'
+            'commands.settings.set.language.select_language',
         );
         embed.setDescription(desc);
         embed.setFooter({
@@ -52,7 +52,7 @@ export default class extends Subcommand {
 
         const select_lang_str = await LanguageManager.getString(
             interaction.guildId,
-            'commands.settings.set.language.select_language_option'
+            'commands.settings.set.language.select_language_option',
         );
         const row = new ActionRowBuilder<StringSelectMenuBuilder>();
         row.addComponents(
@@ -62,8 +62,8 @@ export default class extends Subcommand {
                 .addOptions(
                     available_languages.map((c) => {
                         return { label: c, value: c, description: select_lang_str.replace('{language}', c) };
-                    })
-                )
+                    }),
+                ),
         );
 
         await interaction.editReply({ embeds: [embed], components: [row] });
@@ -88,7 +88,7 @@ export default class extends Subcommand {
             interaction.guildId,
             'commands.settings.set.language.success',
             'language',
-            language
+            language,
         );
         const embed2 = (this.client as Bot).embeds.base();
         embed2.setDescription(str);

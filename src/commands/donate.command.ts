@@ -24,7 +24,7 @@ export default class extends Command {
             interaction.guildId,
             'commands.donate',
             'x',
-            'https://ko-fi.com/supercrafter100'
+            'https://ko-fi.com/supercrafter100',
         );
 
         // Step 1, introduction & requesting api key

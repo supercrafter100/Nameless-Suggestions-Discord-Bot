@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-var-requires */
+
 import chalk from 'chalk';
 import { ButtonInteraction, ClientEvents } from 'discord.js';
 import Bot from '../managers/Bot';

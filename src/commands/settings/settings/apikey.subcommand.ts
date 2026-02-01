@@ -72,7 +72,7 @@ export default class extends Subcommand {
             client.logger.debug(await res?.text());
             const str = await LanguageManager.getString(
                 interaction.guildId,
-                'commands.settings.set.apikey.invalid_key'
+                'commands.settings.set.apikey.invalid_key',
             );
             interaction.editReply({ content: str });
             return;
@@ -93,7 +93,7 @@ export default class extends Subcommand {
             'NamelessMC version',
             chalk.yellow(version),
             'major version number',
-            chalk.yellow(majorVersionNumber)
+            chalk.yellow(majorVersionNumber),
         );
         if (majorVersionNumber >= 1) {
             // We can create webhooks on this website
@@ -122,7 +122,7 @@ export default class extends Subcommand {
 
             const str = await LanguageManager.getString(
                 interaction.guildId,
-                'commands.settings.set.apikey.success_2_1'
+                'commands.settings.set.apikey.success_2_1',
             );
             interaction.editReply({ content: str });
             return;

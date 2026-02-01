@@ -33,7 +33,7 @@ export class Suggestion {
     public async getDbData() {
         if (!this.id) {
             this.client.logger.error(
-                'Suggestion id was undefined when retrieving it? ( guildId: ' + chalk.yellow(this.guildId) + ' )'
+                'Suggestion id was undefined when retrieving it? ( guildId: ' + chalk.yellow(this.guildId) + ' )',
             );
             return;
         }

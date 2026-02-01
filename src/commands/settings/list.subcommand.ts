@@ -41,7 +41,7 @@ export default class extends Subcommand {
                 `🔑 **API Key**: ${apikey ? `\`${apikey}\`` : '*Not set*'}`,
                 `🔒 **Auth Key**: ${authkey ? `\`${authkey}\`` : '*Not set*'}`,
                 `💬 **Suggestion Channel**: ${suggestionChannelId ? `<#${suggestionChannelId}>` : '*Not set*'}`,
-            ].join('\n')
+            ].join('\n'),
         );
 
         // Send the embed

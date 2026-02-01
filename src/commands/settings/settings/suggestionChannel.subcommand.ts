@@ -34,7 +34,7 @@ export default class extends Subcommand {
         if (!(channel instanceof TextChannel)) {
             const str = await LanguageManager.getString(
                 interaction.guildId,
-                'commands.settings.set.suggestionChannel.no_textchannel'
+                'commands.settings.set.suggestionChannel.no_textchannel',
             );
             interaction.reply({ content: str, ephemeral: true });
             return;
@@ -53,7 +53,7 @@ export default class extends Subcommand {
             interaction.guildId,
             'commands.settings.set.suggestionChannel.success',
             'channel',
-            channel.toString()
+            channel.toString(),
         );
         interaction.reply({ content: str, ephemeral: true });
     }
