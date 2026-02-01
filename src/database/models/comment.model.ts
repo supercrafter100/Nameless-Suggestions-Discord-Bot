@@ -45,7 +45,7 @@ Comment.init(
             allowNull: false,
         },
     },
-    { sequelize: db }
+    { sequelize: db },
 );
 
 export default Comment;

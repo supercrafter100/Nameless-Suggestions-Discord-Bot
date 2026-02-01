@@ -10,7 +10,7 @@ export default class InteractionCreate extends Event<'interactionCreate'> {
         if (interaction.isButton() && ['like-suggestion', 'dislike-suggestion'].includes(interaction.customId)) {
             this.client.suggestions.handleButtonInteraction(
                 interaction,
-                interaction.customId === 'like-suggestion' ? 'like' : 'dislike'
+                interaction.customId === 'like-suggestion' ? 'like' : 'dislike',
             );
         }
     }

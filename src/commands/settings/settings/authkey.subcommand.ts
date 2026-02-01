@@ -34,7 +34,7 @@ export default class extends Subcommand {
             interaction.guildId,
             'commands.settings.set.authkey.success',
             'token',
-            token
+            token,
         );
         interaction.reply({
             content: str,

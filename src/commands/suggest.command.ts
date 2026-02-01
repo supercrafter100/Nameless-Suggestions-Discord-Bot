@@ -38,11 +38,11 @@ export default class extends Command {
         const modalTitleStr = await LanguageManager.getString(interaction.guildId, 'commands.suggest.modal-title');
         const modalQuestion1Str = await LanguageManager.getString(
             interaction.guildId,
-            'commands.suggest.modal-question-1'
+            'commands.suggest.modal-question-1',
         );
         const modalQuestion2Str = await LanguageManager.getString(
             interaction.guildId,
-            'commands.suggest.modal-question-2'
+            'commands.suggest.modal-question-2',
         );
 
         const modal = new ModalBuilder();

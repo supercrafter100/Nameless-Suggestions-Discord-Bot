@@ -19,6 +19,35 @@ If you want to support this project or my work in general, it would be really ap
 5. Create a `.env` file and put in the contents of the `.example.env` file that is included. Then fill in the values
 6. Run the bot using `npm run start`
 
+### Bot Activity/Presence Configuration
+
+You can customize the bot's activity status using environment variables in your `.env` file:
+
+- `BOT_ACTIVITY_TYPE` - The type of activity to display. Valid options:
+  - `PLAYING` - Shows "Playing {message}"
+  - `LISTENING` - Shows "Listening to {message}"
+  - `WATCHING` - Shows "Watching {message}" (default if not configured)
+  - `COMPETING` - Shows "Competing in {message}"
+  - `STREAMING` - Shows "Streaming {message}" with a purple "LIVE" indicator (requires `BOT_ACTIVITY_URL`)
+  - `CUSTOM` - Shows a custom status message
+- `BOT_ACTIVITY_MESSAGE` - The message to display in the activity status
+- `BOT_ACTIVITY_URL` - (Optional, required for `STREAMING`) The URL for the stream (e.g., Twitch/YouTube URL)
+
+**Example (.env file):**
+```env
+BOT_ACTIVITY_TYPE=PLAYING
+BOT_ACTIVITY_MESSAGE=with suggestions
+```
+
+**Example (STREAMING):**
+```env
+BOT_ACTIVITY_TYPE=STREAMING
+BOT_ACTIVITY_MESSAGE=NamelessMC Suggestions
+BOT_ACTIVITY_URL=https://www.twitch.tv/your_channel
+```
+
+If not configured, the bot will default to "Watching Suggestions".
+
 <hr>
 
 ## Issues

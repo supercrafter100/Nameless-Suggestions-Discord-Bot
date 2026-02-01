@@ -91,7 +91,7 @@ export default class LanguageManager {
                 LanguageManager.logger.warn(
                     `No language key found for: ${key} in language ${
                         [...this.languages.entries()].filter(({ 1: v }) => v === json).map(([k]) => k)[0]
-                    }`
+                    }`,
                 );
                 return undefined;
             }
