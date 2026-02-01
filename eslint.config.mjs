@@ -27,7 +27,6 @@ export default [
             ...tseslint.configs.recommended.rules,
             ...prettierConfig.rules,
             'prettier/prettier': 'error',
-            'indent': ['error', 4],
             '@typescript-eslint/no-unused-expressions': 'off',
             '@typescript-eslint/no-require-imports': 'off',
             '@typescript-eslint/no-unused-vars': ['error', { 

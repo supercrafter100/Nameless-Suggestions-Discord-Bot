@@ -58,7 +58,9 @@ function getConfiguredActivity(): { name: string; type: ActivityType; url?: stri
         case 'STREAMING': {
             const url = process.env.BOT_ACTIVITY_URL;
             if (!url) {
-                logger.warn('BOT_ACTIVITY_TYPE is STREAMING but BOT_ACTIVITY_URL is not set. Using default Twitch URL.');
+                logger.warn(
+                    'BOT_ACTIVITY_TYPE is STREAMING but BOT_ACTIVITY_URL is not set. Using default Twitch URL.',
+                );
                 return { name: message, type: ActivityType.Streaming, url: 'https://www.twitch.tv/discord' };
             }
             return { name: message, type: ActivityType.Streaming, url };
