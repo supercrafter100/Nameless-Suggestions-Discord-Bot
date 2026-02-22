@@ -6,8 +6,8 @@ export default class Embeds {
 
     public base() {
         return new EmbedBuilder().setColor('#2F3136').setFooter({
-            text: `Nameless Suggestions`,
-            iconURL: this.client.user.displayAvatarURL(),
+            text: this.client.user?.username ?? 'Nameless Suggestions',
+            iconURL: this.client.user?.displayAvatarURL(),
         });
     }
 
