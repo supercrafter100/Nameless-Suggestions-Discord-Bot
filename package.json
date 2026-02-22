@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "node dist",
-    "build": "tsc",
+    "build": "tsc && rm -rf dist/language && cp -r src/language dist/language",
     "dev": "nodemon src/index.ts",
     "lint": "eslint \"**/*.ts\" --max-warnings=0",
     "fix": "eslint \"**/*.ts\" --fix --max-warnings=0"

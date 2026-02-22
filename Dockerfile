@@ -8,6 +8,6 @@ COPY package-lock.json .
 RUN npm install -D
 COPY . .
 
-RUN npx tsc
+RUN npm run build
 
 CMD ["npm", "run", "start"]
