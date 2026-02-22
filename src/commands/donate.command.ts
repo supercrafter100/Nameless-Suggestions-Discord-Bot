@@ -6,7 +6,9 @@ import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public name = 'donate';
-    public get description() { return getCommandDescription('donate', 'Feeling generous?'); }
+    public get description() {
+        return getCommandDescription('donate', 'Feeling generous?');
+    }
     public options = [];
 
     public onStart(): void {

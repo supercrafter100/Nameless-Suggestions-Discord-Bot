@@ -7,7 +7,12 @@ import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'suggestionchannel';
-    public get description() { return getCommandDescription('settings_set_suggestionchannel', 'Set the suggestionchannel where new suggestions get sent in'); }
+    public get description() {
+        return getCommandDescription(
+            'settings_set_suggestionchannel',
+            'Set the suggestionchannel where new suggestions get sent in',
+        );
+    }
     public options = [
         {
             type: ApplicationCommandOptionType.Channel as number,

@@ -5,7 +5,9 @@ import Bot from '../managers/Bot';
 
 export default class extends Command {
     public name = 'invite';
-    public get description() { return getCommandDescription('invite', 'Invite the discord bot'); }
+    public get description() {
+        return getCommandDescription('invite', 'Invite the discord bot');
+    }
     public options = [];
 
     public onStart(): void {

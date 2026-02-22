@@ -7,7 +7,9 @@ import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public name = 'webhookurl';
-    public get description() { return getCommandDescription('webhookurl', 'Get the webhook url for your website!'); }
+    public get description() {
+        return getCommandDescription('webhookurl', 'Get the webhook url for your website!');
+    }
     public options = [];
 
     public onStart(): void {

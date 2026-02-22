@@ -7,7 +7,9 @@ import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'authkey';
-    public get description() { return getCommandDescription('settings_set_authkey', 'Generate a new authorization key for the webhook'); }
+    public get description() {
+        return getCommandDescription('settings_set_authkey', 'Generate a new authorization key for the webhook');
+    }
     public options = [];
 
     public onStart(): void {

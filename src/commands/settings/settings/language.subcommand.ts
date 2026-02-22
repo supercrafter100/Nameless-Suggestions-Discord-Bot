@@ -13,7 +13,9 @@ import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'language';
-    public get description() { return getCommandDescription('settings_set_language', 'Change the language of the discord bot'); }
+    public get description() {
+        return getCommandDescription('settings_set_language', 'Change the language of the discord bot');
+    }
     public options = [];
 
     public onStart(): void {

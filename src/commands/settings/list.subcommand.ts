@@ -6,7 +6,9 @@ import Bot from '../../managers/Bot';
 
 export default class extends Subcommand {
     public name = 'list';
-    public get description() { return getCommandDescription('settings_list', 'List all settings'); }
+    public get description() {
+        return getCommandDescription('settings_list', 'List all settings');
+    }
     public options = [];
 
     public onStart(): void {

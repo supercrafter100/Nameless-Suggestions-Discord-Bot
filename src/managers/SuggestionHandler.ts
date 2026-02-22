@@ -59,10 +59,12 @@ export default class {
             likes: parseInt(suggestion.apiData.likes_count),
             dislikes: parseInt(suggestion.apiData.dislikes_count),
         });
-        const message = await channel.send({ embeds: [embed], components: components ? [components] : [] }).catch((err) => {
-            this.bot.logger.warn('Failed to send message to suggestion channel', chalk.yellow(err));
-            return undefined;
-        });
+        const message = await channel
+            .send({ embeds: [embed], components: components ? [components] : [] })
+            .catch((err) => {
+                this.bot.logger.warn('Failed to send message to suggestion channel', chalk.yellow(err));
+                return undefined;
+            });
 
         if (!message) {
             return null;

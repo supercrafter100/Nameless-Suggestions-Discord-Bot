@@ -11,7 +11,9 @@ import chalk from 'chalk';
 
 export default class extends Subcommand {
     public name = 'apikey';
-    public get description() { return getCommandDescription('settings_set_apikey', 'Set the api key of your website'); }
+    public get description() {
+        return getCommandDescription('settings_set_apikey', 'Set the api key of your website');
+    }
     public options = [
         {
             type: ApplicationCommandOptionType.String as number,

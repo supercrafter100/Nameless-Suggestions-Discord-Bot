@@ -6,7 +6,9 @@ import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public readonly name = 'settings';
-    public get description() { return getCommandDescription('settings', 'Configure settings'); }
+    public get description() {
+        return getCommandDescription('settings', 'Configure settings');
+    }
     public options = [];
 
     public onStart() {

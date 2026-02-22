@@ -5,7 +5,9 @@ import Bot from '../managers/Bot';
 
 export default class extends Command {
     public name = 'setup';
-    public get description() { return getCommandDescription('setup', 'Setup the discord bot'); }
+    public get description() {
+        return getCommandDescription('setup', 'Setup the discord bot');
+    }
     public options = [];
 
     public onStart(): void {

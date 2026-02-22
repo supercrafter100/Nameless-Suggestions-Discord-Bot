@@ -5,7 +5,9 @@ import { getCommandDescription } from '../../util/CommandDescriptions';
 
 export default class extends SubcommandGroup {
     public name = 'set';
-    public get description() { return getCommandDescription('settings_set', 'Set a setting'); }
+    public get description() {
+        return getCommandDescription('settings_set', 'Set a setting');
+    }
     public options = [];
 
     public onStart(): void {

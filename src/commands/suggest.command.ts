@@ -14,7 +14,9 @@ import { getCommandDescription } from '../util/CommandDescriptions';
 
 export default class extends Command {
     public name = process.env.SUGGEST_COMMAND_NAME || 'suggest';
-    public get description() { return getCommandDescription('suggest', 'Suggest something!'); }
+    public get description() {
+        return getCommandDescription('suggest', 'Suggest something!');
+    }
     public options = [];
 
     public onStart(): void {
