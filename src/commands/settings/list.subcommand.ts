@@ -5,7 +5,8 @@ import Bot from '../../managers/Bot';
 
 export default class extends Subcommand {
     public name = 'list';
-    public description = 'List all settings';
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    public description = (require('../../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.settings_list ?? 'List all settings';
     public options = [];
 
     public onStart(): void {

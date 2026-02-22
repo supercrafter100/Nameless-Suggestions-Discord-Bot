@@ -3,5 +3,19 @@
         "suggesting_disabled": "Discord를 통한 제안이 비활성화되었습니다. 웹사이트를 통해 제안을 제출해 주세요.",
         "commenting_disabled": "Discord를 통한 댓글이 비활성화되었습니다. 웹사이트를 통해 제안에 댓글을 달아 주세요.",
         "reacting_disabled": "Discord를 통한 반응이 비활성화되었습니다. 웹사이트를 통해 제안에 반응해 주세요."
+    },
+    "command_descriptions": {
+        "suggest": "Suggest something!",
+        "setup": "Setup the discord bot",
+        "settings": "Configure settings",
+        "settings_set": "Set a setting",
+        "settings_list": "List all settings",
+        "settings_set_apikey": "Set the API key of your website",
+        "settings_set_authkey": "Generate a new authorization key for the webhook",
+        "settings_set_suggestionchannel": "Set the suggestion channel where new suggestions get sent in",
+        "settings_set_language": "Change the language of the discord bot",
+        "webhookurl": "Get the webhook URL for your website",
+        "donate": "Feeling generous?",
+        "invite": "Invite the discord bot"
     }
 }

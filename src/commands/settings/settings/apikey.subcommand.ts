@@ -10,7 +10,8 @@ import chalk from 'chalk';
 
 export default class extends Subcommand {
     public name = 'apikey';
-    public description = 'Set the api key of your website';
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    public description = (require('../../../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.settings_set_apikey ?? 'Set the api key of your website';
     public options = [
         {
             type: ApplicationCommandOptionType.String as number,

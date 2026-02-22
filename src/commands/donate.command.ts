@@ -5,7 +5,8 @@ import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public name = 'donate';
-    public description = 'Feeling generous?';
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    public description = (require('../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.donate ?? 'Feeling generous?';
     public options = [];
 
     public onStart(): void {

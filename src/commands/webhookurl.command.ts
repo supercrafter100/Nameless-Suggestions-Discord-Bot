@@ -6,7 +6,8 @@ import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public name = 'webhookurl';
-    public description = 'Get the webhook url for your website!';
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    public description = (require('../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.webhookurl ?? 'Get the webhook url for your website!';
     public options = [];
 
     public onStart(): void {

@@ -47,5 +47,19 @@
         "suggesting_disabled": "Predlaganje putem Discord-a je onemogućeno. Molimo koristite veb lokaciju za slanje predloga.",
         "commenting_disabled": "Komentarisanje putem Discord-a je onemogućeno. Molimo koristite veb lokaciju za komentarisanje predloga.",
         "reacting_disabled": "Reagovanje putem Discord-a je onemogućeno. Molimo koristite veb lokaciju za reagovanje na predloge."
+    },
+    "command_descriptions": {
+        "suggest": "Predložite nešto!",
+        "setup": "Podesite Discord bota",
+        "settings": "Konfigurišite podešavanja",
+        "settings_set": "Postavite podešavanje",
+        "settings_list": "Prikaži sva podešavanja",
+        "settings_set_apikey": "Postavite API ključ vašeg sajta",
+        "settings_set_authkey": "Generišite novi autorizacioni ključ za webhook",
+        "settings_set_suggestionchannel": "Postavite kanal za predloge gde se šalju novi predlozi",
+        "settings_set_language": "Promenite jezik Discord bota",
+        "webhookurl": "Dobijte webhook URL za vaš sajt",
+        "donate": "Osećate se velikodušno?",
+        "invite": "Pozovite Discord bota"
     }
 }

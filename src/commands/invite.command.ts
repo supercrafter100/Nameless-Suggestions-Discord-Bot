@@ -4,7 +4,8 @@ import Bot from '../managers/Bot';
 
 export default class extends Command {
     public name = 'invite';
-    public description = 'Invite the discord bot';
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    public description = (require('../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.invite ?? 'Invite the discord bot';
     public options = [];
 
     public onStart(): void {

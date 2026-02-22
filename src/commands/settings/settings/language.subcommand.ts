@@ -12,7 +12,8 @@ import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'language';
-    public description = 'Change the language of the discord bot';
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    public description = (require('../../../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.settings_set_language ?? 'Change the language of the discord bot';
     public options = [];
 
     public onStart(): void {

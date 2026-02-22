@@ -6,7 +6,8 @@ import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'authkey';
-    public description = 'Generate a new authorization key for the webhook ';
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    public description = (require('../../../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.settings_set_authkey ?? 'Generate a new authorization key for the webhook';
     public options = [];
 
     public onStart(): void {

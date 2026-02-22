@@ -4,7 +4,8 @@ import Bot from '../managers/Bot';
 
 export default class extends Command {
     public name = 'setup';
-    public description = 'Setup the discord bot';
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    public description = (require('../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.setup ?? 'Setup the discord bot';
     public options = [];
 
     public onStart(): void {

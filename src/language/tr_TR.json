@@ -3,5 +3,19 @@
         "suggesting_disabled": "Discord üzerinden öneri yapmak devre dışı bırakıldı. Lütfen önerilerinizi göndermek için web sitesini kullanın.",
         "commenting_disabled": "Discord üzerinden yorum yapmak devre dışı bırakıldı. Lütfen önerilere yorum yapmak için web sitesini kullanın.",
         "reacting_disabled": "Discord üzerinden tepki vermek devre dışı bırakıldı. Lütfen önerilere tepki vermek için web sitesini kullanın."
+    },
+    "command_descriptions": {
+        "suggest": "Suggest something!",
+        "setup": "Setup the discord bot",
+        "settings": "Configure settings",
+        "settings_set": "Set a setting",
+        "settings_list": "List all settings",
+        "settings_set_apikey": "Set the API key of your website",
+        "settings_set_authkey": "Generate a new authorization key for the webhook",
+        "settings_set_suggestionchannel": "Set the suggestion channel where new suggestions get sent in",
+        "settings_set_language": "Change the language of the discord bot",
+        "webhookurl": "Get the webhook URL for your website",
+        "donate": "Feeling generous?",
+        "invite": "Invite the discord bot"
     }
 }

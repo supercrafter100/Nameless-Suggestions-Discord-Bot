@@ -13,7 +13,8 @@ import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public name = process.env.SUGGEST_COMMAND_NAME || 'suggest';
-    public description = 'Suggest something!';
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    public description = (require('../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.suggest ?? 'Suggest something!';
     public options = [];
 
     public onStart(): void {

@@ -6,7 +6,8 @@ import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'suggestionchannel';
-    public description = 'Set the suggestionchannel where new suggestions get sent in.';
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    public description = (require('../../../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.settings_set_suggestionchannel ?? 'Set the suggestionchannel where new suggestions get sent in';
     public options = [
         {
             type: ApplicationCommandOptionType.Channel as number,
