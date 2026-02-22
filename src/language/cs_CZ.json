@@ -42,7 +42,10 @@
         "suggested_by": "Navrhnuto uživatelem {user}",
         "suggestion_opened_website": "Nápad otevřen na webu",
         "cannot_find_user": "Abyste mohli odpovědět pomocí Discordu, musíte mít připojený váš webový účet!",
-        "reaction_registered": "Vaše reakce `{reaction}` byla přidána na web."
+        "reaction_registered": "Vaše reakce `{reaction}` byla přidána na web.",
+        "suggesting_disabled": "Navrhování přes Discord je zakázáno. Pro odesílání návrhů prosím použijte webové stránky.",
+        "commenting_disabled": "Komentování přes Discord je zakázáno. Pro komentování návrhů prosím použijte webové stránky.",
+        "reacting_disabled": "Reakce přes Discord jsou zakázány. Pro reagování na návrhy prosím použijte webové stránky."
     },
     "invalid-setup": "Bot ještě nebyl správně nastaven. Kontaktujte správce serveru!"
 }

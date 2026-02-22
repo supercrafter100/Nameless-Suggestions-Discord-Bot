@@ -41,7 +41,10 @@
         "cannot_find_user": "Du musst dein Foren-Account verknüpft haben, um über Discord antworten zu können!",
         "reaction_registered": "Deine `{reaction}` wurde der Website hinzugefügt.",
         "suggested_by": "Vorgeschlagen von {user}",
-        "suggestion_opened_website": "Vorschlag auf der Website eröffnet"
+        "suggestion_opened_website": "Vorschlag auf der Website eröffnet",
+        "suggesting_disabled": "Das Vorschlagen über Discord ist deaktiviert. Bitte nutze die Website, um Vorschläge einzureichen.",
+        "commenting_disabled": "Das Kommentieren über Discord ist deaktiviert. Bitte nutze die Website, um Vorschläge zu kommentieren.",
+        "reacting_disabled": "Das Reagieren über Discord ist deaktiviert. Bitte nutze die Website, um auf Vorschläge zu reagieren."
     },
     "permission_required": "Du hast nicht das erforderliche \"{permission}\"- Recht",
     "invalid-setup": "Der Bot wurde noch nicht richtig konfiguriert. Kontaktiere den Server-Administrator!"

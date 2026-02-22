@@ -39,6 +39,9 @@
         "cannot_find_user": "עליך לקשר את חשבון האתר שלך כדי שתוכל להשיב באמצעות Discord!",
         "reaction_registered": "תגובת `{reaction}` שלך נוספה לאתר.",
         "suggested_by": "הוצע על ידי {משתמש}",
-        "suggestion_opened_website": "ההצעה נפתחה באתר"
+        "suggestion_opened_website": "ההצעה נפתחה באתר",
+        "suggesting_disabled": "הצעת הצעות דרך Discord מושבתת. אנא השתמש באתר להגשת הצעות.",
+        "commenting_disabled": "הוספת תגובות דרך Discord מושבתת. אנא השתמש באתר להוספת תגובות על הצעות.",
+        "reacting_disabled": "תגובה דרך Discord מושבתת. אנא השתמש באתר להגיב על הצעות."
     }
 }

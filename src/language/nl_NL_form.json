@@ -1,1 +1,7 @@
-{}
+{
+    "suggestionHandler": {
+        "suggesting_disabled": "Suggesties doen via Discord is uitgeschakeld. Gebruik de website om suggesties in te dienen.",
+        "commenting_disabled": "Reageren via Discord is uitgeschakeld. Gebruik de website om op suggesties te reageren.",
+        "reacting_disabled": "Reageren op suggesties via Discord is uitgeschakeld. Gebruik de website om op suggesties te reageren."
+    }
+}

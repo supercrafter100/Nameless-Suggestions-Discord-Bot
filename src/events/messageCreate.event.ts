@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 import Database from '../database/Database';
 import { Event } from '../handlers/EventHandler';
+import LanguageManager from '../managers/LanguageManager';
 
 export default class InteractionCreate extends Event<'messageCreate'> {
     public event = 'messageCreate';
@@ -20,6 +21,13 @@ export default class InteractionCreate extends Event<'messageCreate'> {
             !msg.author.bot &&
             !msg.author.system
         ) {
+            // Disable commenting via Discord; useful when comments should only come from website
+            if (process.env.DISABLE_COMMENTING === 'true') {
+                const str = await LanguageManager.getString(msg.guild.id, 'suggestionHandler.commenting_disabled');
+                await msg.delete();
+                await msg.author.send(str).catch(() => null);
+                return;
+            }
             this.client.suggestions.sendCommentToSite(msg);
         }
     }

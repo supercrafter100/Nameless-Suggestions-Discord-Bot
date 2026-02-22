@@ -1,1 +1,7 @@
-{}
+{
+    "suggestionHandler": {
+        "suggesting_disabled": "Discord üzerinden öneri yapmak devre dışı bırakıldı. Lütfen önerilerinizi göndermek için web sitesini kullanın.",
+        "commenting_disabled": "Discord üzerinden yorum yapmak devre dışı bırakıldı. Lütfen önerilere yorum yapmak için web sitesini kullanın.",
+        "reacting_disabled": "Discord üzerinden tepki vermek devre dışı bırakıldı. Lütfen önerilere tepki vermek için web sitesini kullanın."
+    }
+}

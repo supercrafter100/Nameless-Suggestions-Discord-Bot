@@ -39,6 +39,9 @@
         "suggestion_opened_website": "建议在网站上开启",
         "suggested_by": "{user}推荐",
         "cannot_find_user": "您必须链接您的网站帐户才能通过 Discord 回复！",
-        "reaction_registered": "您的“{reaction}”反应已添加到网站上。"
+        "reaction_registered": "您的“{reaction}”反应已添加到网站上。",
+        "suggesting_disabled": "通过Discord提建议已被禁用。请使用网站提交建议。",
+        "commenting_disabled": "通过Discord评论已被禁用。请使用网站对建议发表评论。",
+        "reacting_disabled": "通过Discord回应已被禁用。请使用网站对建议做出反应。"
     }
 }

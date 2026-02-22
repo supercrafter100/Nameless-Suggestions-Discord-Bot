@@ -27,7 +27,6 @@
             "success": "Tvoj návrh bol zaregistrovaný! Pozri si to tu: {link}",
             "cannot_find_user": "Potrebuješ mať prepojený Discord s webstránkou aby si mohol pridávať návrhy.",
             "validation-error": "Pri overovaní tvojho návrhu sa niečo pokazilo. Webová stránka vrátila nasledujúce hlásenie: {error}"
-        
         },
         "webhookurl": {
             "generate_key_first": "Najprv musíte vygenerovať autorizačný token pomocou `/settings set authkey`.",
@@ -42,6 +41,9 @@
         "suggestion_opened_website": "Návrh bol otvorený na webovej stránke",
         "cannot_find_user": "Aby si mohol odpovedať cez discord, musíš mať prepojený svoj účet s webstránkou!",
         "suggested_by": "Navrhol {user}",
-        "reaction_registered": "Tvoja reakcia `{reaction}` bola pridaná na webstránku."
+        "reaction_registered": "Tvoja reakcia `{reaction}` bola pridaná na webstránku.",
+        "suggesting_disabled": "Navrhovanie cez Discord je zakázané. Na odosielanie návrhov použite webovú stránku.",
+        "commenting_disabled": "Komentovanie cez Discord je zakázané. Na komentovanie návrhov použite webovú stránku.",
+        "reacting_disabled": "Reakcie cez Discord sú zakázané. Na reagovanie na návrhy použite webovú stránku."
     }
 }

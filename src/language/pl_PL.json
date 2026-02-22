@@ -1,1 +1,7 @@
-{}
+{
+    "suggestionHandler": {
+        "suggesting_disabled": "Sugerowanie przez Discord jest wyłączone. Proszę używać strony internetowej do przesyłania sugestii.",
+        "commenting_disabled": "Komentowanie przez Discord jest wyłączone. Proszę używać strony internetowej do komentowania sugestii.",
+        "reacting_disabled": "Reagowanie przez Discord jest wyłączone. Proszę używać strony internetowej do reagowania na sugestie."
+    }
+}

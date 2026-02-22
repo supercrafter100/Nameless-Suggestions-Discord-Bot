@@ -12,5 +12,10 @@
                 }
             }
         }
+    },
+    "suggestionHandler": {
+        "suggesting_disabled": "Les suggestions via Discord sont désactivées. Veuillez utiliser le site web pour soumettre des suggestions.",
+        "commenting_disabled": "Les commentaires via Discord sont désactivés. Veuillez utiliser le site web pour commenter les suggestions.",
+        "reacting_disabled": "Les réactions via Discord sont désactivées. Veuillez utiliser le site web pour réagir aux suggestions."
     }
 }

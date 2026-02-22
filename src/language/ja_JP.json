@@ -39,7 +39,10 @@
         "suggestion": "提案",
         "suggestion_closed_website": "提案はウェブサイトで閉じられました",
         "cannot_find_user": "Discordで返信するには、ウェブサイトのアカウントがリンクされている必要があります！",
-        "reaction_registered": "あなたのリアクション`{reaction}`がウェブサイトに追加されました。"
+        "reaction_registered": "あなたのリアクション`{reaction}`がウェブサイトに追加されました。",
+        "suggesting_disabled": "Discord経由での提案は無効になっています。ウェブサイトから提案を送信してください。",
+        "commenting_disabled": "Discord経由でのコメントは無効になっています。ウェブサイトから提案にコメントしてください。",
+        "reacting_disabled": "Discord経由でのリアクションは無効になっています。ウェブサイトから提案にリアクションしてください。"
     },
     "permission_required": "必要な権限\"{permission}\"がありません",
     "invalid-setup": "ボットはまだ正しく設定されていません。サーバー管理者に連絡してください！"

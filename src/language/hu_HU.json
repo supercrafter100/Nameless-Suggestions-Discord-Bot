@@ -8,5 +8,10 @@
                 }
             }
         }
+    },
+    "suggestionHandler": {
+        "suggesting_disabled": "A Discordon keresztüli javaslattétel le van tiltva. Kérjük, a javaslatok küldéséhez használja a weboldalt.",
+        "commenting_disabled": "A Discordon keresztüli hozzászólás le van tiltva. Kérjük, a javaslatok kommenteléséhez használja a weboldalt.",
+        "reacting_disabled": "A Discordon keresztüli reakció le van tiltva. Kérjük, a javaslatokra való reagáláshoz használja a weboldalt."
     }
 }

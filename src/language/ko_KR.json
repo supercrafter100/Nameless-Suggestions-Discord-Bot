@@ -1,1 +1,7 @@
-{}
+{
+    "suggestionHandler": {
+        "suggesting_disabled": "Discord를 통한 제안이 비활성화되었습니다. 웹사이트를 통해 제안을 제출해 주세요.",
+        "commenting_disabled": "Discord를 통한 댓글이 비활성화되었습니다. 웹사이트를 통해 제안에 댓글을 달아 주세요.",
+        "reacting_disabled": "Discord를 통한 반응이 비활성화되었습니다. 웹사이트를 통해 제안에 반응해 주세요."
+    }
+}

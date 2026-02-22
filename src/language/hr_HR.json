@@ -1,1 +1,7 @@
-{}
+{
+    "suggestionHandler": {
+        "suggesting_disabled": "Predlaganje putem Discorda je onemogućeno. Molimo koristite web stranicu za slanje prijedloga.",
+        "commenting_disabled": "Komentiranje putem Discorda je onemogućeno. Molimo koristite web stranicu za komentiranje prijedloga.",
+        "reacting_disabled": "Reagiranje putem Discorda je onemogućeno. Molimo koristite web stranicu za reagiranje na prijedloge."
+    }
+}

@@ -1,1 +1,7 @@
-{}
+{
+    "suggestionHandler": {
+        "suggesting_disabled": "Las sugerencias a través de Discord están desactivadas. Por favor, usa el sitio web para enviar sugerencias.",
+        "commenting_disabled": "Los comentarios a través de Discord están desactivados. Por favor, usa el sitio web para comentar sugerencias.",
+        "reacting_disabled": "Las reacciones a través de Discord están desactivadas. Por favor, usa el sitio web para reaccionar a las sugerencias."
+    }
+}

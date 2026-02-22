@@ -1,1 +1,7 @@
-{}
+{
+    "suggestionHandler": {
+        "suggesting_disabled": "Sugerarea prin Discord este dezactivată. Vă rugăm să utilizați site-ul web pentru a trimite sugestii.",
+        "commenting_disabled": "Comentarea prin Discord este dezactivată. Vă rugăm să utilizați site-ul web pentru a comenta sugestii.",
+        "reacting_disabled": "Reacționarea prin Discord este dezactivată. Vă rugăm să utilizați site-ul web pentru a reacționa la sugestii."
+    }
+}

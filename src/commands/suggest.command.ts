@@ -35,6 +35,13 @@ export default class extends Command {
             return;
         }
 
+        // Disable suggesting via Discord; useful when suggestions should only come from website but be synced to discord
+        if (process.env.DISABLE_SUGGESTING === 'true') {
+            const str = await LanguageManager.getString(interaction.guildId, 'suggestionHandler.suggesting_disabled');
+            await interaction.reply({ content: str, ephemeral: true });
+            return;
+        }
+
         const modalTitleStr = await LanguageManager.getString(interaction.guildId, 'commands.suggest.modal-title');
         const modalQuestion1Str = await LanguageManager.getString(
             interaction.guildId,

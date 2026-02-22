@@ -1,1 +1,7 @@
-{}
+{
+    "suggestionHandler": {
+        "suggesting_disabled": "Siūlymų pateikimas per Discord yra išjungtas. Naudokite svetainę pasiūlymams pateikti.",
+        "commenting_disabled": "Komentavimas per Discord yra išjungtas. Naudokite svetainę pasiūlymams komentuoti.",
+        "reacting_disabled": "Reakcijos per Discord yra išjungtos. Naudokite svetainę reagavimui į pasiūlymus."
+    }
+}

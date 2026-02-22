@@ -1,1 +1,7 @@
-{}
+{
+    "suggestionHandler": {
+        "suggesting_disabled": "Forslag via Discord er deaktivert. Vennligst bruk nettstedet for å sende inn forslag.",
+        "commenting_disabled": "Kommentering via Discord er deaktivert. Vennligst bruk nettstedet for å kommentere forslag.",
+        "reacting_disabled": "Reaksjoner via Discord er deaktivert. Vennligst bruk nettstedet for å reagere på forslag."
+    }
+}

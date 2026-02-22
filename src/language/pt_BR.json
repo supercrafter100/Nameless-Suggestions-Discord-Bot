@@ -1,1 +1,7 @@
-{}
+{
+    "suggestionHandler": {
+        "suggesting_disabled": "Sugerir via Discord está desativado. Por favor, use o site para enviar sugestões.",
+        "commenting_disabled": "Comentar via Discord está desativado. Por favor, use o site para comentar sugestões.",
+        "reacting_disabled": "Reagir via Discord está desativado. Por favor, use o site para reagir às sugestões."
+    }
+}

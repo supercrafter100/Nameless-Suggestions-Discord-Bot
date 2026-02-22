@@ -43,6 +43,9 @@
         "suggestion_opened_website": "Predlog otvoren na veb lokaciji",
         "cannot_find_user": "Morate povezati svoj nalog na veb lokaciji da biste odgovarali preko Discord-a!",
         "reaction_registered": "Vaša `{reaction}` reakcija je dodata na veb lokaciju.",
-        "suggested_by": "Predložio {user}"
+        "suggested_by": "Predložio {user}",
+        "suggesting_disabled": "Predlaganje putem Discord-a je onemogućeno. Molimo koristite veb lokaciju za slanje predloga.",
+        "commenting_disabled": "Komentarisanje putem Discord-a je onemogućeno. Molimo koristite veb lokaciju za komentarisanje predloga.",
+        "reacting_disabled": "Reagovanje putem Discord-a je onemogućeno. Molimo koristite veb lokaciju za reagovanje na predloge."
     }
 }
