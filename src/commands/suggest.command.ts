@@ -7,6 +7,7 @@ import {
     TextInputStyle,
     ModalActionRowComponentBuilder,
 } from 'discord.js';
+import Bot from '../managers/Bot';
 import Database from '../database/Database';
 import LanguageManager from '../managers/LanguageManager';
 
@@ -38,7 +39,8 @@ export default class extends Command {
         // Disable suggesting via Discord; useful when suggestions should only come from website but be synced to discord
         if (process.env.DISABLE_SUGGESTING === 'true') {
             const str = await LanguageManager.getString(interaction.guildId, 'suggestionHandler.suggesting_disabled');
-            await interaction.reply({ content: str, ephemeral: true });
+            const embed = (this.client as Bot).embeds.base().setDescription(str);
+            await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
 

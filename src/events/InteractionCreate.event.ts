@@ -1,4 +1,5 @@
 import { CommandInteraction, Interaction } from 'discord.js';
+import Bot from '../managers/Bot';
 import { Event } from '../handlers/EventHandler';
 import LanguageManager from '../managers/LanguageManager';
 
@@ -13,7 +14,8 @@ export default class InteractionCreate extends Event<'interactionCreate'> {
             if (process.env.DISABLE_REACTING === 'true') {
                 if (!interaction.guildId) return;
                 const str = await LanguageManager.getString(interaction.guildId, 'suggestionHandler.reacting_disabled');
-                await interaction.reply({ content: str, ephemeral: true });
+                const embed = (this.client as Bot).embeds.base().setDescription(str);
+                await interaction.reply({ embeds: [embed], ephemeral: true });
                 return;
             }
             this.client.suggestions.handleButtonInteraction(
