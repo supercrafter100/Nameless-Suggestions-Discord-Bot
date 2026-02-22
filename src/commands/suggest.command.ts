@@ -11,7 +11,7 @@ import Database from '../database/Database';
 import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
-    public name = 'suggest';
+    public name = process.env.SUGGEST_COMMAND_NAME || 'suggest';
     public description = 'Suggest something!';
     public options = [];
 
