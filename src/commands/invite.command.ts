@@ -1,11 +1,11 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../util/CommandDescriptions';
 import { ChatInputCommandInteraction } from 'discord.js';
 import Bot from '../managers/Bot';
 
 export default class extends Command {
     public name = 'invite';
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    public description = (require('../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.invite ?? 'Invite the discord bot';
+    public get description() { return getCommandDescription('invite', 'Invite the discord bot'); }
     public options = [];
 
     public onStart(): void {

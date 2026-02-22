@@ -1,4 +1,5 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../util/CommandDescriptions';
 import { ChatInputCommandInteraction, GuildMember } from 'discord.js';
 import Database from '../database/Database';
 import Bot from '../managers/Bot';
@@ -6,8 +7,7 @@ import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public name = 'webhookurl';
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    public description = (require('../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.webhookurl ?? 'Get the webhook url for your website!';
+    public get description() { return getCommandDescription('webhookurl', 'Get the webhook url for your website!'); }
     public options = [];
 
     public onStart(): void {

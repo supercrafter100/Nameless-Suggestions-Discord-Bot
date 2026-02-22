@@ -1,4 +1,5 @@
 import { Subcommand } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../../../util/CommandDescriptions';
 import { ChatInputCommandInteraction } from 'discord.js';
 import { nanoid } from 'nanoid';
 import Database from '../../../database/Database';
@@ -6,8 +7,7 @@ import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'authkey';
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    public description = (require('../../../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.settings_set_authkey ?? 'Generate a new authorization key for the webhook';
+    public get description() { return getCommandDescription('settings_set_authkey', 'Generate a new authorization key for the webhook'); }
     public options = [];
 
     public onStart(): void {

@@ -1,11 +1,11 @@
 import { ChatInputCommandInteraction } from 'discord.js';
 import path from 'path';
 import { SubcommandGroup } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../../util/CommandDescriptions';
 
 export default class extends SubcommandGroup {
     public name = 'set';
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    public description = (require('../../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.settings_set ?? 'Set a setting';
+    public get description() { return getCommandDescription('settings_set', 'Set a setting'); }
     public options = [];
 
     public onStart(): void {

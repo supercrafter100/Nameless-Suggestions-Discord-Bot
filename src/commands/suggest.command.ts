@@ -10,11 +10,11 @@ import {
 import Bot from '../managers/Bot';
 import Database from '../database/Database';
 import LanguageManager from '../managers/LanguageManager';
+import { getCommandDescription } from '../util/CommandDescriptions';
 
 export default class extends Command {
     public name = process.env.SUGGEST_COMMAND_NAME || 'suggest';
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    public description = (require('../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.suggest ?? 'Suggest something!';
+    public get description() { return getCommandDescription('suggest', 'Suggest something!'); }
     public options = [];
 
     public onStart(): void {

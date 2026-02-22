@@ -1,12 +1,12 @@
 import { Subcommand } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../../util/CommandDescriptions';
 import { ChatInputCommandInteraction } from 'discord.js';
 import Database from '../../database/Database';
 import Bot from '../../managers/Bot';
 
 export default class extends Subcommand {
     public name = 'list';
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    public description = (require('../../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.settings_list ?? 'List all settings';
+    public get description() { return getCommandDescription('settings_list', 'List all settings'); }
     public options = [];
 
     public onStart(): void {

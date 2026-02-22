@@ -1,4 +1,5 @@
 import { Subcommand } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../../../util/CommandDescriptions';
 import { ApplicationCommandOptionType, ChatInputCommandInteraction, TextChannel } from 'discord.js';
 import Database from '../../../database/Database';
 import Suggestion from '../../../database/models/suggestion.model';
@@ -6,8 +7,7 @@ import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'suggestionchannel';
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    public description = (require('../../../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.settings_set_suggestionchannel ?? 'Set the suggestionchannel where new suggestions get sent in';
+    public get description() { return getCommandDescription('settings_set_suggestionchannel', 'Set the suggestionchannel where new suggestions get sent in'); }
     public options = [
         {
             type: ApplicationCommandOptionType.Channel as number,

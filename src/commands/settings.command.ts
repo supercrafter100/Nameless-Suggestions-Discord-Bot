@@ -1,12 +1,12 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../util/CommandDescriptions';
 import { ChatInputCommandInteraction, GuildMember } from 'discord.js';
 import { join } from 'path';
 import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public readonly name = 'settings';
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    public readonly description = (require('../language/en_UK.json') as { command_descriptions: Record<string, string> }).command_descriptions?.settings ?? 'Configure settings';
+    public get description() { return getCommandDescription('settings', 'Configure settings'); }
     public options = [];
 
     public onStart() {
