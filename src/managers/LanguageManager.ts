@@ -29,6 +29,7 @@ export default class LanguageManager {
         Polish: 'pl_PL',
         Romanian: 'ro_RO',
         Russian: 'ru_RU',
+        Serbian: 'sr_RS',
         Slovak: 'sk_SK',
         Turkish: 'tr_TR',
         'Chinese(Traditional)': 'zh_TW',
