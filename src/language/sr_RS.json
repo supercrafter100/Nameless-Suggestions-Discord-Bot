@@ -64,5 +64,6 @@
         "webhookurl": "Dobijte webhook URL za vaš sajt",
         "donate": "Osećate se velikodušno?",
         "invite": "Pozovite Discord bota"
-    }
+    },
+    "watermark": "Nameless Suggestions"
 }

@@ -104,4 +104,14 @@ export default class LanguageManager {
         const guildData = await Database.getGuildData(guildId);
         return guildData.language;
     }
+
+    public static getWatermark(): string | null {
+        // Read watermark from the default language file (set at startup)
+        const langData = LanguageManager.languages.get(DEFAULT_LANGUAGE) ?? LanguageManager.languages.get('en_UK');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const watermark = (langData as any)?.watermark;
+        if (watermark === undefined) return 'Nameless Suggestions';
+        if (watermark === '') return null;
+        return watermark;
+    }
 }

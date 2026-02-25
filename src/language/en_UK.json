@@ -64,5 +64,6 @@
         "webhookurl": "Get the webhook URL for your website",
         "donate": "Feeling generous?",
         "invite": "Invite the discord bot"
-    }
+    },
+    "watermark": "Nameless Suggestions"
 }
