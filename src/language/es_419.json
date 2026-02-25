@@ -1,5 +1,6 @@
 {
     "suggestionHandler": {
         "reacting_disabled": "Las reacciones a través de Discord están desactivadas. Por favor, usa el sitio web para reaccionar a las sugerencias."
-    }
+    },
+    "watermark": "Nameless Suggestions"
 }

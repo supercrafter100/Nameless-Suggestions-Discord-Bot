@@ -41,5 +41,6 @@
         "suggested_by": "הוצע על ידי {משתמש}",
         "suggestion_opened_website": "ההצעה נפתחה באתר",
         "reacting_disabled": "תגובה דרך Discord מושבתת. אנא השתמש באתר להגיב על הצעות."
-    }
+    },
+    "watermark": "Nameless Suggestions"
 }

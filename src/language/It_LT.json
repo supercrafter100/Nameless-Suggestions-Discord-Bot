@@ -1,5 +1,6 @@
 {
     "suggestionHandler": {
         "reacting_disabled": "Reakcijos per Discord yra išjungtos. Naudokite svetainę reagavimui į pasiūlymus."
-    }
+    },
+    "watermark": "Nameless Suggestions"
 }

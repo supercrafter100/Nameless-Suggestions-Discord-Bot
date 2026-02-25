@@ -43,5 +43,6 @@
         "reacting_disabled": "Discord経由でのリアクションは無効になっています。ウェブサイトから提案にリアクションしてください。"
     },
     "permission_required": "必要な権限\"{permission}\"がありません",
-    "invalid-setup": "ボットはまだ正しく設定されていません。サーバー管理者に連絡してください！"
+    "invalid-setup": "ボットはまだ正しく設定されていません。サーバー管理者に連絡してください！",
+    "watermark": "Nameless Suggestions"
 }

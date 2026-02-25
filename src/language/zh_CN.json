@@ -41,5 +41,6 @@
         "cannot_find_user": "您必须链接您的网站帐户才能通过 Discord 回复！",
         "reaction_registered": "您的“{reaction}”反应已添加到网站上。",
         "reacting_disabled": "通过Discord回应已被禁用。请使用网站对建议做出反应。"
-    }
+    },
+    "watermark": "Nameless Suggestions"
 }

@@ -1,5 +1,6 @@
 {
     "suggestionHandler": {
         "reacting_disabled": "Reageren op suggesties via Discord is uitgeschakeld. Gebruik de website om op suggesties te reageren."
-    }
+    },
+    "watermark": "Nameless Suggestions"
 }

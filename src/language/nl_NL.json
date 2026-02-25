@@ -44,5 +44,6 @@
         "suggested_by": "gesuggereerd door {user}",
         "reacting_disabled": "Reageren op suggesties via Discord is uitgeschakeld. Gebruik de website om op suggesties te reageren."
     },
-    "invalid-setup": "De bot is nog niet correct geconfigureerd. Contacteer de server administror!"
+    "invalid-setup": "De bot is nog niet correct geconfigureerd. Contacteer de server administror!",
+    "watermark": "Nameless Suggestions"
 }

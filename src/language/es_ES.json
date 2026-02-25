@@ -45,5 +45,6 @@
         "reacting_disabled": "Reaccionar a través de Discord está desactivado. Por favor, usa el sitio web para reaccionar a las sugerencias."
     },
     "permission_required": "No tienes el permiso \"{permission}\"",
-    "invalid-setup": "El bot aún no ha sido configurado correctamente. ¡Contacte al administrador del servidor!"
+    "invalid-setup": "El bot aún no ha sido configurado correctamente. ¡Contacte al administrador del servidor!",
+    "watermark": "Nameless Suggestions"
 }

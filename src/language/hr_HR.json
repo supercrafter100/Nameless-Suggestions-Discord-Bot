@@ -1,5 +1,6 @@
 {
     "suggestionHandler": {
         "reacting_disabled": "Reagiranje putem Discorda je onemogućeno. Molimo koristite web stranicu za reagiranje na prijedloge."
-    }
+    },
+    "watermark": "Nameless Suggestions"
 }

@@ -1,5 +1,6 @@
 {
     "suggestionHandler": {
         "reacting_disabled": "Reacționarea prin Discord este dezactivată. Vă rugăm să utilizați site-ul web pentru a reacționa la sugestii."
-    }
+    },
+    "watermark": "Nameless Suggestions"
 }

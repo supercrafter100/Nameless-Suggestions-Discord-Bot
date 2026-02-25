@@ -42,5 +42,6 @@
         "cannot_find_user": "Bạn phải liên kết tài khoản trang web của mình để có thể trả lời qua Discord!",
         "reacting_disabled": "Phản ứng qua Discord bị vô hiệu hóa. Vui lòng sử dụng trang web để phản ứng với đề xuất."
     },
-    "permission_required": "Bạn không có quyền này \"{permission}\""
+    "permission_required": "Bạn không có quyền này \"{permission}\"",
+    "watermark": "Nameless Suggestions"
 }
