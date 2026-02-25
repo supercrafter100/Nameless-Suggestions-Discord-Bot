@@ -2,6 +2,7 @@ import LanguageManager from '../managers/LanguageManager';
 
 const DEFAULT_LANGUAGE = 'en_UK';
 let descriptions: Record<string, string> = {};
+let loadedLanguage = DEFAULT_LANGUAGE;
 
 /**
  * Load command descriptions from the language manager for a given language code.
@@ -15,6 +16,11 @@ export function loadCommandDescriptions(language: string): void {
     const fallbackDescs = (fallbackData?.['command_descriptions'] as Record<string, string>) ?? {};
 
     descriptions = { ...fallbackDescs, ...langDescs };
+    loadedLanguage = language;
+}
+
+export function getLoadedLanguage(): string {
+    return loadedLanguage;
 }
 
 /**

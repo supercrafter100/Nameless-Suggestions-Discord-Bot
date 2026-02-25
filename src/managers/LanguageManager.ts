@@ -106,8 +106,13 @@ export default class LanguageManager {
     }
 
     public static getWatermark(): string | null {
-        // Read watermark from the default language file (set at startup)
-        const langData = LanguageManager.languages.get(DEFAULT_LANGUAGE) ?? LanguageManager.languages.get('en_UK');
+        // Read watermark from the guild's loaded language (set at startup via Ready.event.ts)
+        const { getLoadedLanguage } = require('../util/CommandDescriptions');
+        const loadedLang: string = getLoadedLanguage();
+        const langData =
+            LanguageManager.languages.get(loadedLang) ??
+            LanguageManager.languages.get(DEFAULT_LANGUAGE) ??
+            LanguageManager.languages.get('en_UK');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const watermark = (langData as any)?.watermark;
         if (watermark === undefined) return 'Nameless Suggestions';
