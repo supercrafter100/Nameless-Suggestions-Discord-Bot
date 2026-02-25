@@ -40,23 +40,7 @@
         "suggestion_opened_website": "Đề xuất đã mở trên trang web",
         "suggestion": "Đề xuất",
         "cannot_find_user": "Bạn phải liên kết tài khoản trang web của mình để có thể trả lời qua Discord!",
-        "suggesting_disabled": "Đề xuất qua Discord bị vô hiệu hóa. Vui lòng sử dụng trang web để gửi đề xuất.",
-        "commenting_disabled": "Bình luận qua Discord bị vô hiệu hóa. Vui lòng sử dụng trang web để bình luận đề xuất.",
         "reacting_disabled": "Phản ứng qua Discord bị vô hiệu hóa. Vui lòng sử dụng trang web để phản ứng với đề xuất."
     },
-    "permission_required": "Bạn không có quyền này \"{permission}\"",
-    "command_descriptions": {
-        "suggest": "Suggest something!",
-        "setup": "Setup the discord bot",
-        "settings": "Configure settings",
-        "settings_set": "Set a setting",
-        "settings_list": "List all settings",
-        "settings_set_apikey": "Set the API key of your website",
-        "settings_set_authkey": "Generate a new authorization key for the webhook",
-        "settings_set_suggestionchannel": "Set the suggestion channel where new suggestions get sent in",
-        "settings_set_language": "Change the language of the discord bot",
-        "webhookurl": "Get the webhook URL for your website",
-        "donate": "Feeling generous?",
-        "invite": "Invite the discord bot"
-    }
+    "permission_required": "Bạn không có quyền này \"{permission}\""
 }

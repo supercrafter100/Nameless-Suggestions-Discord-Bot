@@ -43,23 +43,7 @@
         "reaction_registered": "Ваша `{reaction}` была добавлена на сайт.",
         "suggested_by": "Предложено {user}",
         "cannot_find_user": "Вы должны привязать свой аккаунт на сайте что бы отвечать через Discord!",
-        "suggesting_disabled": "Предложения через Discord отключены. Пожалуйста, используйте сайт для отправки предложений.",
-        "commenting_disabled": "Комментирование через Discord отключено. Пожалуйста, используйте сайт для комментирования предложений.",
         "reacting_disabled": "Реакции через Discord отключены. Пожалуйста, используйте сайт для реакций на предложения."
     },
-    "invalid-setup": "Бот еще не настроен должным образом. Обратитесь к администратору сервера!",
-    "command_descriptions": {
-        "suggest": "Suggest something!",
-        "setup": "Setup the discord bot",
-        "settings": "Configure settings",
-        "settings_set": "Set a setting",
-        "settings_list": "List all settings",
-        "settings_set_apikey": "Set the API key of your website",
-        "settings_set_authkey": "Generate a new authorization key for the webhook",
-        "settings_set_suggestionchannel": "Set the suggestion channel where new suggestions get sent in",
-        "settings_set_language": "Change the language of the discord bot",
-        "webhookurl": "Get the webhook URL for your website",
-        "donate": "Feeling generous?",
-        "invite": "Invite the discord bot"
-    }
+    "invalid-setup": "Бот еще не настроен должным образом. Обратитесь к администратору сервера!"
 }

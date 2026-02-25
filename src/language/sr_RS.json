@@ -18,6 +18,10 @@
                     "select_language": "Izaberite jezik koji želite da koristite za Discord bot.",
                     "select_language_option": "Izaberite {language} kao jezik",
                     "success": "Uspešno promenjen jezik u `{language}`."
+                },
+                "reactions": {
+                    "enabled": "Dugmad za reakcije su omogućena. Korisnici sada mogu reagovati na predloge preko Discord-a.",
+                    "disabled": "Dugmad za reakcije su onemogućena. Korisnici moraju reagovati na predloge na veb lokaciji."
                 }
             }
         },
@@ -44,8 +48,6 @@
         "cannot_find_user": "Morate povezati svoj nalog na veb lokaciji da biste odgovarali preko Discord-a!",
         "reaction_registered": "Vaša `{reaction}` reakcija je dodata na veb lokaciju.",
         "suggested_by": "Predložio {user}",
-        "suggesting_disabled": "Predlaganje putem Discord-a je onemogućeno. Molimo koristite veb lokaciju za slanje predloga.",
-        "commenting_disabled": "Komentarisanje putem Discord-a je onemogućeno. Molimo koristite veb lokaciju za komentarisanje predloga.",
         "reacting_disabled": "Reagovanje putem Discord-a je onemogućeno. Molimo koristite veb lokaciju za reagovanje na predloge."
     },
     "command_descriptions": {
@@ -58,6 +60,7 @@
         "settings_set_authkey": "Generišite novi autorizacioni ključ za webhook",
         "settings_set_suggestionchannel": "Postavite kanal za predloge gde se šalju novi predlozi",
         "settings_set_language": "Promenite jezik Discord bota",
+        "settings_set_reactions": "Uključite/isključite dugmad za reakcije",
         "webhookurl": "Dobijte webhook URL za vaš sajt",
         "donate": "Osećate se velikodušno?",
         "invite": "Pozovite Discord bota"

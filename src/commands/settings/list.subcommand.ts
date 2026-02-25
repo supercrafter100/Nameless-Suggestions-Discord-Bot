@@ -35,6 +35,7 @@ export default class extends Subcommand {
         const authkey = guildData.authorizationKey;
 
         const suggestionChannelId = guildData.suggestionChannel;
+        const reactionsDisabled = guildData.reactionsDisabled;
 
         // Build the embed
         const embed = client.embeds.base();
@@ -44,6 +45,7 @@ export default class extends Subcommand {
                 `🔑 **API Key**: ${apikey ? `\`${apikey}\`` : '*Not set*'}`,
                 `🔒 **Auth Key**: ${authkey ? `\`${authkey}\`` : '*Not set*'}`,
                 `💬 **Suggestion Channel**: ${suggestionChannelId ? `<#${suggestionChannelId}>` : '*Not set*'}`,
+                `👍 **Reactions**: ${reactionsDisabled ? '❌ Disabled' : '✅ Enabled'}`,
             ].join('\n'),
         );
 

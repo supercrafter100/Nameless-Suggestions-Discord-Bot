@@ -42,22 +42,6 @@
         "cannot_find_user": "Aby si mohol odpovedať cez discord, musíš mať prepojený svoj účet s webstránkou!",
         "suggested_by": "Navrhol {user}",
         "reaction_registered": "Tvoja reakcia `{reaction}` bola pridaná na webstránku.",
-        "suggesting_disabled": "Navrhovanie cez Discord je zakázané. Na odosielanie návrhov použite webovú stránku.",
-        "commenting_disabled": "Komentovanie cez Discord je zakázané. Na komentovanie návrhov použite webovú stránku.",
         "reacting_disabled": "Reakcie cez Discord sú zakázané. Na reagovanie na návrhy použite webovú stránku."
-    },
-    "command_descriptions": {
-        "suggest": "Suggest something!",
-        "setup": "Setup the discord bot",
-        "settings": "Configure settings",
-        "settings_set": "Set a setting",
-        "settings_list": "List all settings",
-        "settings_set_apikey": "Set the API key of your website",
-        "settings_set_authkey": "Generate a new authorization key for the webhook",
-        "settings_set_suggestionchannel": "Set the suggestion channel where new suggestions get sent in",
-        "settings_set_language": "Change the language of the discord bot",
-        "webhookurl": "Get the webhook URL for your website",
-        "donate": "Feeling generous?",
-        "invite": "Invite the discord bot"
     }
 }

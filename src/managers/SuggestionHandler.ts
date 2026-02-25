@@ -55,10 +55,13 @@ export default class {
         // Send message in the channel
 
         const embed = await this.createEmbed(guildInfo.id, suggestion.apiData, suggestion.apiData.link, authorAvatar);
-        const components = this.getEmbedComponents({
-            likes: parseInt(suggestion.apiData.likes_count),
-            dislikes: parseInt(suggestion.apiData.dislikes_count),
-        });
+        const components = this.getEmbedComponents(
+            {
+                likes: parseInt(suggestion.apiData.likes_count),
+                dislikes: parseInt(suggestion.apiData.dislikes_count),
+            },
+            guildInfo.reactionsDisabled,
+        );
         const message = await channel
             .send({ embeds: [embed], components: components ? [components] : [] })
             .catch((err) => {
@@ -355,10 +358,13 @@ export default class {
             `https://avatars.dicebear.com/api/initials/${suggestion.apiData.author.username}.png?size=128`;
 
         const embed = await this.createEmbed(guildInfo.id, suggestion.apiData, suggestion.dbData.url, authorAvatar);
-        const components = this.getEmbedComponents({
-            likes: parseInt(suggestion.apiData.likes_count),
-            dislikes: parseInt(suggestion.apiData.dislikes_count),
-        });
+        const components = this.getEmbedComponents(
+            {
+                likes: parseInt(suggestion.apiData.likes_count),
+                dislikes: parseInt(suggestion.apiData.dislikes_count),
+            },
+            guildInfo.reactionsDisabled,
+        );
         await message.edit({ embeds: [embed], components: components ? [components] : [] });
     }
 
@@ -443,9 +449,9 @@ export default class {
         return embed;
     }
 
-    private getEmbedComponents({ likes, dislikes }: { likes: number; dislikes: number }) {
+    private getEmbedComponents({ likes, dislikes }: { likes: number; dislikes: number }, reactionsDisabled: boolean) {
         // If reacting is disabled, return null so no buttons are shown on suggestion embeds
-        if (process.env.DISABLE_REACTING === 'true') return null;
+        if (reactionsDisabled) return null;
         const row = new ActionRowBuilder<ButtonBuilder>();
         row.addComponents(
             new ButtonBuilder().setCustomId('like-suggestion').setLabel(`${likes} 👍`).setStyle(ButtonStyle.Success),

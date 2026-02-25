@@ -42,24 +42,8 @@
         "suggested_by": "Sugerido por {user}",
         "cannot_find_user": "¡Debes tener tu cuenta del sitio web vinculada para poder responder a través de Discord!",
         "reaction_registered": "Su reacción `{reaction}` ha sido añadida en el sitio web.",
-        "suggesting_disabled": "Hacer sugerencias a través de Discord está desactivado. Por favor, usa el sitio web para enviar sugerencias.",
-        "commenting_disabled": "Comentar a través de Discord está desactivado. Por favor, usa el sitio web para comentar sugerencias.",
         "reacting_disabled": "Reaccionar a través de Discord está desactivado. Por favor, usa el sitio web para reaccionar a las sugerencias."
     },
     "permission_required": "No tienes el permiso \"{permission}\"",
-    "invalid-setup": "El bot aún no ha sido configurado correctamente. ¡Contacte al administrador del servidor!",
-    "command_descriptions": {
-        "suggest": "Suggest something!",
-        "setup": "Setup the discord bot",
-        "settings": "Configure settings",
-        "settings_set": "Set a setting",
-        "settings_list": "List all settings",
-        "settings_set_apikey": "Set the API key of your website",
-        "settings_set_authkey": "Generate a new authorization key for the webhook",
-        "settings_set_suggestionchannel": "Set the suggestion channel where new suggestions get sent in",
-        "settings_set_language": "Change the language of the discord bot",
-        "webhookurl": "Get the webhook URL for your website",
-        "donate": "Feeling generous?",
-        "invite": "Invite the discord bot"
-    }
+    "invalid-setup": "El bot aún no ha sido configurado correctamente. ¡Contacte al administrador del servidor!"
 }
