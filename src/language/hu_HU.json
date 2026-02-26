@@ -8,5 +8,9 @@
                 }
             }
         }
-    }
+    },
+    "suggestionHandler": {
+        "reacting_disabled": "A Discordon keresztüli reakció le van tiltva. Kérjük, a javaslatokra való reagáláshoz használja a weboldalt."
+    },
+    "watermark": "Nameless Suggestions"
 }

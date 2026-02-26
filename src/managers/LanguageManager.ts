@@ -29,6 +29,7 @@ export default class LanguageManager {
         Polish: 'pl_PL',
         Romanian: 'ro_RO',
         Russian: 'ru_RU',
+        Serbian: 'sr_RS',
         Slovak: 'sk_SK',
         Turkish: 'tr_TR',
         'Chinese(Traditional)': 'zh_TW',
@@ -102,5 +103,20 @@ export default class LanguageManager {
     private static async getLanguage(guildId: string) {
         const guildData = await Database.getGuildData(guildId);
         return guildData.language;
+    }
+
+    public static getWatermark(): string | null {
+        // Read watermark from the guild's loaded language (set at startup via Ready.event.ts)
+        const { getLoadedLanguage } = require('../util/CommandDescriptions');
+        const loadedLang: string = getLoadedLanguage();
+        const langData =
+            LanguageManager.languages.get(loadedLang) ??
+            LanguageManager.languages.get(DEFAULT_LANGUAGE) ??
+            LanguageManager.languages.get('en_UK');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const watermark = (langData as any)?.watermark;
+        if (watermark === undefined) return 'Nameless Suggestions';
+        if (watermark === '') return null;
+        return watermark;
     }
 }

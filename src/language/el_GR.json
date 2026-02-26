@@ -1,1 +1,6 @@
-{}
+{
+    "suggestionHandler": {
+        "reacting_disabled": "Οι αντιδράσεις μέσω Discord είναι απενεργοποιημένες. Χρησιμοποιήστε τον ιστότοπο για να αντιδράσετε σε προτάσεις."
+    },
+    "watermark": "Nameless Suggestions"
+}

@@ -1,4 +1,5 @@
 import { Subcommand } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../../../util/CommandDescriptions';
 import { ChatInputCommandInteraction } from 'discord.js';
 import { nanoid } from 'nanoid';
 import Database from '../../../database/Database';
@@ -6,7 +7,9 @@ import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'authkey';
-    public description = 'Generate a new authorization key for the webhook ';
+    public get description() {
+        return getCommandDescription('settings_set_authkey', 'Generate a new authorization key for the webhook');
+    }
     public options = [];
 
     public onStart(): void {

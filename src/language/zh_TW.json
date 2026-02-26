@@ -31,5 +31,9 @@
             "success": "Webhook網址是 `{url}`，\n請使用它來當作建議模組的Discord Webhook網址。"
         }
     },
-    "permission_required": "抱歉！您沒有 {permission} 權限。"
+    "permission_required": "抱歉！您沒有 {permission} 權限。",
+    "suggestionHandler": {
+        "reacting_disabled": "透過Discord回應已被停用。請使用網站對建議做出反應。"
+    },
+    "watermark": "Nameless Suggestions"
 }

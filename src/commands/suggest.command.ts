@@ -9,10 +9,13 @@ import {
 } from 'discord.js';
 import Database from '../database/Database';
 import LanguageManager from '../managers/LanguageManager';
+import { getCommandDescription } from '../util/CommandDescriptions';
 
 export default class extends Command {
-    public name = 'suggest';
-    public description = 'Suggest something!';
+    public name = process.env.SUGGEST_COMMAND_NAME || 'suggest';
+    public get description() {
+        return getCommandDescription('suggest', 'Suggest something!');
+    }
     public options = [];
 
     public onStart(): void {

@@ -1,11 +1,14 @@
 import { Subcommand } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../../util/CommandDescriptions';
 import { ChatInputCommandInteraction } from 'discord.js';
 import Database from '../../database/Database';
 import Bot from '../../managers/Bot';
 
 export default class extends Subcommand {
     public name = 'list';
-    public description = 'List all settings';
+    public get description() {
+        return getCommandDescription('settings_list', 'List all settings');
+    }
     public options = [];
 
     public onStart(): void {
@@ -32,6 +35,7 @@ export default class extends Subcommand {
         const authkey = guildData.authorizationKey;
 
         const suggestionChannelId = guildData.suggestionChannel;
+        const reactionsDisabled = guildData.reactionsDisabled;
 
         // Build the embed
         const embed = client.embeds.base();
@@ -41,6 +45,7 @@ export default class extends Subcommand {
                 `🔑 **API Key**: ${apikey ? `\`${apikey}\`` : '*Not set*'}`,
                 `🔒 **Auth Key**: ${authkey ? `\`${authkey}\`` : '*Not set*'}`,
                 `💬 **Suggestion Channel**: ${suggestionChannelId ? `<#${suggestionChannelId}>` : '*Not set*'}`,
+                `👍 **Reactions**: ${reactionsDisabled ? '❌ Disabled' : '✅ Enabled'}`,
             ].join('\n'),
         );
 

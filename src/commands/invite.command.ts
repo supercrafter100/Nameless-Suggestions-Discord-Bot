@@ -1,10 +1,13 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../util/CommandDescriptions';
 import { ChatInputCommandInteraction } from 'discord.js';
 import Bot from '../managers/Bot';
 
 export default class extends Command {
     public name = 'invite';
-    public description = 'Invite the discord bot';
+    public get description() {
+        return getCommandDescription('invite', 'Invite the discord bot');
+    }
     public options = [];
 
     public onStart(): void {

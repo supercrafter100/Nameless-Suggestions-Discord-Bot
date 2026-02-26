@@ -41,7 +41,9 @@
         "suggestion_opened_website": "Suggestie geopend op de website",
         "cannot_find_user": "Je moet je website account gelinkt hebben om te kunnen reageren via Discord!",
         "reaction_registered": "Uw `{reaction}` reactie is toegevoegd op de website.",
-        "suggested_by": "gesuggereerd door {user}"
+        "suggested_by": "gesuggereerd door {user}",
+        "reacting_disabled": "Reageren op suggesties via Discord is uitgeschakeld. Gebruik de website om op suggesties te reageren."
     },
-    "invalid-setup": "De bot is nog niet correct geconfigureerd. Contacteer de server administror!"
+    "invalid-setup": "De bot is nog niet correct geconfigureerd. Contacteer de server administror!",
+    "watermark": "Nameless Suggestions"
 }

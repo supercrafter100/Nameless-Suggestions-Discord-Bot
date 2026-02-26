@@ -39,8 +39,10 @@
         "suggestion_closed_website": "Proposta chiusa sul sito",
         "suggestion": "Proposta",
         "suggested_by": "Proposto da {user}",
-        "suggestion_opened_website": "Proposta aperta sul sito"
+        "suggestion_opened_website": "Proposta aperta sul sito",
+        "reacting_disabled": "Le reazioni tramite Discord sono disabilitate. Usa il sito web per reagire ai suggerimenti."
     },
     "permission_required": "Non disponi del permesso \"{permission}\" richiesto",
-    "invalid-setup": "Il bot non è stato configurato correttamente. Contatta un amministratore!"
+    "invalid-setup": "Il bot non è stato configurato correttamente. Contatta un amministratore!",
+    "watermark": "Nameless Suggestions"
 }

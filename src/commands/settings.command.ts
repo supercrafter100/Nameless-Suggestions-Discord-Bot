@@ -1,11 +1,14 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../util/CommandDescriptions';
 import { ChatInputCommandInteraction, GuildMember } from 'discord.js';
 import { join } from 'path';
 import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public readonly name = 'settings';
-    public readonly description = 'Configure settings';
+    public get description() {
+        return getCommandDescription('settings', 'Configure settings');
+    }
     public options = [];
 
     public onStart() {

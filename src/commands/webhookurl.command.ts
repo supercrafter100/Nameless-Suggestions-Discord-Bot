@@ -1,4 +1,5 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../util/CommandDescriptions';
 import { ChatInputCommandInteraction, GuildMember } from 'discord.js';
 import Database from '../database/Database';
 import Bot from '../managers/Bot';
@@ -6,7 +7,9 @@ import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public name = 'webhookurl';
-    public description = 'Get the webhook url for your website!';
+    public get description() {
+        return getCommandDescription('webhookurl', 'Get the webhook url for your website!');
+    }
     public options = [];
 
     public onStart(): void {

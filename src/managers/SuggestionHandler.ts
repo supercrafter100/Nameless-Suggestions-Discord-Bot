@@ -55,14 +55,19 @@ export default class {
         // Send message in the channel
 
         const embed = await this.createEmbed(guildInfo.id, suggestion.apiData, suggestion.apiData.link, authorAvatar);
-        const components = this.getEmbedComponents({
-            likes: parseInt(suggestion.apiData.likes_count),
-            dislikes: parseInt(suggestion.apiData.dislikes_count),
-        });
-        const message = await channel.send({ embeds: [embed], components: [components] }).catch((err) => {
-            this.bot.logger.warn('Failed to send message to suggestion channel', chalk.yellow(err));
-            return undefined;
-        });
+        const components = this.getEmbedComponents(
+            {
+                likes: parseInt(suggestion.apiData.likes_count),
+                dislikes: parseInt(suggestion.apiData.dislikes_count),
+            },
+            guildInfo.reactionsDisabled,
+        );
+        const message = await channel
+            .send({ embeds: [embed], components: components ? [components] : [] })
+            .catch((err) => {
+                this.bot.logger.warn('Failed to send message to suggestion channel', chalk.yellow(err));
+                return undefined;
+            });
 
         if (!message) {
             return null;
@@ -353,11 +358,14 @@ export default class {
             `https://avatars.dicebear.com/api/initials/${suggestion.apiData.author.username}.png?size=128`;
 
         const embed = await this.createEmbed(guildInfo.id, suggestion.apiData, suggestion.dbData.url, authorAvatar);
-        const components = this.getEmbedComponents({
-            likes: parseInt(suggestion.apiData.likes_count),
-            dislikes: parseInt(suggestion.apiData.dislikes_count),
-        });
-        await message.edit({ embeds: [embed], components: [components] });
+        const components = this.getEmbedComponents(
+            {
+                likes: parseInt(suggestion.apiData.likes_count),
+                dislikes: parseInt(suggestion.apiData.dislikes_count),
+            },
+            guildInfo.reactionsDisabled,
+        );
+        await message.edit({ embeds: [embed], components: components ? [components] : [] });
     }
 
     public async removeDeletedComment(suggestion: SuggestionClass, commentId: string) {
@@ -441,7 +449,9 @@ export default class {
         return embed;
     }
 
-    private getEmbedComponents({ likes, dislikes }: { likes: number; dislikes: number }) {
+    private getEmbedComponents({ likes, dislikes }: { likes: number; dislikes: number }, reactionsDisabled: boolean) {
+        // If reacting is disabled, return null so no buttons are shown on suggestion embeds
+        if (reactionsDisabled) return null;
         const row = new ActionRowBuilder<ButtonBuilder>();
         row.addComponents(
             new ButtonBuilder().setCustomId('like-suggestion').setLabel(`${likes} 👍`).setStyle(ButtonStyle.Success),

@@ -41,8 +41,10 @@
         "suggestion_closed_website": "Sugerencia cerrada en el sitio web",
         "suggested_by": "Sugerido por {user}",
         "cannot_find_user": "¡Debes tener tu cuenta del sitio web vinculada para poder responder a través de Discord!",
-        "reaction_registered": "Su reacción `{reaction}` ha sido añadida en el sitio web."
+        "reaction_registered": "Su reacción `{reaction}` ha sido añadida en el sitio web.",
+        "reacting_disabled": "Reaccionar a través de Discord está desactivado. Por favor, usa el sitio web para reaccionar a las sugerencias."
     },
     "permission_required": "No tienes el permiso \"{permission}\"",
-    "invalid-setup": "El bot aún no ha sido configurado correctamente. ¡Contacte al administrador del servidor!"
+    "invalid-setup": "El bot aún no ha sido configurado correctamente. ¡Contacte al administrador del servidor!",
+    "watermark": "Nameless Suggestions"
 }

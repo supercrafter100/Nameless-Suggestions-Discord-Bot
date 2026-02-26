@@ -1,11 +1,14 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../util/CommandDescriptions';
 import { ChatInputCommandInteraction } from 'discord.js';
 import Bot from '../managers/Bot';
 import LanguageManager from '../managers/LanguageManager';
 
 export default class extends Command {
     public name = 'donate';
-    public description = 'Feeling generous?';
+    public get description() {
+        return getCommandDescription('donate', 'Feeling generous?');
+    }
     public options = [];
 
     public onStart(): void {

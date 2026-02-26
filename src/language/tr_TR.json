@@ -1,1 +1,6 @@
-{}
+{
+    "suggestionHandler": {
+        "reacting_disabled": "Discord üzerinden tepki vermek devre dışı bırakıldı. Lütfen önerilere tepki vermek için web sitesini kullanın."
+    },
+    "watermark": "Nameless Suggestions"
+}
