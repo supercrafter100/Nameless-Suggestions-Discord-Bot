@@ -18,6 +18,10 @@
                 },
                 "authkey": {
                     "success": "Der Autorisierungs-Token wurde in `{token}` geändert. Du kannst eine neue Webhook URL mit dem Befehl `/webhookurl` finden."
+                },
+                "reactions": {
+                    "enabled": "Reaction Buttons wurden aktiviert. Benutzer können nun über Discord auf Vorschläge reagieren.",
+                    "disabled": "Die Reaction Buttons wurden deaktiviert. Benutzer müssen auf Vorschläge auf der Website reagieren."
                 }
             }
         },
@@ -46,5 +50,20 @@
     },
     "permission_required": "Du hast nicht das erforderliche \"{permission}\"- Recht",
     "invalid-setup": "Der Bot wurde noch nicht richtig konfiguriert. Kontaktiere den Server-Administrator!",
-    "watermark": "Nameless Suggestions"
+    "watermark": "Nameless Suggestions",
+    "command_descriptions": {
+        "suggest": "Schlag etwas vor!",
+        "setup": "Discord Bot einrichten",
+        "settings": "Einstellungen konfigurieren",
+        "settings_set": "Eine Einstellung festlegen",
+        "settings_list": "Alle Einstellungen auflisten",
+        "settings_set_apikey": "Lege den API-Schlüssel auf deiner Website fest",
+        "settings_set_authkey": "Erstelle ein neuen Autorisierungsschlüssel für den Webhook",
+        "settings_set_suggestionchannel": "Lege den Vorschlags Kanal fest, über den neue Vorschläge gesendet werden",
+        "settings_set_language": "Ändere die Sprache des Discord Bots",
+        "settings_set_reactions": "Reaction Buttons ein-/ausschalten",
+        "webhookurl": "Hol dir die Webhook-URL für deine Website",
+        "donate": "Bist du großzügig?",
+        "invite": "Discord Bot einladen"
+    }
 }
