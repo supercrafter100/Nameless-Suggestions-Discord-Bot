@@ -18,6 +18,10 @@
                     "success": "Klíč API byl nastaven.",
                     "invalid_key": "URL API nebo klíč API je neplatný.",
                     "success_2_1": "Byl nastaven klíč API. Na vašem webu byl automaticky vytvořen webhook, protože používáte NamelessMC v2.1 nebo novější. Měli byste být připraveni! Pokud jste již dříve nastavili bota, byl webhook nejspíš vytvořen znovu (takže byste tento nově vytvořený webhook měli odstranit)"
+                },
+                "reactions": {
+                    "enabled": "Byla povolena reakční tlačítka. Uživatelé nyní mohou reagovat na návrhy skrze Discord.",
+                    "disabled": "Reakční tlačítka byla zakázána. Uživatelé musí reagovat na návrhy na webu."
                 }
             }
         },
@@ -46,5 +50,20 @@
         "reacting_disabled": "Reakce přes Discord jsou zakázány. Pro reagování na návrhy prosím použijte webové stránky."
     },
     "invalid-setup": "Bot ještě nebyl správně nastaven. Kontaktujte správce serveru!",
-    "watermark": "Nameless Suggestions"
+    "watermark": "Návrhy Nameless",
+    "command_descriptions": {
+        "suggest": "Navrhněte něco!",
+        "setup": "Nastavit Discord bota",
+        "settings": "Upravit nastavení",
+        "settings_set": "Nastavit nastavení",
+        "settings_list": "Vypsat všechna nastavení",
+        "settings_set_apikey": "Nastavit klíč API vašeho webu",
+        "settings_set_authkey": "Vygenerovat nový autorizační klíč pro webhook",
+        "settings_set_suggestionchannel": "Nastavit kanál návrhů, kam budou odesílány nové návrhy",
+        "settings_set_language": "Změnit jazyk Discord bota",
+        "settings_set_reactions": "Zapnout/vypnout reakční tlačítka",
+        "webhookurl": "Získat adresu webhooku pro váš web",
+        "donate": "Chcete přispět?",
+        "invite": "Pozvat Discord bota"
+    }
 }
