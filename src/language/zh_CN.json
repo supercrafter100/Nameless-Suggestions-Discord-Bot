@@ -12,7 +12,7 @@
                     "success": "成功设定 `{language}` 为机器人所使用的语言。"
                 },
                 "apikey": {
-                    "invalid_key": "无效的API网址或金钥。",
+                    "invalid_key": "无效的 API 链接或 API 密钥。",
                     "success": "成功设定API金钥。"
                 },
                 "authkey": {
