@@ -3,44 +3,67 @@
         "settings": {
             "set": {
                 "suggestionChannel": {
-                    "no_textchannel": "建议用频道仅限文字频道（并且不能为公告用频道）",
-                    "success": "成功设定 {channel} 为建议用频道。"
+                    "no_textchannel": "频道必须是文字频道（不能是新闻频道）",
+                    "success": "提议频道已更改为 {channel}。"
                 },
                 "language": {
-                    "select_language": "请选择机器人所使用的语言。",
-                    "select_language_option": "设定 {language} 为机器人所使用的语言",
-                    "success": "成功设定 `{language}` 为机器人所使用的语言。"
+                    "select_language": "选择您想要用于 Discord 机器人的语言。",
+                    "select_language_option": "选择 {language} 作为语言",
+                    "success": "成功将语言更改为 `{language}`。"
                 },
                 "apikey": {
-                    "invalid_key": "无效的 API 链接或 API 密钥。",
-                    "success": "成功设定API金钥。"
+                    "invalid_key": "API 链接或 API 密钥无效。",
+                    "success": "API 密钥已设置。",
+                    "success_2_1": "API 密钥已设置。由于您使用的是 NamelessMC v2.1 或更高版本，系统已在您的网站上自动创建了一个 Webhook。您应该已经全部配置好了！如果您之前已经设置过机器人，那么这个 Webhook 很可能会被再次创建（因此您应该删除这个新创建的）"
                 },
                 "authkey": {
-                    "success": "成功设定授权代码为 `{token}`，使用指令 `/webhookurl` 来获取新的Webhook网址。"
+                    "success": "授权令牌已更改为 `{token}`。您可以使用 `/webhookurl` 命令找到新的 Webhook 链接。"
+                },
+                "reactions": {
+                    "enabled": "反应按钮已启用。用户现在可以通过 Discord 对提议做出反应。",
+                    "disabled": "反应按钮已禁用。用户必须在网站上对提议做出反应。"
                 }
             }
         },
         "suggest": {
             "modal-title": "提出建议！",
-            "modal-question-1": "建议标题",
-            "modal-question-2": "建议内容",
-            "success": "我们已收到您的建议！访问 {link} 来看吧",
-            "cannot_find_user": "您需要将您的Discord帐户链接到该网站才能通过Discord发布建议。"
+            "modal-question-1": "提议标题",
+            "modal-question-2": "提议内容",
+            "success": "您的提议已创建！请在此查看：{link}",
+            "cannot_find_user": "您需要先将 Discord 账户与网站关联，才能通过 Discord 发布提议。",
+            "validation-error": "验证您的提议时出错。网站返回了以下信息：{error}"
         },
         "webhookurl": {
-            "generate_key_first": "您必须先使用指令 `/settings set authkey` 来生成授权代码。",
-            "success": "Webhook网址是 `{url}`，\n请使用它来当作建议模组的Discord Webhook网址。"
-        }
+            "generate_key_first": "您需要先使用 `/settings set authkey` 生成一个授权令牌。",
+            "success": "链接为：`{url}`。\n请将此链接用作提议模块的 Discord Webhook 链接。"
+        },
+        "donate": "如果您想支持我的工作并承担此机器人的托管费用，我们将非常感谢您的（月度）捐赠！您可以通过[此处]({x})支持我"
     },
-    "permission_required": "抱歉！您没有 {permission} 权限",
+    "permission_required": "您没有所需的 “{permission}” 权限",
     "suggestionHandler": {
-        "suggestion": "建议",
-        "suggestion_closed_website": "建议在网站上关闭",
-        "suggestion_opened_website": "建议在网站上开启",
-        "suggested_by": "{user}推荐",
-        "cannot_find_user": "您必须链接您的网站帐户才能通过 Discord 回复！",
-        "reaction_registered": "您的“{reaction}”反应已添加到网站上。",
-        "reacting_disabled": "通过Discord回应已被禁用。请使用网站对建议做出反应。"
+        "suggestion": "提议",
+        "suggestion_closed_website": "网站上的提议已关闭",
+        "suggestion_opened_website": "网站上的提议已开启",
+        "suggested_by": "由 {user} 提议",
+        "cannot_find_user": "您必须关联您的网站账户才能通过 Discord 回复！",
+        "reaction_registered": "您的 `{reaction}` 反应已在网站上添加。",
+        "reacting_disabled": "通过 Discord 做出反应的功能已禁用。请使用网站对提议做出反应。"
     },
-    "watermark": "Nameless Suggestions"
+    "watermark": "Nameless 提议",
+    "invalid-setup": "机器人尚未正确配置。请联系服务器管理员！",
+    "command_descriptions": {
+        "suggest": "提出建议！",
+        "setup": "设置 Discord 机器人",
+        "settings": "配置设置",
+        "settings_set": "设置一个选项",
+        "settings_list": "列出所有设置",
+        "settings_set_apikey": "设置您网站的 API 密钥",
+        "settings_set_authkey": "为 Webhook 生成一个新的授权密钥",
+        "settings_set_suggestionchannel": "设置接收新提议的提议频道",
+        "settings_set_language": "更改 Discord 机器人的语言",
+        "settings_set_reactions": "开关反应按钮",
+        "webhookurl": "获取您网站的 Webhook 链接",
+        "donate": "想慷慨解囊？",
+        "invite": "邀请 Discord 机器人"
+    }
 }
