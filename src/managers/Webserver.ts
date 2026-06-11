@@ -88,7 +88,7 @@ export default class {
         if (isSuggestionDelete) type = 'suggestion delete';
         if (isSuggestionUpdate) type = 'suggestion updated';
 
-        this.logger.debug(
+        this.logger.info(
             'Received network request for suggestion with title ' +
                 chalk.yellow(suggestion.apiData ? suggestion.apiData.title : 'unknown (deleted)') +
                 ' for guild ' +
