@@ -55,14 +55,19 @@ export default class {
         // Send message in the channel
 
         const embed = await this.createEmbed(guildInfo.id, suggestion.apiData, suggestion.apiData.link, authorAvatar);
-        const components = this.getEmbedComponents({
-            likes: parseInt(suggestion.apiData.likes_count),
-            dislikes: parseInt(suggestion.apiData.dislikes_count),
-        });
-        const message = await channel.send({ embeds: [embed], components: [components] }).catch((err) => {
-            this.bot.logger.warn('Failed to send message to suggestion channel', chalk.yellow(err));
-            return undefined;
-        });
+        const components = this.getEmbedComponents(
+            {
+                likes: parseInt(suggestion.apiData.likes_count),
+                dislikes: parseInt(suggestion.apiData.dislikes_count),
+            },
+            guildInfo.reactionsDisabled,
+        );
+        const message = await channel
+            .send({ embeds: [embed], components: components ? [components] : [] })
+            .catch((err) => {
+                this.bot.logger.warn('Failed to send message to suggestion channel', chalk.yellow(err));
+                return undefined;
+            });
 
         if (!message) {
             return null;
@@ -102,11 +107,11 @@ export default class {
 
         if (
             this.sentThreadMessages.has(
-                this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.id)
+                this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.id),
             )
         ) {
             this.sentThreadMessages.delete(
-                this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.id)
+                this.createThreadMessageCompositeId(guildInfo.id, suggestion.apiData.id, commentInfo.id),
             );
             return;
         }
@@ -209,7 +214,7 @@ export default class {
             suggestionInfo.suggestionId,
             msg.guildId,
             content,
-            authorId
+            authorId,
         );
         if (!response) {
             await msg.delete();
@@ -219,7 +224,7 @@ export default class {
 
             try {
                 msg.author.send({ embeds: [embed] });
-            } catch (e) {
+            } catch (_e) {
                 const sent = await msg.channel.send({ embeds: [embed] });
                 setTimeout(() => {
                     sent.delete();
@@ -237,7 +242,7 @@ export default class {
 
             try {
                 msg.author.send({ embeds: [embed] });
-            } catch (e) {
+            } catch (_e) {
                 const sent = await msg.channel.send({ embeds: [embed] });
                 setTimeout(() => {
                     sent.delete();
@@ -245,12 +250,16 @@ export default class {
             }
         } else {
             this.sentThreadMessages.add(
-                this.createThreadMessageCompositeId(msg.guildId, suggestionInfo.suggestionId, response.comment_id)
+                this.createThreadMessageCompositeId(msg.guildId, suggestionInfo.suggestionId, response.comment_id),
             );
         }
     }
 
     public async handleButtonInteraction(interaction: ButtonInteraction, interactionType: 'like' | 'dislike') {
+        if (!(interaction.channel instanceof TextChannel)) {
+            return; // Interaction is not in a text channel
+        }
+
         await interaction.deferReply({ ephemeral: true });
 
         const suggestionInfo = await Suggestion.findOne({
@@ -263,7 +272,7 @@ export default class {
         const suggestion = await SuggestionClass.getSuggestion(
             suggestionInfo.suggestionId,
             interaction.guildId,
-            this.bot
+            this.bot,
         );
         const user = await NamelessUser.getUserByDiscordId(interaction.user.id, interaction.guildId, this.bot);
         if (!user) {
@@ -283,7 +292,7 @@ export default class {
             interaction.guildId,
             interactionType,
             interaction.user.id,
-            mustBeRemoved
+            mustBeRemoved,
         );
         if (!response) {
             const str = await LanguageManager.getString(interaction.guildId, 'invalid-setup');
@@ -292,7 +301,7 @@ export default class {
 
             try {
                 interaction.user.send({ embeds: [embed] });
-            } catch (e) {
+            } catch (_e) {
                 const sent = await interaction.channel.send({ embeds: [embed] });
                 setTimeout(() => {
                     sent.delete();
@@ -312,7 +321,7 @@ export default class {
             interaction.guildId,
             'suggestionHandler.reaction_registered',
             'reaction',
-            interactionType == 'like' ? '👍' : '👎'
+            interactionType == 'like' ? '👍' : '👎',
         );
         const embed = this.bot.embeds.base();
         embed.setDescription(str);
@@ -349,11 +358,14 @@ export default class {
             `https://avatars.dicebear.com/api/initials/${suggestion.apiData.author.username}.png?size=128`;
 
         const embed = await this.createEmbed(guildInfo.id, suggestion.apiData, suggestion.dbData.url, authorAvatar);
-        const components = this.getEmbedComponents({
-            likes: parseInt(suggestion.apiData.likes_count),
-            dislikes: parseInt(suggestion.apiData.dislikes_count),
-        });
-        await message.edit({ embeds: [embed], components: [components] });
+        const components = this.getEmbedComponents(
+            {
+                likes: parseInt(suggestion.apiData.likes_count),
+                dislikes: parseInt(suggestion.apiData.dislikes_count),
+            },
+            guildInfo.reactionsDisabled,
+        );
+        await message.edit({ embeds: [embed], components: components ? [components] : [] });
     }
 
     public async removeDeletedComment(suggestion: SuggestionClass, commentId: string) {
@@ -423,7 +435,7 @@ export default class {
             guildId,
             'suggestionHandler.suggested_by',
             'user',
-            suggestion.author.username
+            suggestion.author.username,
         );
         const description = await this.replaceMessagePlaceholders(guildId, suggestion.content);
 
@@ -437,14 +449,16 @@ export default class {
         return embed;
     }
 
-    private getEmbedComponents({ likes, dislikes }: { likes: number; dislikes: number }) {
+    private getEmbedComponents({ likes, dislikes }: { likes: number; dislikes: number }, reactionsDisabled: boolean) {
+        // If reacting is disabled, return null so no buttons are shown on suggestion embeds
+        if (reactionsDisabled) return null;
         const row = new ActionRowBuilder<ButtonBuilder>();
         row.addComponents(
             new ButtonBuilder().setCustomId('like-suggestion').setLabel(`${likes} 👍`).setStyle(ButtonStyle.Success),
             new ButtonBuilder()
                 .setCustomId('dislike-suggestion')
                 .setLabel(`${dislikes} 👎`)
-                .setStyle(ButtonStyle.Danger)
+                .setStyle(ButtonStyle.Danger),
         );
         return row;
     }
@@ -508,15 +522,15 @@ export default class {
                 continue;
             }
             this.bot.logger.debug(
-                'Creating new suggestion from API. Suggestion ID: ' + chalk.yellow(suggestion.apiData.id)
+                'Creating new suggestion from API. Suggestion ID: ' + chalk.yellow(suggestion.apiData.id),
             );
 
             await this.createSuggestion(suggestion, guildData);
             if (!suggestion.comments) {
                 this.bot.logger.error(
                     `Error getting comments for suggestion ${suggestion.apiData.id} from API: ${JSON.stringify(
-                        suggestion.comments
-                    )}`
+                        suggestion.comments,
+                    )}`,
                 );
                 continue;
             }
@@ -538,7 +552,7 @@ export default class {
         await suggestion.refresh();
         if (!suggestion.dbData) {
             this.bot.logger.error(
-                `Error getting suggestion ${suggestion.apiData.id} from database when attempting to recover it, full suggestion can be found below`
+                `Error getting suggestion ${suggestion.apiData.id} from database when attempting to recover it, full suggestion can be found below`,
             );
             console.log(suggestion.apiData);
             console.log(guildData);
@@ -547,8 +561,8 @@ export default class {
         if (!suggestion.comments) {
             this.bot.logger.error(
                 `Error getting comments for suggestion ${suggestion.apiData.id} from API: ${JSON.stringify(
-                    suggestion.comments
-                )}`
+                    suggestion.comments,
+                )}`,
             );
             return;
         }
@@ -565,7 +579,7 @@ export default class {
     private createThreadMessageCompositeId(
         guildId: string,
         suggestionId: string,
-        commentId: number
+        commentId: number,
     ): `${string}-${string}-${string}` {
         return `${guildId}-${suggestionId}-${commentId}`;
     }
@@ -597,8 +611,8 @@ export default class {
                 .split(fullMatch)
                 .join(
                     `[@${siteUser.username}](${url.protocol}//${url.hostname}/profile/${encodeURIComponent(
-                        siteUser.username
-                    )})`
+                        siteUser.username,
+                    )})`,
                 );
         }
 

@@ -18,6 +18,10 @@
                     "select_language": "Select the language you want to use for the Discord bot.",
                     "select_language_option": "Select {language} as the language",
                     "success": "Successfully changed the language to `{language}`."
+                },
+                "reactions": {
+                    "enabled": "Reaction buttons have been enabled. Users can now react to suggestions via Discord.",
+                    "disabled": "Reaction buttons have been disabled. Users must react to suggestions on the website."
                 }
             }
         },
@@ -43,6 +47,23 @@
         "suggestion_opened_website": "Suggestion opened on website",
         "cannot_find_user": "You must have your website account linked to be able to reply via Discord!",
         "reaction_registered": "Your `{reaction}` reaction has been added on the website.",
-        "suggested_by": "Suggested by {user}"
-    }
+        "suggested_by": "Suggested by {user}",
+        "reacting_disabled": "Reacting via Discord is disabled. Please use the website to react to suggestions."
+    },
+    "command_descriptions": {
+        "suggest": "Suggest something!",
+        "setup": "Setup the discord bot",
+        "settings": "Configure settings",
+        "settings_set": "Set a setting",
+        "settings_list": "List all settings",
+        "settings_set_apikey": "Set the API key of your website",
+        "settings_set_authkey": "Generate a new authorization key for the webhook",
+        "settings_set_suggestionchannel": "Set the suggestion channel where new suggestions get sent in",
+        "settings_set_language": "Change the language of the discord bot",
+        "settings_set_reactions": "Toggle reaction buttons on/off",
+        "webhookurl": "Get the webhook URL for your website",
+        "donate": "Feeling generous?",
+        "invite": "Invite the discord bot"
+    },
+    "watermark": "Nameless Suggestions"
 }

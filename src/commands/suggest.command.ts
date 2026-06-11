@@ -9,10 +9,13 @@ import {
 } from 'discord.js';
 import Database from '../database/Database';
 import LanguageManager from '../managers/LanguageManager';
+import { getCommandDescription } from '../util/CommandDescriptions';
 
 export default class extends Command {
-    public name = 'suggest';
-    public description = 'Suggest something!';
+    public name = process.env.SUGGEST_COMMAND_NAME || 'suggest';
+    public get description() {
+        return getCommandDescription('suggest', 'Suggest something!');
+    }
     public options = [];
 
     public onStart(): void {
@@ -38,11 +41,11 @@ export default class extends Command {
         const modalTitleStr = await LanguageManager.getString(interaction.guildId, 'commands.suggest.modal-title');
         const modalQuestion1Str = await LanguageManager.getString(
             interaction.guildId,
-            'commands.suggest.modal-question-1'
+            'commands.suggest.modal-question-1',
         );
         const modalQuestion2Str = await LanguageManager.getString(
             interaction.guildId,
-            'commands.suggest.modal-question-2'
+            'commands.suggest.modal-question-2',
         );
 
         const modal = new ModalBuilder();

@@ -8,6 +8,7 @@ class Guild extends Model {
     declare authorizationKey: string;
     declare suggestionChannel: string;
     declare language: string;
+    declare reactionsDisabled: boolean;
 }
 
 Guild.init(
@@ -43,8 +44,14 @@ Guild.init(
             defaultValue: 'en_UK',
             allowNull: false,
         },
+
+        reactionsDisabled: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false,
+        },
     },
-    { sequelize: db }
+    { sequelize: db },
 );
 
 export default Guild;

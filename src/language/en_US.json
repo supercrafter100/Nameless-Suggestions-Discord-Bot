@@ -31,5 +31,9 @@
             "success": "The url is: `{url}`.\nPlease use this url as the discord webhook url for the suggestions module."
         }
     },
-    "permission_required": "You do not have the required \"{permission}\" permission"
+    "permission_required": "You do not have the required \"{permission}\" permission",
+    "suggestionHandler": {
+        "reacting_disabled": "Reacting via Discord is disabled. Please use the website to react to suggestions."
+    },
+    "watermark": "Nameless Suggestions"
 }

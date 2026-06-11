@@ -36,7 +36,7 @@ export default class Logger {
     constructor(
         private readonly client: Bot | undefined = undefined,
         private size: number = 5,
-        private showBlank: boolean = true
+        private showBlank: boolean = true,
     ) {}
 
     public prefix: string | undefined = undefined;
@@ -47,13 +47,13 @@ export default class Logger {
                 chalk.bold(prefix),
                 chalk.gray('[') + this.prefix + chalk.gray(']'),
                 ...messages,
-                chalk.grey('(') + chalk.cyan(Logger.getLineAndChar().join(':')) + chalk.grey(')')
+                chalk.grey('(') + chalk.cyan(Logger.getLineAndChar().join(':')) + chalk.grey(')'),
             );
         } else {
             console[type](
                 chalk.bold(prefix),
                 ...messages,
-                chalk.grey('(') + chalk.cyan(Logger.getLineAndChar().join(':')) + chalk.grey(')')
+                chalk.grey('(') + chalk.cyan(Logger.getLineAndChar().join(':')) + chalk.grey(')'),
             );
         }
     }
@@ -103,7 +103,7 @@ export default class Logger {
             ...messages,
             '\n',
             chalk.red('>'),
-            stack
+            stack,
         );
     }
 }

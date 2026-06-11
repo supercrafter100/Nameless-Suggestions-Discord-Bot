@@ -1,12 +1,21 @@
 import { Subcommand } from '@crystaldevelopment/command-handler/dist';
-import { ChatInputCommandInteraction, ActionRowBuilder, StringSelectMenuBuilder, ComponentType } from 'discord.js';
+import { getCommandDescription } from '../../../util/CommandDescriptions';
+import {
+    ChatInputCommandInteraction,
+    ActionRowBuilder,
+    StringSelectMenuBuilder,
+    ComponentType,
+    TextChannel,
+} from 'discord.js';
 import Bot from '../../../managers/Bot';
 import Database from '../../../database/Database';
 import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'language';
-    public description = 'Change the language of the discord bot';
+    public get description() {
+        return getCommandDescription('settings_set_language', 'Change the language of the discord bot');
+    }
     public options = [];
 
     public onStart(): void {
@@ -23,12 +32,17 @@ export default class extends Subcommand {
             return;
         }
 
+        if (!(interaction.channel instanceof TextChannel)) {
+            interaction.reply('This command can only be used in a text channel');
+            return;
+        }
+
         await interaction.deferReply({ ephemeral: true });
 
         const embed = (this.client as Bot).embeds.base();
         const desc = await LanguageManager.getString(
             interaction.guildId,
-            'commands.settings.set.language.select_language'
+            'commands.settings.set.language.select_language',
         );
         embed.setDescription(desc);
         embed.setFooter({
@@ -41,7 +55,7 @@ export default class extends Subcommand {
 
         const select_lang_str = await LanguageManager.getString(
             interaction.guildId,
-            'commands.settings.set.language.select_language_option'
+            'commands.settings.set.language.select_language_option',
         );
         const row = new ActionRowBuilder<StringSelectMenuBuilder>();
         row.addComponents(
@@ -51,12 +65,11 @@ export default class extends Subcommand {
                 .addOptions(
                     available_languages.map((c) => {
                         return { label: c, value: c, description: select_lang_str.replace('{language}', c) };
-                    })
-                )
+                    }),
+                ),
         );
 
         await interaction.editReply({ embeds: [embed], components: [row] });
-
         const response = await interaction.channel
             ?.awaitMessageComponent({
                 filter: (i) => {
@@ -78,7 +91,7 @@ export default class extends Subcommand {
             interaction.guildId,
             'commands.settings.set.language.success',
             'language',
-            language
+            language,
         );
         const embed2 = (this.client as Bot).embeds.base();
         embed2.setDescription(str);

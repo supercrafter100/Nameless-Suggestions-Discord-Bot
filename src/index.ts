@@ -31,6 +31,52 @@ logger[logtype]('Running bot in', devmode ? chalk.red('DEV') : chalk.green('PROD
 logger[logtype]('=================================');
 logger.blank();
 
+/**
+ * Get configured activity from environment variables
+ * Supports: PLAYING, LISTENING, WATCHING, COMPETING, STREAMING, CUSTOM
+ */
+function getConfiguredActivity(): { name: string; type: ActivityType; url?: string } | null {
+    const typeEnv = process.env.BOT_ACTIVITY_TYPE;
+    const message = process.env.BOT_ACTIVITY_MESSAGE;
+
+    if (!typeEnv || !message) {
+        logger.info('BOT_ACTIVITY_TYPE or BOT_ACTIVITY_MESSAGE not set; using default activity.');
+        return { name: 'Suggestions', type: ActivityType.Watching };
+    }
+
+    const typeUpper = typeEnv.toUpperCase();
+
+    switch (typeUpper) {
+        case 'PLAYING':
+            return { name: message, type: ActivityType.Playing };
+        case 'LISTENING':
+            return { name: message, type: ActivityType.Listening };
+        case 'WATCHING':
+            return { name: message, type: ActivityType.Watching };
+        case 'COMPETING':
+            return { name: message, type: ActivityType.Competing };
+        case 'STREAMING': {
+            const url = process.env.BOT_ACTIVITY_URL;
+            if (!url) {
+                logger.warn(
+                    'BOT_ACTIVITY_TYPE is STREAMING but BOT_ACTIVITY_URL is not set. Using default Twitch URL.',
+                );
+                return { name: message, type: ActivityType.Streaming, url: 'https://www.twitch.tv/discord' };
+            }
+            return { name: message, type: ActivityType.Streaming, url };
+        }
+        case 'CUSTOM':
+            return { name: message, type: ActivityType.Custom };
+        default:
+            logger.warn(
+                `Invalid BOT_ACTIVITY_TYPE: '${typeEnv}'. Valid options: PLAYING, LISTENING, WATCHING, COMPETING, STREAMING, CUSTOM. Using default.`,
+            );
+            return { name: 'Suggestions', type: ActivityType.Watching };
+    }
+}
+
+const configuredActivity = getConfiguredActivity();
+
 export { db };
 // Don't import bot before db is initialized
 import Bot from './managers/Bot';
@@ -45,14 +91,11 @@ const client = new Bot({
         MessageManager: 10,
         PresenceManager: 0,
     }),
-    presence: {
-        activities: [
-            {
-                name: 'Suggestions',
-                type: ActivityType.Watching,
-            },
-        ],
-    },
+    presence: configuredActivity
+        ? {
+              activities: [configuredActivity],
+          }
+        : undefined,
 });
 
 if (client.devmode) {

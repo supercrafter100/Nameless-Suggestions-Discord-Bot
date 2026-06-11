@@ -81,7 +81,7 @@ export default class {
         guildId: string,
         type: 'like' | 'dislike',
         userId: string,
-        mustBeRemoved: boolean
+        mustBeRemoved: boolean,
     ) {
         const apiCredentials = await Database.getApiCredentials(guildId);
         if (!apiCredentials) {
@@ -219,7 +219,7 @@ export default class {
                     Authorization: `Bearer ${apiCredentials.apikey}`,
                     'X-API-Key': apiCredentials.apikey,
                 },
-            }
+            },
         )
             .then((res) => res.json() as Promise<ApiCommentsResponse>)
             .then((json) => json.comments[0])

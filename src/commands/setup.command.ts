@@ -1,10 +1,13 @@
 import { Command } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../util/CommandDescriptions';
 import { ChatInputCommandInteraction } from 'discord.js';
 import Bot from '../managers/Bot';
 
 export default class extends Command {
     public name = 'setup';
-    public description = 'Setup the discord bot';
+    public get description() {
+        return getCommandDescription('setup', 'Setup the discord bot');
+    }
     public options = [];
 
     public onStart(): void {
@@ -38,7 +41,7 @@ export default class extends Command {
                     '',
                     '**NOTE:** If you want users to be able to react and write in suggestion threads. They require to have their discord account linked to their NamelessMC one. This requires you to set up the nameless-link discord bot so users can achieve this.',
                     '*If you encounter any issues, feel free to open a github issue or contact me on discord via discord.gg/nameless*',
-                ].join('\n')
+                ].join('\n'),
             );
         interaction.reply({
             embeds: [embed],

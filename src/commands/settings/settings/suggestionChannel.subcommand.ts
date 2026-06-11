@@ -1,4 +1,5 @@
 import { Subcommand } from '@crystaldevelopment/command-handler/dist';
+import { getCommandDescription } from '../../../util/CommandDescriptions';
 import { ApplicationCommandOptionType, ChatInputCommandInteraction, TextChannel } from 'discord.js';
 import Database from '../../../database/Database';
 import Suggestion from '../../../database/models/suggestion.model';
@@ -6,7 +7,12 @@ import LanguageManager from '../../../managers/LanguageManager';
 
 export default class extends Subcommand {
     public name = 'suggestionchannel';
-    public description = 'Set the suggestionchannel where new suggestions get sent in.';
+    public get description() {
+        return getCommandDescription(
+            'settings_set_suggestionchannel',
+            'Set the suggestionchannel where new suggestions get sent in',
+        );
+    }
     public options = [
         {
             type: ApplicationCommandOptionType.Channel as number,
@@ -34,7 +40,7 @@ export default class extends Subcommand {
         if (!(channel instanceof TextChannel)) {
             const str = await LanguageManager.getString(
                 interaction.guildId,
-                'commands.settings.set.suggestionChannel.no_textchannel'
+                'commands.settings.set.suggestionChannel.no_textchannel',
             );
             interaction.reply({ content: str, ephemeral: true });
             return;
@@ -53,7 +59,7 @@ export default class extends Subcommand {
             interaction.guildId,
             'commands.settings.set.suggestionChannel.success',
             'channel',
-            channel.toString()
+            channel.toString(),
         );
         interaction.reply({ content: str, ephemeral: true });
     }

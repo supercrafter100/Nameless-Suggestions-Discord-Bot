@@ -17,7 +17,7 @@ export default class InteractionCreate extends Event<'interactionCreate'> {
                 interaction.guildId,
                 title,
                 description,
-                interaction.user.id
+                interaction.user.id,
             );
 
             // There should always be a response, but in case it still fails...
@@ -39,7 +39,7 @@ export default class InteractionCreate extends Event<'interactionCreate'> {
                     interaction.guildId,
                     'commands.suggest.validation-error',
                     'error',
-                    res.meta.join(', ')
+                    res.meta.join(', '),
                 );
                 const embed = this.client.embeds.base();
                 embed.setDescription(str);
@@ -57,7 +57,7 @@ export default class InteractionCreate extends Event<'interactionCreate'> {
                 interaction.guildId,
                 'commands.suggest.success',
                 'link',
-                res.link
+                res.link,
             );
             const embed = this.client.embeds.base();
             embed.setDescription(str);

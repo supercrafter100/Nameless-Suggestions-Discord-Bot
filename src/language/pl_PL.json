@@ -1,1 +1,6 @@
-{}
+{
+    "suggestionHandler": {
+        "reacting_disabled": "Reagowanie przez Discord jest wyłączone. Proszę używać strony internetowej do reagowania na sugestie."
+    },
+    "watermark": "Nameless Suggestions"
+}

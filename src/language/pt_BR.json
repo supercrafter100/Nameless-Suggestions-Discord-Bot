@@ -1,1 +1,6 @@
-{}
+{
+    "suggestionHandler": {
+        "reacting_disabled": "Reagir via Discord está desativado. Por favor, use o site para reagir às sugestões."
+    },
+    "watermark": "Nameless Suggestions"
+}

@@ -1,0 +1,69 @@
+{
+    "commands": {
+        "settings": {
+            "set": {
+                "apikey": {
+                    "invalid_key": "API URL ili API ključ je nevažeći.",
+                    "success": "API ključ je postavljen.",
+                    "success_2_1": "API ključ je postavljen. Webhook je automatski kreiran na vašoj veb lokaciji jer koristite NamelessMC v2.1 ili noviju verziju. Sve je postavljeno! Ako ste ranije već podesili bot, webhook je verovatno ponovo kreiran (treba da obrišete novo kreirani)."
+                },
+                "authkey": {
+                    "success": "Autorizacioni token je promenjen u `{token}`. Možete pronaći novi webhook URL koristeći `/webhookurl` komandu."
+                },
+                "suggestionChannel": {
+                    "no_textchannel": "Kanal mora biti tekstualni kanal (a ne kanal za vesti).",
+                    "success": "Kanal za predloge je promenjen u {channel}."
+                },
+                "language": {
+                    "select_language": "Izaberite jezik koji želite da koristite za Discord bot.",
+                    "select_language_option": "Izaberite {language} kao jezik",
+                    "success": "Uspešno promenjen jezik u `{language}`."
+                },
+                "reactions": {
+                    "enabled": "Dugmad za reakcije su omogućena. Korisnici sada mogu reagovati na predloge preko Discord-a.",
+                    "disabled": "Dugmad za reakcije su onemogućena. Korisnici moraju reagovati na predloge na veb lokaciji."
+                }
+            }
+        },
+        "suggest": {
+            "modal-title": "Predložite nešto!",
+            "modal-question-1": "Naslov predloga",
+            "modal-question-2": "Sadržaj predloga",
+            "success": "Vaš predlog je registrovan! Pogledajte ga ovde: {link}",
+            "cannot_find_user": "Morate povezati svoj Discord nalog sa veb lokacijom da biste objavljivali predloge preko Discord-a.",
+            "validation-error": "Nešto je pošlo naopako tokom validacije vašeg predloga. Veb lokacija je vratila sledeće: {error}"
+        },
+        "webhookurl": {
+            "generate_key_first": "Prvo morate generisati autorizacioni token koristeći `/settings set authkey`.",
+            "success": "URL je: `{url}`.\\nMolimo koristite ovaj URL kao Discord webhook URL za modul Predlozi."
+        },
+        "donate": "Ako želite da podržite moj rad i pokrijete troškove hostinga ovog bota, (mesečna) donacija bi bila veoma cenjena! Možete me podržati [ovde]({x})"
+    },
+    "invalid-setup": "Bot još nije pravilno konfigurisan. Kontaktirajte administratora servera!",
+    "permission_required": "Nemate potrebnu \"{permission}\" dozvolu",
+    "suggestionHandler": {
+        "suggestion": "Predlog",
+        "suggestion_closed_website": "Predlog zatvoren na veb lokaciji",
+        "suggestion_opened_website": "Predlog otvoren na veb lokaciji",
+        "cannot_find_user": "Morate povezati svoj nalog na veb lokaciji da biste odgovarali preko Discord-a!",
+        "reaction_registered": "Vaša `{reaction}` reakcija je dodata na veb lokaciju.",
+        "suggested_by": "Predložio {user}",
+        "reacting_disabled": "Reagovanje putem Discord-a je onemogućeno. Molimo koristite veb lokaciju za reagovanje na predloge."
+    },
+    "command_descriptions": {
+        "suggest": "Predložite nešto!",
+        "setup": "Podesite Discord bota",
+        "settings": "Konfigurišite podešavanja",
+        "settings_set": "Postavite podešavanje",
+        "settings_list": "Prikaži sva podešavanja",
+        "settings_set_apikey": "Postavite API ključ vašeg sajta",
+        "settings_set_authkey": "Generišite novi autorizacioni ključ za webhook",
+        "settings_set_suggestionchannel": "Postavite kanal za predloge gde se šalju novi predlozi",
+        "settings_set_language": "Promenite jezik Discord bota",
+        "settings_set_reactions": "Uključite/isključite dugmad za reakcije",
+        "webhookurl": "Dobijte webhook URL za vaš sajt",
+        "donate": "Osećate se velikodušno?",
+        "invite": "Pozovite Discord bota"
+    },
+    "watermark": "Nameless Suggestions"
+}
